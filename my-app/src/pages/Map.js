@@ -19,7 +19,7 @@ const Map = () => {
 
     return (
         <Layout>
-            <div style={{ height: '500px', width: '100%' }}>
+            <div style={{ height: '100%', width: '100%' }}>
                 <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
                     <TileLayer
                         attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
