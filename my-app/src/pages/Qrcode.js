@@ -245,6 +245,8 @@ const Qrcode = () => {
                                     Associer la ruche
                                 </button>
 
+                                <button onClick={() => setIsSheetOpen(false)}>Annuler</button>
+
                                 {errorMessage && (
                                     <div style={{ color: "red", textAlign: "center" }}>
                                         {errorMessage}
@@ -254,6 +256,7 @@ const Qrcode = () => {
                         ) : (
                             <h3 style={{ color: "red", textAlign: "center" }}>
                                 ❌ QR code non officiel
+                                <button onClick={() => setIsSheetOpen(false)}>Fermer</button>
                             </h3>
                         )}
                     </Sheet.Content>
