@@ -5,7 +5,7 @@ const getToken = async () => {
 };
 
 const apiDash = axios.create({
-    baseURL: process.env.REACT_APP_URL_BACK_DASHBOARD,
+    baseURL: process.env.URL_BACK_DASHBOARD,
 });
 
 apiDash.interceptors.request.use(

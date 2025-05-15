@@ -1,9 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // 🔐 Token
 export const getToken = async () => {
     try {
-        const token = await AsyncStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessToken');
         return token;
     } catch (error) {
         console.error('[GET TOKEN] : No token :', error);
@@ -13,7 +12,7 @@ export const getToken = async () => {
 
 export const removeToken = async () => {
     try {
-        await AsyncStorage.removeItem('accessToken');
+        localStorage.removeItem('accessToken');
     } catch (error) {
         console.error('[REMOVE TOKEN] : Error deleting token :', error);
     }
@@ -22,7 +21,7 @@ export const removeToken = async () => {
 // 👤 User Info
 export const getUserEmail = async () => {
     try {
-        return await AsyncStorage.getItem('email');
+        return localStorage.getItem('email');
     } catch (error) {
         console.error('[GET EMAIL] :', error);
         return null;
@@ -31,7 +30,7 @@ export const getUserEmail = async () => {
 
 export const getFirstNameUser = async () => {
     try {
-        return await AsyncStorage.getItem('prenom');
+        return localStorage.getItem('prenom');
     } catch (error) {
         console.error('[GET FIRST NAME] :', error);
         return null;
@@ -40,7 +39,7 @@ export const getFirstNameUser = async () => {
 
 export const getLastNameUser = async () => {
     try {
-        return await AsyncStorage.getItem('nom');
+        return localStorage.getItem('nom');
     } catch (error) {
         console.error('[GET LAST NAME] :', error);
         return null;
@@ -49,7 +48,7 @@ export const getLastNameUser = async () => {
 
 export const getAvatarUser = async () => {
     try {
-        return await AsyncStorage.getItem('avatar');
+        return localStorage.getItem('avatar');
     } catch (error) {
         console.error('[GET AVATAR] :', error);
         return null;
@@ -59,7 +58,7 @@ export const getAvatarUser = async () => {
 // 🐝 Hive Info
 export const getCurrentIdHive = async () => {
     try {
-        return await AsyncStorage.getItem('hiveId');
+        return localStorage.getItem('hiveId');
     } catch (error) {
         console.error('[GET CURRENT HIVE ID] :', error);
         return null;
@@ -69,7 +68,7 @@ export const getCurrentIdHive = async () => {
 export const getCurrentIdHive2 = async () => {
     // ❌ Faux – Ne pas utiliser
     try {
-        return await AsyncStorage.getItem('idHive');
+        return localStorage.getItem('idHive');
     } catch (error) {
         console.error('[GET HIVE ID 2] :', error);
         return null;
@@ -78,11 +77,9 @@ export const getCurrentIdHive2 = async () => {
 
 export const getCurrentIdHive3 = async () => {
     try {
-        return await AsyncStorage.getItem('idHive3');
+        return localStorage.getItem('idHive3');
     } catch (error) {
         console.error('[GET HIVE ID 3] :', error);
         return null;
     }
 };
-
-// 🧑‍🤝‍🧑 User
