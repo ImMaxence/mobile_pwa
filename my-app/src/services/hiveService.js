@@ -1,4 +1,4 @@
-import { getCurrentGroupId } from '../../utils/manageStorage';
+import { getCurrentGroupId } from '../utils/manageStorage';
 import apiDash from './config/apiDashboardService';
 
 export const getGroups = async () => {

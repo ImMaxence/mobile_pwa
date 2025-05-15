@@ -1,12 +1,8 @@
 import axios from 'axios';
 import { getToken } from '../../utils/manageStorage';
 
-const getToken = async () => {
-    return localStorage.getItem('token');
-};
-
 const apiDash = axios.create({
-    baseURL: process.env.URL_BACK_DASHBOARD,
+    baseURL: process.env.REACT_APP_URL_BACK_DASHBOARD,
 });
 
 apiDash.interceptors.request.use(
