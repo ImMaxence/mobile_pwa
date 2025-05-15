@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 const Nav = () => {
 
     return (
-        <div className='container-nav'>
-            navbar
+        <div className="layout-navbar">
             <div className='nav-buttons'>
                 <Link to="/qrcode">Qrcode</Link>
                 <Link to="/alert">Alert</Link>

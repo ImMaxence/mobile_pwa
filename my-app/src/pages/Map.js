@@ -1,10 +1,13 @@
 import React from 'react';
+import Layout from '../components/Layout';
 
 const Map = () => {
     return (
-        <div>
-            map page
-        </div>
+        <Layout>
+            <div>
+                map
+            </div>
+        </Layout>
     );
 };
 

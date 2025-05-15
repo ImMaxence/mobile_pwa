@@ -1,10 +1,13 @@
 import React from 'react';
+import Layout from '../components/Layout';
 
 const Qrcode = () => {
     return (
-        <div>
-            qrcode page
-        </div>
+        <Layout>
+            <div>
+                code
+            </div>
+        </Layout>
     );
 };
 

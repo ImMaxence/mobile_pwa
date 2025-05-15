@@ -1,10 +1,13 @@
 import React from 'react';
+import Layout from '../components/Layout';
 
 const Alert = () => {
     return (
-        <div>
-            page alert
-        </div>
+        <Layout>
+            <div>
+                alert
+            </div>
+        </Layout>
     );
 };
 
