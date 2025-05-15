@@ -55,7 +55,7 @@ export const getAvatarUser = async () => {
     }
 };
 
-// 🐝 Hive Info
+// ❌ Faux – Ne pas utiliser
 export const getCurrentIdHive = async () => {
     try {
         return localStorage.getItem('hiveId');
@@ -83,3 +83,33 @@ export const getCurrentIdHive3 = async () => {
         return null;
     }
 };
+
+export const getCurrentGroupId = async () => {
+    try {
+        const data = localStorage.getItem('currentGroupId')
+        return data
+    } catch (error) {
+        console.error('[GET GROUP ID] : ', error)
+        return null
+    }
+}
+
+export const getCurrentGroupType = async () => {
+    try {
+        const data = localStorage.getItem('currentGroupType')
+        return data
+    } catch (error) {
+        console.error('[GET GROUP TYPE] : ', error)
+        return null
+    }
+}
+
+export const getUserId = async () => {
+    try {
+        const data = localStorage.getItem('userId')
+        return data
+    } catch (error) {
+        console.error('[GET USER ID] : ', error)
+        return null
+    }
+}

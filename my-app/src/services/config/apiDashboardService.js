@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '../../utils/manageStorage';
 
 const getToken = async () => {
     return localStorage.getItem('token');

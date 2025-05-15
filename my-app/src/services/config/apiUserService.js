@@ -1,8 +1,5 @@
 import axios from 'axios';
-
-const getToken = async () => {
-    return localStorage.getItem('token');
-};
+import { getToken } from '../../utils/manageStorage';
 
 export const apiUser = axios.create({
     baseURL: process.env.REACT_APP_URL_BACK_USER,
