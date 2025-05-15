@@ -1,9 +1,10 @@
 import React from 'react';
+import VersionApp from '../components/VersionApp';
 
 const User = () => {
     return (
         <div>
-            user page
+            <VersionApp />
         </div>
     );
 };

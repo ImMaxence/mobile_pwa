@@ -28,7 +28,6 @@ const App = () => {
 const MainApp = () => {
   return (
     <BrowserRouter>
-      <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/qrcode" element={<Qrcode />} />
@@ -37,6 +36,7 @@ const MainApp = () => {
         <Route path="/map" element={<Map />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
+      <Nav />
     </BrowserRouter>
   );
 }

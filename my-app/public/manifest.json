@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ApiHive",
+  "name": "ApiHive",
+  "description": "Application mobile du projet ApiHive",
   "icons": [
     {
       "src": "logo192.png",
