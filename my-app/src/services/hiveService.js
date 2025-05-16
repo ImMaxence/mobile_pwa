@@ -136,3 +136,12 @@ export const getInfoHiveById = async (id) => {
         throw error;
     }
 };
+
+export const updateInfoHive = async (id_ruche, payload) => {
+    try {
+        const res = await apiDash.put(`/api/ruches/${id_ruche}`, payload);
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+}

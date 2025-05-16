@@ -85,7 +85,12 @@ const Home = () => {
                             <div key={item.id}>
                                 {/* <p>{item.id}</p> */}
                                 <p>{item.Nom}</p>
-                                <button onClick={() => navigate('/detail/group')}>SEE MORE</button>
+                                <button onClick={() => {
+                                    localStorage.setItem("currentGroupId", item.id)
+                                    localStorage.setItem("currentGroupType", "solo")
+                                    localStorage.setItem("currentGroupName", item.Nom)
+                                    navigate('/detail/group')
+                                }}>SEE MORE</button>
                             </div>
                         ))}
 
@@ -137,7 +142,12 @@ const Home = () => {
                                             />
                                         </div>
 
-                                        <button onClick={() => navigate('/detail/group')}>SEE MORE</button>
+                                        <button onClick={() => {
+                                            localStorage.setItem("currentGroupId", item.id)
+                                            localStorage.setItem("currentGroupType", "group")
+                                            localStorage.setItem("currentGroupName", item.Nom)
+                                            navigate('/detail/group')
+                                        }}>SEE MORE</button>
                                     </div>
                                 );
                             })
