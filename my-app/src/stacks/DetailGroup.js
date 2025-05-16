@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { getCurrentGroupId, getCurrentGroupType } from '../utils/manageStorage';
 import { Sheet } from 'react-modal-sheet';
-import { addHiveToGroup, getDataFromGroup, getGroups, leaveGroup, updateGroup, updateInfoHive } from '../services/hiveService'
+import { addHiveToGroup, deleteHiveToGroup, getDataFromGroup, getGroups, leaveGroup, updateGroup, updateInfoHive } from '../services/hiveService'
 import { useNavigate } from 'react-router-dom';
 import { Collapse, Switch } from 'antd';
 import { getUserId } from '../utils/manageStorage';
+import { LayersControl } from 'react-leaflet';
 
 const { Panel } = Collapse;
 
@@ -49,6 +50,11 @@ const DetailGroup = () => {
     const [newConcentementRGPD, setNewConcentementRGPD] = useState(false);
     const [newConcentementPartage, setNewConcentementPartage] = useState(false);
 
+    const [openAddHive, setOpenAddHive] = useState(false);
+    const [errorAddHive, setErrorAddHive] = useState(null);
+
+    const [openAddUser, setOpenAddUser] = useState(false);
+    const [errorAddUser, setErrorAddUser] = useState(null);
 
     useEffect(() => {
         const fetchGroupType = async () => {
@@ -116,8 +122,6 @@ const DetailGroup = () => {
         } catch (err) {
             setErrorSaveHive(err)
         }
-
-        console.log(rucheIDSaveHive, ruchePasswordSaveHive);
     }
 
     const handleLeaveGroup2 = async (id) => {
@@ -180,6 +184,31 @@ const DetailGroup = () => {
         }
     };
 
+    const handleAddHiveToGroupV2 = async (id) => {
+        try {
+            setErrorAddHive(null)
+            const currentID = localStorage.getItem("currentGroupId")
+            await addHiveToGroup(currentID, { rucheId: id, ruchePassword: "none" })
+            setTrigger(!trigger)
+            setOpenAddHive(false)
+            setErrorAddHive(null)
+        } catch (err) {
+            setOpenAddHive(err)
+        }
+    }
+
+    const handleDeleteHiveFromGroup = async (id) => {
+        try {
+            setErrorAddHive(null)
+            const currentID = localStorage.getItem("currentGroupId")
+            await deleteHiveToGroup(currentID, { rucheId: id })
+            setTrigger(!trigger)
+            setOpenAddHive(false)
+            setErrorAddHive(null)
+        } catch (err) {
+            setOpenAddHive(err)
+        }
+    }
 
     return (
         <LayoutStackNav back_url="/" back_name="Mes groupes">
@@ -193,9 +222,9 @@ const DetailGroup = () => {
                 </div>
             ) : (
                 <div>
-                    <button>Ajouter sa ruche</button>
+                    <button onClick={() => setOpenAddHive(true)}>Ajouter sa ruche</button>
 
-                    <button>Ajouter un user</button>
+                    <button onClick={() => setOpenAddUser(true)}>Ajouter un user</button>
                 </div>
             )}
 
@@ -328,6 +357,56 @@ const DetailGroup = () => {
                         </Collapse>
                         <button onClick={handleLeaveGroup}>Quitter le groupe</button>
                         {errorLeaveGroup && <p>{errorLeaveGroup}</p>}
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop />
+            </Sheet >
+
+            <Sheet isOpen={openAddHive} onClose={() => {
+                setErrorAddHive(null)
+                setOpenAddHive(false)
+                setErrorUpdateHive(null)
+            }}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+                        <h4>Gérer mes ruches</h4>
+
+                        {
+                            Array.isArray(hiveUser) && hiveUser.length > 0 ? (
+                                <>
+                                    {
+                                        hiveUser.map((item) => (
+
+                                            <div key={item.id}>
+                                                <p>{item.nom}</p>
+                                                <div>
+                                                    <button onClick={() => handleAddHiveToGroupV2(item.id)}>Ajouter</button>
+                                                    <button onClick={() => handleDeleteHiveFromGroup(item.id)}>Enlever</button>
+                                                </div>
+                                            </div>
+
+                                        ))}
+                                    {/* <Text style={{ color: 'red' }}>{errAddG}</Text>
+                                    <Text style={{ color: 'red' }}>{errReG}</Text> */}
+                                </>
+                            ) : (
+                                errorUpdateHive && <p>{errorUpdateHive}</p>
+                            )
+                        }
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop />
+            </Sheet >
+
+            <Sheet isOpen={openAddUser} onClose={() => {
+                setErrorAddUser(null)
+                setOpenAddUser(false)
+            }}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop />
