@@ -1,7 +1,7 @@
 {
   "short_name": "ApiHive",
   "name": "ApiHive",
-  "description": "Application mobile du projet ApiHive",
+  "description": "Application mobile PWA du projet ApiHive",
   "icons": [
     {
       "src": "/logo192.png",
