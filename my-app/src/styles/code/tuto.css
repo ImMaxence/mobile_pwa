@@ -1,0 +1,24 @@
+.container_card_tuto {
+    width: 100%;
+    padding: 20px;
+    background-color: antiquewhite;
+    border-radius: 1rem;
+    margin: 20px 0;
+}
+
+.center_div_tuto {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.img_tuto {
+    border-radius: 1rem;
+    width: 300px;
+}
+
+.italic {
+    font-style: italic;
+}
