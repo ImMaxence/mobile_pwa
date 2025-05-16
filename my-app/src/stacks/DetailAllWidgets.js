@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { getDataDash } from '../services/hiveService';
+import TemperatureExtChart from '../components/charts/TemperatureChart';
+import TemperatureChart from '../components/charts/TemperatureChart';
+import BatteryChart from '../components/charts/BatteryChart';
 
 const DetailAllWidgets = () => {
 
@@ -26,6 +29,7 @@ const DetailAllWidgets = () => {
                             id_ruche: idHive
                         })
                         setData(res1)
+                        console.log(res1)
                         break
                     case 'poids':
                         setNameWidget("Poids")
@@ -34,6 +38,7 @@ const DetailAllWidgets = () => {
                             id_ruche: idHive
                         })
                         setData(res2)
+                        console.log(res2)
                         break
                     case 'event':
                         setNameWidget("Evenements")
@@ -45,6 +50,7 @@ const DetailAllWidgets = () => {
                             id_ruche: idHive
                         })
                         setData(res3)
+                        console.log(res3)
                         break
                     case 'tempext':
                         setNameWidget("Température extérieur")
@@ -53,6 +59,7 @@ const DetailAllWidgets = () => {
                             id_ruche: idHive
                         })
                         setData(res4)
+                        console.log(res4)
                         break
                     case 'pression':
                         setNameWidget("Préssion")
@@ -61,6 +68,7 @@ const DetailAllWidgets = () => {
                             id_ruche: idHive
                         })
                         setData(res5)
+                        console.log(res5)
                         break
                     case 'humint':
                         setNameWidget("Humidité intérieur")
@@ -69,6 +77,7 @@ const DetailAllWidgets = () => {
                             id_ruche: idHive
                         })
                         setData(res6)
+                        console.log(res6)
                         break
                     case 'humext':
                         setNameWidget("Humidité extérieur")
@@ -77,9 +86,9 @@ const DetailAllWidgets = () => {
                             id_ruche: idHive
                         })
                         setData(res7)
+                        console.log(res7)
                         break
                 }
-                console.log(data)
             } catch (err) {
                 setError(err)
             }
@@ -121,15 +130,15 @@ const DetailAllWidgets = () => {
                 localStorage.getItem('currentWidgetType') === 'map' ? (
                     <>content map</>
                 ) : localStorage.getItem('currentWidgetType') === 'energy' ? (
-                    <>content energy</>
+                    <BatteryChart data={data} />
                 ) : localStorage.getItem('currentWidgetType') === 'poids' ? (
                     <></>
                 ) : localStorage.getItem('currentWidgetType') === 'event' ? (
                     <></>
                 ) : localStorage.getItem('currentWidgetType') === 'tempint' ? (
-                    <></>
+                    <TemperatureChart data={data} />
                 ) : localStorage.getItem('currentWidgetType') === 'tempext' ? (
-                    <></>
+                    <TemperatureChart data={data} />
                 ) : localStorage.getItem('currentWidgetType') === 'pression' ? (
                     <></>
                 ) : localStorage.getItem('currentWidgetType') === 'humint' ? (
