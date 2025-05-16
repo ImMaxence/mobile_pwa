@@ -9,6 +9,10 @@ import Alert from './pages/Alert';
 import Map from './pages/Map';
 import DetailGroup from './stacks/DetailGroup';
 import DetailHive from './stacks/DetailHive';
+import DetailInfoHive from './stacks/DetailInfoHive';
+import DetailReportCreate from './stacks/DetailReportCreate';
+import DetailReportHisto from './stacks/DetailReportHisto';
+import DetailAllWidgets from './stacks/DetailAllWidgets';
 
 const App = () => {
   const [isStandalone, setIsStandalone] = useState(false);
@@ -38,6 +42,10 @@ const MainApp = () => {
         <Route path="/map" element={<Map />} />
         <Route path='/detail/group' element={<DetailGroup />} />
         <Route path='/detail/hive' element={<DetailHive />} />
+        <Route path='/detail/hive/info' element={<DetailInfoHive />} />
+        <Route path='/detail/hive/report-create' element={<DetailReportCreate />} />
+        <Route path='/detail/hive/report-histo' element={<DetailReportHisto />} />
+        <Route path='/detail/hive/widget' element={<DetailAllWidgets />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>
