@@ -11,21 +11,21 @@ const Tutorial = () => {
                 <p>En bas de l'ecran, repérez l'icône de partage, symbolisée par un carré avec une flèche vers le haut.</p>
 
                 <div className="center_div_tuto">
-                    <img src="./assets/tuto/image.png" alt="share" className='img_tuto' />
+                    <img src="./assets/tuto/1.jpg" alt="share" className='img_tuto' />
                 </div>
 
                 <h4>Sélectionnez "Ajouter à l'écran d'accueil" :</h4>
                 <p>Dans le menu qui s'affiche, faites défiler vers le bas et appuyer sur l'option "Ajouter à l'écran d'accueil".</p>
 
                 <div className="center_div_tuto">
-                    <img src="./assets/tuto/2.png" alt="share" className='img_tuto' />
+                    <img src="./assets/tuto/2.jpg" alt="share" className='img_tuto' />
                 </div>
 
                 <h4>Confirmer l'installation :</h4>
                 <p>Donnez un nom à l'application si vous le souhaitez, puis appuyez sur "Ajouter" en haut à droite de l'écran.</p>
 
                 <div className="center_div_tuto">
-                    <img src="./assets/tuto/3.png" alt="share" className='img_tuto' />
+                    <img src="./assets/tuto/3.jpg" alt="share" className='img_tuto' />
                 </div>
 
                 <h2>C'est fait ! :</h2>

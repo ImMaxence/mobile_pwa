@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Qrcode from './pages/Qrcode';
 import User from './pages/User';
-import Nav from './components/Nav';
 import Alert from './pages/Alert';
 import Map from './pages/Map';
 import DetailGroup from './stacks/DetailGroup';
