@@ -7,6 +7,7 @@ import User from './pages/User';
 import Nav from './components/Nav';
 import Alert from './pages/Alert';
 import Map from './pages/Map';
+import DetailGroup from './stacks/DetailGroup';
 
 const App = () => {
   const [isStandalone, setIsStandalone] = useState(false);
@@ -34,6 +35,7 @@ const MainApp = () => {
         <Route path="/user" element={<User />} />
         <Route path="/alert" element={<Alert />} />
         <Route path="/map" element={<Map />} />
+        <Route path='/detail/group' element={<DetailGroup />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>

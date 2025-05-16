@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import { getToken } from '../utils/manageStorage';
 import { createGroup, getGroups } from '../services/hiveService';
 import { Sheet } from 'react-modal-sheet';
+import { useNavigate } from 'react-router-dom';
 
 const defaultAvatar = '/assets/def.png';
 
@@ -23,6 +24,8 @@ const Home = () => {
     const [errorGroup, setErrorGroup] = useState(null);
     const [errorCreate, setErrorCreate] = useState(null);
     const [isOpen, setOpen] = useState(false);
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         default: false,
@@ -80,8 +83,9 @@ const Home = () => {
                         .filter((item) => item.default)
                         .map((item) => (
                             <div key={item.id}>
-                                <p>{item.id}</p>
+                                {/* <p>{item.id}</p> */}
                                 <p>{item.Nom}</p>
+                                <button onClick={() => navigate('/detail/group')}>SEE MORE</button>
                             </div>
                         ))}
 
@@ -104,7 +108,7 @@ const Home = () => {
 
                                 return (
                                     <div key={item.id}>
-                                        <p>{item.id}</p>
+                                        {/* <p>{item.id}</p> */}
                                         <p>{item.Nom}</p>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <img
@@ -132,6 +136,8 @@ const Home = () => {
                                                 onError={(e) => (e.currentTarget.src = defaultAvatar)}
                                             />
                                         </div>
+
+                                        <button onClick={() => navigate('/detail/group')}>SEE MORE</button>
                                     </div>
                                 );
                             })
