@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { getCurrentGroupId, getCurrentGroupType } from '../utils/manageStorage';
 import { Sheet } from 'react-modal-sheet';
-import { addHiveToGroup, deleteHiveToGroup, getDataFromGroup, getGroups, leaveGroup, updateGroup, updateInfoHive } from '../services/hiveService'
+import { addHiveToGroup, addUserToGroup, deleteHiveToGroup, getDataFromGroup, getGroups, leaveGroup, updateGroup, updateInfoHive } from '../services/hiveService'
 import { useNavigate } from 'react-router-dom';
 import { Collapse, Switch } from 'antd';
 import { getUserId } from '../utils/manageStorage';
 import { LayersControl } from 'react-leaflet';
+import { searchUserByName } from '../services/userService';
 
 const { Panel } = Collapse;
 
@@ -55,6 +56,9 @@ const DetailGroup = () => {
 
     const [openAddUser, setOpenAddUser] = useState(false);
     const [errorAddUser, setErrorAddUser] = useState(null);
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
         const fetchGroupType = async () => {
@@ -207,6 +211,33 @@ const DetailGroup = () => {
             setErrorAddHive(null)
         } catch (err) {
             setOpenAddHive(err)
+        }
+    }
+
+    const handleSearchUser = async () => {
+        try {
+            setErrorAddUser(null)
+            const results = await searchUserByName(searchQuery)
+            setSearchResults(results);
+            setErrorAddUser(null)
+        } catch (err) {
+            setErrorAddUser(err)
+        }
+    };
+
+    const handleAddUser = async (id) => {
+        try {
+            const groupId = await getCurrentGroupId()
+            setErrorAddUser(null)
+
+            console.log(groupId, id)
+
+            await addUserToGroup(groupId, id)
+            setTrigger(!trigger)
+            setOpenAddUser(false)
+            setErrorAddUser(null)
+        } catch (err) {
+            setErrorAddUser(err)
         }
     }
 
@@ -391,7 +422,7 @@ const DetailGroup = () => {
                                     <Text style={{ color: 'red' }}>{errReG}</Text> */}
                                 </>
                             ) : (
-                                errorUpdateHive && <p>{errorUpdateHive}</p>
+                                errorAddHive && <p>{errorAddHive}</p>
                             )
                         }
                     </Sheet.Content>
@@ -406,7 +437,40 @@ const DetailGroup = () => {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
+                        <div >
+                            <label htmlFor="search">Rechercher un utilisateur</label>
+                            <input
+                                id="search"
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
 
+                            />
+                            <button
+                                onClick={handleSearchUser}
+
+                            >
+                                Rechercher
+                            </button>
+
+                            {searchResults.length > 0 && (
+                                <div style={{ marginTop: '20px' }}>
+                                    {searchResults.map((user) => (
+                                        <div key={user.id} >
+                                            <span>{user.prenom} {user.nom}</span>
+                                            <button
+                                                onClick={() => handleAddUser(user.id)}
+
+                                            >
+                                                Ajouter
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {errorAddUser && <p style={{ color: 'red' }}>{errorAddUser}</p>}
+                        </div>
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop />
