@@ -1,101 +1,91 @@
 import React, { useState, useEffect } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { getDataDash } from '../services/hiveService';
-import TemperatureExtChart from '../components/charts/TemperatureChart';
-import TemperatureChart from '../components/charts/TemperatureChart';
-import BatteryChart from '../components/charts/BatteryChart';
+
+import TemperatureDualChart from '../components/charts/TemperatureDualChart';
+import EnergyDualChart from '../components/charts/EnergyDualChart';
+import WeightChart from '../components/charts/WeightChart';
+import PressureChart from '../components/charts/PressureChart';
+import HumidityDualChart from '../components/charts/HumidityDualChart';
+import HumidityChart from '../components/charts/HumidityChart';
 
 const DetailAllWidgets = () => {
+    const [histo, setHisto] = useState(1440); // 1 jour en minutes
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [trigger, setTrigger] = useState(false);
+    const [nameWidget, setNameWidget] = useState("");
 
-    const [histo, setHisto] = useState(1440) // 1 jour en minutes
-    const [data, setData] = useState([])
-    const [error, setError] = useState(null)
-    const [trigger, setTrigger] = useState(false)
-    const [nameWidget, setNameWidget] = useState("")
+    const widgetType = localStorage.getItem('currentWidgetType');
+    const idHive = localStorage.getItem('currentHiveId');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setError(null)
-                const idHive = localStorage.getItem('currentHiveId')
-                switch (localStorage.getItem('currentWidgetType')) {
-                    case 'map':
-                        setNameWidget("Carte")
-                        break
-                    case 'energy':
-                        setNameWidget("Energie")
-                        const res1 = await getDataDash(histo, {
-                            type: "POURCENTAGE_BATTERIE",
-                            id_ruche: idHive
-                        })
-                        setData(res1)
-                        console.log(res1)
-                        break
+                setError(null);
+                switch (widgetType) {
                     case 'poids':
-                        setNameWidget("Poids")
-                        const res2 = await getDataDash(histo, {
+                        setNameWidget("Poids");
+                        const poidsData = await getDataDash(histo, {
                             type: "WEIGHT",
                             id_ruche: idHive
-                        })
-                        setData(res2)
-                        console.log(res2)
-                        break
-                    case 'event':
-                        setNameWidget("Evenements")
-                        break
-                    case 'tempint':
-                        setNameWidget("Température intérieur")
-                        const res3 = await getDataDash(histo, {
+                        });
+                        console.log(poidsData)
+                        setData(poidsData);
+                        break;
+                    case 'energy':
+                        setNameWidget("Énergie");
+                        const batteryData = await getDataDash(histo, {
+                            type: "POURCENTAGE_BATTERIE",
+                            id_ruche: idHive
+                        });
+                        const tensionData = await getDataDash(histo, {
+                            type: "TENSION_BATTERIE",
+                            id_ruche: idHive
+                        });
+                        setData({ pourcentage: batteryData, tension: tensionData });
+                        break;
+                    case 'temperature':
+                        setNameWidget("Température intérieure / extérieure");
+                        const tempInt = await getDataDash(histo, {
                             type: "TEMPERATURE_INT",
                             id_ruche: idHive
-                        })
-                        setData(res3)
-                        console.log(res3)
-                        break
-                    case 'tempext':
-                        setNameWidget("Température extérieur")
-                        const res4 = await getDataDash(histo, {
+                        });
+                        const tempExt = await getDataDash(histo, {
                             type: "TEMPERATURE_EXT",
                             id_ruche: idHive
-                        })
-                        setData(res4)
-                        console.log(res4)
-                        break
+                        });
+                        setData({ int: tempInt, ext: tempExt });
+                        break;
                     case 'pression':
-                        setNameWidget("Préssion")
-                        const res5 = await getDataDash(histo, {
+                        setNameWidget("Poids");
+                        const pressionData = await getDataDash(histo, {
                             type: "PRESSURE_EXT",
                             id_ruche: idHive
-                        })
-                        setData(res5)
-                        console.log(res5)
+                        });
+                        console.log(pressionData)
+                        setData(pressionData);
                         break
-                    case 'humint':
-                        setNameWidget("Humidité intérieur")
-                        const res6 = await getDataDash(histo, {
+                    case 'humidity':
+                        setNameWidget("Humidité intérieure");
+                        const humIntData = await getDataDash(histo, {
                             type: "HUMIDITY_INT",
                             id_ruche: idHive
-                        })
-                        setData(res6)
-                        console.log(res6)
+                        });
+                        setData(humIntData);
                         break
-                    case 'humext':
-                        setNameWidget("Humidité extérieur")
-                        const res7 = await getDataDash(histo, {
-                            type: "HUMIDITY_EXT",
-                            id_ruche: idHive
-                        })
-                        setData(res7)
-                        console.log(res7)
-                        break
+                    default:
+                        setNameWidget("Inconnu");
+                        break;
                 }
             } catch (err) {
-                setError(err)
+                setError("Erreur lors du chargement des données.");
+                console.error(err);
             }
-        }
+        };
 
-        fetchData()
-    }, [trigger])
+        fetchData();
+    }, [trigger, histo]);
 
     const periods = [
         { label: "1 heure", value: 60 },
@@ -104,21 +94,21 @@ const DetailAllWidgets = () => {
         { label: "1 mois", value: 43800 },
     ];
 
-
     return (
         <LayoutStackNav back_name={'Retour'} back_url={'/detail/hive'}>
-            <h2>{nameWidget}</h2>
-            <div>
+            <h2 className="text-xl font-bold mb-4">{nameWidget}</h2>
+
+            <div className="flex gap-4 mb-4">
                 {periods.map(({ label, value }) => (
-                    <label key={value}>
+                    <label key={value} className="flex items-center gap-2">
                         <input
                             type="radio"
                             name="his"
                             value={value}
                             checked={histo === value}
                             onChange={() => {
-                                setHisto(value)
-                                setTrigger(!trigger)
+                                setHisto(value);
+                                setTrigger(!trigger);
                             }}
                         />
                         {label}
@@ -126,32 +116,27 @@ const DetailAllWidgets = () => {
                 ))}
             </div>
 
-            {
-                localStorage.getItem('currentWidgetType') === 'map' ? (
-                    <>content map</>
-                ) : localStorage.getItem('currentWidgetType') === 'energy' ? (
-                    <BatteryChart data={data} />
-                ) : localStorage.getItem('currentWidgetType') === 'poids' ? (
-                    <></>
-                ) : localStorage.getItem('currentWidgetType') === 'event' ? (
-                    <></>
-                ) : localStorage.getItem('currentWidgetType') === 'tempint' ? (
-                    <TemperatureChart data={data} />
-                ) : localStorage.getItem('currentWidgetType') === 'tempext' ? (
-                    <TemperatureChart data={data} />
-                ) : localStorage.getItem('currentWidgetType') === 'pression' ? (
-                    <></>
-                ) : localStorage.getItem('currentWidgetType') === 'humint' ? (
-                    <></>
-                ) : localStorage.getItem('currentWidgetType') === 'humext' ? (
-                    <></>
-                ) : (
-                    <>no data avaible</>
-                )
-            }
+            {widgetType === 'poids' && (
+                <WeightChart data={data} />
+            )}
+
+            {widgetType === 'energy' && data?.pourcentage && data?.tension && (
+                <EnergyDualChart batteryData={data.pourcentage} voltageData={data.tension} />
+            )}
+
+            {widgetType === 'temperature' && data?.int && data?.ext && (
+                <TemperatureDualChart tempIntData={data.int} tempExtData={data.ext} />
+            )}
+
+            {widgetType === 'pression' && data && (
+                <PressureChart data={data} />
+            )}
+
+            {widgetType === 'humidity' && data && (
+                <HumidityChart data={data} />
+            )}
 
             {error && <p>{error}</p>}
-
         </LayoutStackNav>
     );
 };

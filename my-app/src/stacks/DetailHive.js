@@ -33,25 +33,18 @@ const DetailHive = () => {
                     navigate('/detail/hive/widget')
                 }}>event</button>
                 <button onClick={() => {
-                    localStorage.setItem('currentWidgetType', 'tempint')
+                    localStorage.setItem('currentWidgetType', 'temperature')
                     navigate('/detail/hive/widget')
-                }}>temperature int</button>
-                <button onClick={() => {
-                    localStorage.setItem('currentWidgetType', 'tempext')
-                    navigate('/detail/hive/widget')
-                }}>temperature ext</button>
+                }}>temperature</button>
                 <button onClick={() => {
                     localStorage.setItem('currentWidgetType', 'pression')
                     navigate('/detail/hive/widget')
                 }}>pression</button>
                 <button onClick={() => {
-                    localStorage.setItem('currentWidgetType', 'humint')
+                    localStorage.setItem('currentWidgetType', 'humidity')
                     navigate('/detail/hive/widget')
-                }}>humidity int</button>
-                <button onClick={() => {
-                    localStorage.setItem('currentWidgetType', 'humext')
-                    navigate('/detail/hive/widget')
-                }}>humidity ext</button>
+                }}>humidity</button>
+
             </div>
         </LayoutStackNav>
     );
