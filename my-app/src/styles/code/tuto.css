@@ -1,7 +1,6 @@
 .container_card_tuto {
     width: 100%;
     padding: 20px;
-    background-color: antiquewhite;
     border-radius: 1rem;
     margin: 20px 0;
 }
@@ -21,4 +20,35 @@
 
 .italic {
     font-style: italic;
+}
+
+.ios {
+    background-color: #60dbff;
+}
+
+.classic {
+    background-color: antiquewhite;
+}
+
+.android {
+    background-color: #7dff60;
+}
+
+.tutorial_buttons {
+    /* background-color: red; */
+    padding: 20px;
+}
+
+.tutorial_buttons button {
+    margin-right: 10px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.tutorial_buttons .active {
+    background-color: #8884d8;
+    color: white;
 }

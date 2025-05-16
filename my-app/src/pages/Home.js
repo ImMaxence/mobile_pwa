@@ -84,6 +84,7 @@ const Home = () => {
                         .map((item) => (
                             <div key={item.id}>
                                 {/* <p>{item.id}</p> */}
+                                <img src="./assets/logo.png" alt="" style={{ width: '64px' }} />
                                 <p>{item.Nom}</p>
                                 <button onClick={() => {
                                     localStorage.setItem("currentGroupId", item.id)
