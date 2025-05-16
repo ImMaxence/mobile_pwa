@@ -3,8 +3,10 @@ import jsQR from "jsqr";
 import Layout from "../components/Layout";
 import { Sheet } from "react-modal-sheet";
 import { addHiveToGroup, getGroups } from "../services/hiveService";
+import { useNavigate } from "react-router-dom";
 
 const Qrcode = () => {
+    const navigate = useNavigate()
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const scanInterval = useRef(null);
@@ -147,6 +149,7 @@ const Qrcode = () => {
             await addHiveToGroup(defaultGroupId, { rucheId: apiHiveValue, ruchePassword: passwordRuche });
             setIsSheetOpen(false);
             setErrorMessage(null);
+            navigate('/')
         } catch (err) {
             setErrorMessage(err)
         }
