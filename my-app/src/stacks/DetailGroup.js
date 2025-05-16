@@ -159,6 +159,7 @@ const DetailGroup = () => {
             const groupId = await getCurrentGroupId()
             await leaveGroup(groupId, { userId: userId })
             setErrorLeaveGroup(null)
+            navigate('/')
         } catch (err) {
             setErrorLeaveGroup(err)
         }
