@@ -66,6 +66,7 @@ const Home = () => {
         try {
             await createGroup(formData);
             setTrigger(!trigger);
+            setIsLoading(true)
             setOpen(false);
         } catch (err) {
             setErrorCreate(err.message || 'Erreur lors de la création');
@@ -194,10 +195,11 @@ const Home = () => {
                     </>
                 ) : (
                     <>
-                        <h5>
+                        <h4>
                             Bienvenue sur l'application Apihive !<br />
-                        </h5>
-                        <p>Veuillez vous connecter pour accéder à toutes les fonctionnalités 🐝</p>
+                        </h4>
+                        <p style={{ marginTop: "20px" }}>Veuillez vous connecter pour accéder à toutes les fonctionnalités 🐝</p>
+                        <button className='general_btn' style={{ marginTop: "20px" }} onClick={() => navigate('/user')}>Se connecter</button>
                     </>
                 )}
             </div>
