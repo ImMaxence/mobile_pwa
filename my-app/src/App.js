@@ -13,9 +13,11 @@ import DetailReportCreate from './stacks/DetailReportCreate';
 import DetailReportHisto from './stacks/DetailReportHisto';
 import DetailAllWidgets from './stacks/DetailAllWidgets';
 import ServiceWorkerWrapper from './pwa/ServiceWorkerWrapper';
+import SplashScreen from './components/SplashScreen';
 
 const App = () => {
   const [isStandalone, setIsStandalone] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const standalone =
@@ -27,8 +29,13 @@ const App = () => {
   return (
     <>
       <ServiceWorkerWrapper />
-      {/* {isStandalone ? <MainApp /> : <Tutorial />} */}
-      {isStandalone ? <MainApp /> : <MainApp />}
+      {loading ? (
+        <SplashScreen onFinish={() => setLoading(false)} />
+      ) : isStandalone ? (
+        <MainApp />
+      ) : (
+        <MainApp /> // Tu peux remplacer par <Tutorial /> si besoin
+      )}
     </>
   );
 };
@@ -42,15 +49,16 @@ const MainApp = () => {
         <Route path="/user" element={<User />} />
         <Route path="/alert" element={<Alert />} />
         <Route path="/map" element={<Map />} />
-        <Route path='/detail/group' element={<DetailGroup />} />
-        <Route path='/detail/hive' element={<DetailHive />} />
-        <Route path='/detail/hive/info' element={<DetailInfoHive />} />
-        <Route path='/detail/hive/report-create' element={<DetailReportCreate />} />
-        <Route path='/detail/hive/report-histo' element={<DetailReportHisto />} />
-        <Route path='/detail/hive/widget' element={<DetailAllWidgets />} />
+        <Route path="/detail/group" element={<DetailGroup />} />
+        <Route path="/detail/hive" element={<DetailHive />} />
+        <Route path="/detail/hive/info" element={<DetailInfoHive />} />
+        <Route path="/detail/hive/report-create" element={<DetailReportCreate />} />
+        <Route path="/detail/hive/report-histo" element={<DetailReportHisto />} />
+        <Route path="/detail/hive/widget" element={<DetailAllWidgets />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>
   );
-}
+};
+
 export default App;
