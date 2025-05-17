@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import NetworkStatusBanner from './NetworkStatusBanner';
 
 const LayoutStackNav = ({ children, back_url, back_name }) => {
-
     const navigate = useNavigate();
 
     return (
-        <div>
-            <div>
+        // <div>
+        //     <div className='lay_sta_back'>
+        //         <button onClick={() => { navigate(`${back_url}`) }}>{back_name} (retour stack)</button>
+        //     </div>
+        //     <div>
+        //         <NetworkStatusBanner />
+        //         {children}
+        //     </div>
+
+        // </div>
+
+        <div className="layout-container">
+            <header className="layout-header-stack ">
                 <button onClick={() => { navigate(`${back_url}`) }}>{back_name} (retour stack)</button>
-            </div>
-            {children}
+            </header>
+            <NetworkStatusBanner />
+            <main className="layout-content">
+                {children}
+            </main>
         </div>
     );
 };

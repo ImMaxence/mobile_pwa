@@ -74,128 +74,132 @@ const Home = () => {
 
     return (
         <Layout>
-            {token ? (
-                <>
-                    {errorGroup && <p style={{ color: 'red' }}>{errorGroup}</p>}
+            <div style={{ padding: "20px" }}>
+                {token ? (
+                    <>
+                        {errorGroup && <p style={{ color: 'red' }}>{errorGroup}</p>}
 
-                    {/* Groupes par défaut */}
-                    {group
-                        .filter((item) => item.default)
-                        .map((item) => (
-                            <div key={item.id}>
-                                {/* <p>{item.id}</p> */}
-                                <img src="./assets/logo.png" alt="" style={{ width: '64px' }} />
-                                <p>{item.Nom}</p>
-                                <button onClick={() => {
-                                    localStorage.setItem("currentGroupId", item.id)
-                                    localStorage.setItem("currentGroupType", "solo")
-                                    localStorage.setItem("currentGroupName", item.Nom)
-                                    navigate('/detail/group')
-                                }}>SEE MORE</button>
-                            </div>
-                        ))}
+                        {/* Groupes par défaut */}
+                        {group
+                            .filter((item) => item.default)
+                            .map((item) => (
+                                <div key={item.id}>
+                                    {/* <p>{item.id}</p> */}
+                                    <img src="./assets/logo.png" alt="" style={{ width: '64px' }} />
+                                    <p>{item.Nom}</p>
+                                    <button onClick={() => {
+                                        localStorage.setItem("currentGroupId", item.id)
+                                        localStorage.setItem("currentGroupType", "solo")
+                                        localStorage.setItem("currentGroupName", item.Nom)
+                                        navigate('/detail/group')
+                                    }}>SEE MORE</button>
+                                </div>
+                            ))}
 
-                    <h4>Vos groupes</h4>
-                    <button onClick={() => setOpen(true)}>Créer un groupe</button>
+                        <h4>Vos groupes</h4>
+                        <button onClick={() => setOpen(true)}>Créer un groupe</button>
 
-                    {/* Groupes non par défaut */}
-                    {group.filter((item) => !item.default).length === 0 ? (
-                        <p>Vous n'avez pas de groupe 🐝</p>
-                    ) : (
-                        group
-                            .filter((item) => !item.default)
-                            .map((item) => {
-                                const liste = item.Liste_utilisateur_partage || [];
+                        {/* Groupes non par défaut */}
+                        {group.filter((item) => !item.default).length === 0 ? (
+                            <p>Vous n'avez pas de groupe 🐝</p>
+                        ) : (
+                            group
+                                .filter((item) => !item.default)
+                                .map((item) => {
+                                    const liste = item.Liste_utilisateur_partage || [];
 
-                                const img1 = getAvatar(liste[0]?.avatar);
-                                const img2 = getAvatar(liste[1]?.avatar);
-                                const img3 = getAvatar(liste[2]?.avatar);
-                                const img4 = getAvatar(liste[3]?.avatar);
+                                    const img1 = getAvatar(liste[0]?.avatar);
+                                    const img2 = getAvatar(liste[1]?.avatar);
+                                    const img3 = getAvatar(liste[2]?.avatar);
+                                    const img4 = getAvatar(liste[3]?.avatar);
 
-                                return (
-                                    <div key={item.id}>
-                                        {/* <p>{item.id}</p> */}
-                                        <p>{item.Nom}</p>
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <img
-                                                src={img1}
-                                                alt="avatar 1"
-                                                style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
-                                                onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                            />
-                                            <img
-                                                src={img2}
-                                                alt="avatar 2"
-                                                style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
-                                                onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                            />
-                                            <img
-                                                src={img3}
-                                                alt="avatar 3"
-                                                style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
-                                                onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                            />
-                                            <img
-                                                src={img4}
-                                                alt="avatar 4"
-                                                style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
-                                                onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                            />
+                                    return (
+                                        <div key={item.id}>
+                                            {/* <p>{item.id}</p> */}
+                                            <p>{item.Nom}</p>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <img
+                                                    src={img1}
+                                                    alt="avatar 1"
+                                                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
+                                                    onError={(e) => (e.currentTarget.src = defaultAvatar)}
+                                                />
+                                                <img
+                                                    src={img2}
+                                                    alt="avatar 2"
+                                                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
+                                                    onError={(e) => (e.currentTarget.src = defaultAvatar)}
+                                                />
+                                                <img
+                                                    src={img3}
+                                                    alt="avatar 3"
+                                                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
+                                                    onError={(e) => (e.currentTarget.src = defaultAvatar)}
+                                                />
+                                                <img
+                                                    src={img4}
+                                                    alt="avatar 4"
+                                                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
+                                                    onError={(e) => (e.currentTarget.src = defaultAvatar)}
+                                                />
+                                            </div>
+
+                                            <button onClick={() => {
+                                                localStorage.setItem("currentGroupId", item.id)
+                                                localStorage.setItem("currentGroupType", "group")
+                                                localStorage.setItem("currentGroupName", item.Nom)
+                                                navigate('/detail/group')
+                                            }}>SEE MORE</button>
                                         </div>
+                                    );
+                                })
+                        )}
 
-                                        <button onClick={() => {
-                                            localStorage.setItem("currentGroupId", item.id)
-                                            localStorage.setItem("currentGroupType", "group")
-                                            localStorage.setItem("currentGroupName", item.Nom)
-                                            navigate('/detail/group')
-                                        }}>SEE MORE</button>
-                                    </div>
-                                );
-                            })
-                    )}
+                        <Sheet
+                            isOpen={isOpen}
+                            onClose={() => {
+                                setOpen(false);
+                                setErrorCreate(null);
+                            }}
+                        >
+                            <Sheet.Container>
+                                <Sheet.Header />
+                                <Sheet.Content>
+                                    <h3>Créer un groupe</h3>
+                                    <form onSubmit={handleCreateGroup}>
+                                        <label>Nom du groupe</label>
+                                        <input
+                                            type="text"
+                                            onChange={(e) => handleInputChange('Nom', e.target.value)}
+                                            value={formData.Nom}
+                                        />
+                                        <label>Description groupe</label>
+                                        <textarea
+                                            onChange={(e) => handleInputChange('Description', e.target.value)}
+                                            value={formData.Description}
+                                        ></textarea>
 
-                    <Sheet
-                        isOpen={isOpen}
-                        onClose={() => {
-                            setOpen(false);
-                            setErrorCreate(null);
-                        }}
-                    >
-                        <Sheet.Container>
-                            <Sheet.Header />
-                            <Sheet.Content>
-                                <h3>Créer un groupe</h3>
-                                <form onSubmit={handleCreateGroup}>
-                                    <label>Nom du groupe</label>
-                                    <input
-                                        type="text"
-                                        onChange={(e) => handleInputChange('Nom', e.target.value)}
-                                        value={formData.Nom}
-                                    />
-                                    <label>Description groupe</label>
-                                    <textarea
-                                        onChange={(e) => handleInputChange('Description', e.target.value)}
-                                        value={formData.Description}
-                                    ></textarea>
+                                        <button type="submit">Créer</button>
+                                        <button type="button" onClick={() => setOpen(false)}>
+                                            Annuler
+                                        </button>
 
-                                    <button type="submit">Créer</button>
-                                    <button type="button" onClick={() => setOpen(false)}>
-                                        Annuler
-                                    </button>
-
-                                    {errorCreate && <p style={{ color: 'red' }}>{errorCreate}</p>}
-                                </form>
-                            </Sheet.Content>
-                        </Sheet.Container>
-                        <Sheet.Backdrop />
-                    </Sheet>
-                </>
-            ) : (
-                <h4>
-                    Bienvenue sur l'application Apihive !<br />
-                    Veuillez vous connecter pour accéder à toutes les fonctionnalités.
-                </h4>
-            )}
+                                        {errorCreate && <p style={{ color: 'red' }}>{errorCreate}</p>}
+                                    </form>
+                                </Sheet.Content>
+                            </Sheet.Container>
+                            <Sheet.Backdrop />
+                        </Sheet>
+                    </>
+                ) : (
+                    <>
+                        <h5>
+                            Bienvenue sur l'application Apihive !<br />
+                        </h5>
+                        <p>Veuillez vous connecter pour accéder à toutes les fonctionnalités 🐝</p>
+                    </>
+                )}
+            </div>
         </Layout>
     );
 };

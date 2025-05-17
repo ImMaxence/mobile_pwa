@@ -13,7 +13,6 @@ import DetailReportCreate from './stacks/DetailReportCreate';
 import DetailReportHisto from './stacks/DetailReportHisto';
 import DetailAllWidgets from './stacks/DetailAllWidgets';
 import ServiceWorkerWrapper from './pwa/ServiceWorkerWrapper';
-import NetworkStatusBanner from './components/NetworkStatusBanner';
 
 const App = () => {
   const [isStandalone, setIsStandalone] = useState(false);
@@ -27,9 +26,9 @@ const App = () => {
 
   return (
     <>
-      <NetworkStatusBanner />
       <ServiceWorkerWrapper />
-      {isStandalone ? <MainApp /> : <Tutorial />}
+      {/* {isStandalone ? <MainApp /> : <Tutorial />} */}
+      {isStandalone ? <MainApp /> : <MainApp />}
     </>
   );
 };
