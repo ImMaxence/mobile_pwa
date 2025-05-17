@@ -4,6 +4,7 @@ import { getToken } from '../utils/manageStorage';
 import { createGroup, getGroups } from '../services/hiveService';
 import { Sheet } from 'react-modal-sheet';
 import { useNavigate } from 'react-router-dom';
+import { Skeleton } from 'antd';
 
 const defaultAvatar = '/assets/def.png';
 
@@ -24,6 +25,8 @@ const Home = () => {
     const [errorGroup, setErrorGroup] = useState(null);
     const [errorCreate, setErrorCreate] = useState(null);
     const [isOpen, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
 
     const navigate = useNavigate();
 
@@ -38,27 +41,24 @@ const Home = () => {
     };
 
     useEffect(() => {
-        const fetchToken = async () => {
+        const fetchData = async () => {
+            setIsLoading(true);
             try {
-                const res = await getToken();
-                setToken(res);
-            } catch (error) {
-                console.log(error);
+                const resToken = await getToken();
+                setToken(resToken);
+
+                const resGroups = await getGroups();
+                setGroup(resGroups);
+            } catch (err) {
+                setErrorGroup(err);
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        const fetchGroup = async () => {
-            try {
-                const res = await getGroups();
-                setGroup(res);
-            } catch (error) {
-                setErrorGroup(error.message || 'Erreur lors du chargement des groupes');
-            }
-        };
-
-        fetchToken();
-        fetchGroup();
+        setTimeout(() => { fetchData(); }, 1000)
     }, [trigger]);
+
 
     const handleCreateGroup = async (e) => {
         e.preventDefault();
@@ -71,11 +71,16 @@ const Home = () => {
             setErrorCreate(err.message || 'Erreur lors de la création');
         }
     };
-
     return (
         <Layout>
             <div style={{ padding: "20px" }}>
-                {token ? (
+                {isLoading ? (
+                    <>
+                        <Skeleton active />
+                        <div style={{ padding: "10px" }}></div>
+                        <Skeleton active />
+                    </>
+                ) : token ? (
                     <>
                         {errorGroup && <p style={{ color: 'red' }}>{errorGroup}</p>}
 
@@ -83,21 +88,27 @@ const Home = () => {
                         {group
                             .filter((item) => item.default)
                             .map((item) => (
-                                <div key={item.id}>
-                                    {/* <p>{item.id}</p> */}
-                                    <img src="./assets/logo.png" alt="" style={{ width: '64px' }} />
+
+                                <button className='container_solo' key={item.id} onClick={() => {
+                                    localStorage.setItem("currentGroupId", item.id);
+                                    localStorage.setItem("currentGroupType", "solo");
+                                    localStorage.setItem("currentGroupName", item.Nom);
+                                    navigate('/detail/group');
+                                }}>
+
+                                    <div className="container_img_group_solo">
+                                        <img src="./assets/logo.png" alt="" />
+                                    </div>
                                     <p>{item.Nom}</p>
-                                    <button onClick={() => {
-                                        localStorage.setItem("currentGroupId", item.id)
-                                        localStorage.setItem("currentGroupType", "solo")
-                                        localStorage.setItem("currentGroupName", item.Nom)
-                                        navigate('/detail/group')
-                                    }}>SEE MORE</button>
-                                </div>
+
+                                </button>
+
                             ))}
 
-                        <h4>Vos groupes</h4>
-                        <button onClick={() => setOpen(true)}>Créer un groupe</button>
+                        <div className="middle_home_btn">
+                            <h4>Vos groupes</h4>
+                            <button onClick={() => setOpen(true)} className='general_btn'>Créer un groupe</button>
+                        </div>
 
                         {/* Groupes non par défaut */}
                         {group.filter((item) => !item.default).length === 0 ? (
@@ -107,50 +118,40 @@ const Home = () => {
                                 .filter((item) => !item.default)
                                 .map((item) => {
                                     const liste = item.Liste_utilisateur_partage || [];
-
                                     const img1 = getAvatar(liste[0]?.avatar);
                                     const img2 = getAvatar(liste[1]?.avatar);
                                     const img3 = getAvatar(liste[2]?.avatar);
                                     const img4 = getAvatar(liste[3]?.avatar);
 
                                     return (
-                                        <div key={item.id}>
-                                            {/* <p>{item.id}</p> */}
-                                            <p>{item.Nom}</p>
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <img
-                                                    src={img1}
-                                                    alt="avatar 1"
-                                                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
-                                                    onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                                />
-                                                <img
-                                                    src={img2}
-                                                    alt="avatar 2"
-                                                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
-                                                    onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                                />
-                                                <img
-                                                    src={img3}
-                                                    alt="avatar 3"
-                                                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
-                                                    onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                                />
-                                                <img
-                                                    src={img4}
-                                                    alt="avatar 4"
-                                                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 5 }}
-                                                    onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                                />
-                                            </div>
 
-                                            <button onClick={() => {
-                                                localStorage.setItem("currentGroupId", item.id)
-                                                localStorage.setItem("currentGroupType", "group")
-                                                localStorage.setItem("currentGroupName", item.Nom)
-                                                navigate('/detail/group')
-                                            }}>SEE MORE</button>
-                                        </div>
+                                        <button key={item.id} className='container_solo' onClick={() => {
+                                            localStorage.setItem("currentGroupId", item.id);
+                                            localStorage.setItem("currentGroupType", "group");
+                                            localStorage.setItem("currentGroupName", item.Nom);
+                                            navigate('/detail/group');
+                                        }}>
+
+                                            <div className='grouped_img_group'>
+                                                {/* {[img1, img2, img3, img4].map((imgSrc, i) => (
+                                                    <img
+                                                        key={i}
+                                                        src={imgSrc}
+                                                        alt={`avatar ${i + 1}`}
+
+                                                        onError={(e) => (e.currentTarget.src = defaultAvatar)}
+                                                    />
+                                                ))} */}
+
+                                                <img src={img1} alt="" />
+                                                <img src={img2} alt="" style={{ position: 'relative', left: '-15px' }} />
+                                                <img src={img3} alt="" style={{ position: 'relative', left: '-30px' }} />
+                                                <img src={img4} alt="" style={{ position: 'relative', left: '-45px' }} />
+
+                                            </div>
+                                            <p>{item.Nom}</p>
+                                        </button>
+
                                     );
                                 })
                         )}
@@ -200,8 +201,10 @@ const Home = () => {
                     </>
                 )}
             </div>
+
         </Layout>
     );
+
 };
 
 export default Home;

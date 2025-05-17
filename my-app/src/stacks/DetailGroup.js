@@ -8,6 +8,7 @@ import { Collapse, Switch } from 'antd';
 import { getUserId } from '../utils/manageStorage';
 import { LayersControl } from 'react-leaflet';
 import { searchUserByName } from '../services/userService';
+import { Skeleton } from 'antd';
 
 const { Panel } = Collapse;
 
@@ -112,8 +113,8 @@ const DetailGroup = () => {
         }
 
         fetchGroupType();
-        fetchInfoGroup();
         fecthHiveUser()
+        setTimeout(() => { fetchInfoGroup() }, 1000)
     }, [trigger])
 
     const handleSaveHive = async (e) => {
@@ -261,7 +262,7 @@ const DetailGroup = () => {
             )}
 
             {loading ? (
-                <p>chargement...</p>
+                <Skeleton active />
             ) : Array.isArray(hive) && hive.length > 0 ? (
                 hive.map((item) => (
                     <button onClick={() => {
