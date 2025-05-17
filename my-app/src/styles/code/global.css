@@ -2,7 +2,8 @@
 
 :root {
     --primary-color: #FFCE10;
-    --secondary-color: #2ecc71;
+    --secondary-color: #F1F1F1;
+    --border: #C1C1C1;
 
     --font-poppins: "Poppins", sans-serif;
 }
@@ -22,4 +23,27 @@
     font-weight: 600;
     border: none;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.cancel_btn {
+    color: black;
+    padding: 15px 20px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.general_input {
+    width: 100%;
+    border: 1px solid var(--border);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.general_input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: none;
 }

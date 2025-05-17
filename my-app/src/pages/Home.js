@@ -167,27 +167,34 @@ const Home = () => {
                             <Sheet.Container>
                                 <Sheet.Header />
                                 <Sheet.Content>
-                                    <h3>Créer un groupe</h3>
-                                    <form onSubmit={handleCreateGroup}>
-                                        <label>Nom du groupe</label>
-                                        <input
-                                            type="text"
-                                            onChange={(e) => handleInputChange('Nom', e.target.value)}
-                                            value={formData.Nom}
-                                        />
-                                        <label>Description groupe</label>
-                                        <textarea
-                                            onChange={(e) => handleInputChange('Description', e.target.value)}
-                                            value={formData.Description}
-                                        ></textarea>
+                                    <div style={{ padding: '0 20px' }}>
+                                        <h3 style={{ marginBottom: "20px" }}>Créer un groupe</h3>
+                                        <form onSubmit={handleCreateGroup}>
+                                            <label>Nom du groupe</label>
+                                            <input
+                                                type="text"
+                                                onChange={(e) => handleInputChange('Nom', e.target.value)}
+                                                value={formData.Nom}
+                                                className='general_input'
+                                            />
+                                            <div style={{ marginBottom: "20px" }}></div>
+                                            <label>Description groupe</label>
+                                            <textarea
+                                                onChange={(e) => handleInputChange('Description', e.target.value)}
+                                                value={formData.Description}
+                                                className='general_input'
+                                            ></textarea>
 
-                                        <button type="submit">Créer</button>
-                                        <button type="button" onClick={() => setOpen(false)}>
-                                            Annuler
-                                        </button>
+                                            <div className="container_btn_home_form">
+                                                <button className='general_btn' type="submit">Créer</button>
+                                                <button className='cancel_btn' type="button" onClick={() => setOpen(false)}>
+                                                    Annuler
+                                                </button>
+                                            </div>
 
-                                        {errorCreate && <p style={{ color: 'red' }}>{errorCreate}</p>}
-                                    </form>
+                                            {errorCreate && <p style={{ color: 'red' }}>{errorCreate}</p>}
+                                        </form>
+                                    </div>
                                 </Sheet.Content>
                             </Sheet.Container>
                             <Sheet.Backdrop />
