@@ -12,23 +12,27 @@ import DetailInfoHive from './stacks/DetailInfoHive';
 import DetailReportCreate from './stacks/DetailReportCreate';
 import DetailReportHisto from './stacks/DetailReportHisto';
 import DetailAllWidgets from './stacks/DetailAllWidgets';
+import ServiceWorkerWrapper from './pwa/ServiceWorkerWrapper';
+import NetworkStatusBanner from './components/NetworkStatusBanner';
 
 const App = () => {
   const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
-    const standalone = window.matchMedia('(display-mode: standalone)').matches ||
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
       window.navigator.standalone === true;
     setIsStandalone(standalone);
   }, []);
 
-  return isStandalone ? (
-    <MainApp />
-  ) : (
-    <Tutorial />
-    // <MainApp />
+  return (
+    <>
+      <NetworkStatusBanner />
+      <ServiceWorkerWrapper />
+      {isStandalone ? <MainApp /> : <Tutorial />}
+    </>
   );
-}
+};
 
 const MainApp = () => {
   return (
