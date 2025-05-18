@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { getNote } from '../services/hiveService';
+import { Skeleton } from 'antd';
 
 const DetailReportHisto = () => {
     const [error, setError] = useState('');
     const [searchDate, setSearchDate] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
                 const idHive = localStorage.getItem('currentHiveId');
                 const res = await getNote(idHive);
@@ -17,11 +20,13 @@ const DetailReportHisto = () => {
                 setData(sortedData);
                 setFilteredData(sortedData);
             } catch (err) {
-                setError(err.message || 'Erreur lors de la récupération des données.');
+                setError(err);
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchData();
+        setTimeout(fetchData, 1000);
     }, []);
 
     useEffect(() => {
@@ -36,7 +41,7 @@ const DetailReportHisto = () => {
     }, [searchDate, data]);
 
     const renderItem = (item) => (
-        <div key={item.id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px', borderRadius: "10px" }}>
+        <div key={item.id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px', borderRadius: '10px' }}>
             <h3>{item.ruche?.nom || 'Inconnu'}</h3>
             <p><strong>Date :</strong> {new Date(item.date).toLocaleString()}</p>
             <p><strong>Comportement :</strong> {item.comportement_abeille || 'Non spécifié'}</p>
@@ -52,7 +57,7 @@ const DetailReportHisto = () => {
     return (
         <LayoutStackNav back_name="Retour" back_url="/detail/hive">
             <div style={{ padding: '20px' }}>
-                <div className='histo_repo'>
+                <div className="histo_repo" style={{ marginBottom: '15px' }}>
                     <label htmlFor="search-date"><strong>Rechercher par date :</strong></label>
                     <input
                         id="search-date"
@@ -63,14 +68,17 @@ const DetailReportHisto = () => {
                     />
                 </div>
 
+                {loading && <Skeleton active />}
 
-                {error && <p className="error_lab" style={{ color: 'red' }}>{error}</p>}
+                {!loading && error && (
+                    <p className="error_lab">{error}</p>
+                )}
 
-                {filteredData.length === 0 && !error && (
+                {!loading && !error && filteredData.length === 0 && (
                     <p>Aucun rapport trouvé pour cette date.</p>
                 )}
 
-                {filteredData.map(renderItem)}
+                {!loading && filteredData.map(renderItem)}
             </div>
         </LayoutStackNav>
     );
