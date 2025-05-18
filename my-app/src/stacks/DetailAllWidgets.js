@@ -12,6 +12,9 @@ import MapChart from '../components/charts/MapChart';
 import EnergyDualChartZoomable from '../components/charts/EnergyDualChartZoomable';
 import { Radio } from 'antd';
 import HumidityChartZoomable from '../components/charts/HumidityChartZoomable';
+import PressureChartZoomable from '../components/charts/PressureChartZoomable';
+import TemperatureDualChartZoomable from '../components/charts/TemperatureDualChartZoomable';
+import WeightChartZoomable from '../components/charts/WeightChartZoomable';
 
 const DetailAllWidgets = () => {
     const [histo, setHisto] = useState(1440); // 1 jour en minutes
@@ -123,7 +126,7 @@ const DetailAllWidgets = () => {
                         </div>
 
                     </div>
-                    <WeightChart data={data} />
+                    <WeightChartZoomable data={data} />
                 </>
             )}
 
@@ -172,7 +175,7 @@ const DetailAllWidgets = () => {
                         </div>
 
                     </div>
-                    <TemperatureDualChart tempIntData={data.int} tempExtData={data.ext} />
+                    <TemperatureDualChartZoomable tempIntData={data.int} tempExtData={data.ext} />
                 </>
             )}
 
@@ -196,7 +199,7 @@ const DetailAllWidgets = () => {
                         </div>
 
                     </div>
-                    <PressureChart data={data} />
+                    <PressureChartZoomable data={data} />
                 </>
             )}
 
