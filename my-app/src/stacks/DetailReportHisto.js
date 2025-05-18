@@ -61,7 +61,7 @@ const DetailReportHisto = () => {
 
                 />
 
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && <p className='error_lab'>{error}</p>}
 
                 {filteredData.length === 0 && !error && (
                     <p>Aucun rapport trouvé pour cette date.</p>

@@ -136,7 +136,7 @@ const DetailAllWidgets = () => {
                 <HumidityChart data={data} />
             )}
 
-            {error && <p>{error}</p>}
+            {error && <p className='error_lab'>{error}</p>}
         </LayoutStackNav>
     );
 };

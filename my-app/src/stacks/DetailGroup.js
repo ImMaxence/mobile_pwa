@@ -6,9 +6,9 @@ import { addHiveToGroup, addUserToGroup, deleteHiveToGroup, getDataFromGroup, ge
 import { useNavigate } from 'react-router-dom';
 import { Collapse, Switch } from 'antd';
 import { getUserId } from '../utils/manageStorage';
-import { LayersControl } from 'react-leaflet';
 import { searchUserByName } from '../services/userService';
 import { Skeleton } from 'antd';
+import { IoSettings } from "react-icons/io5";
 
 const { Panel } = Collapse;
 
@@ -124,6 +124,7 @@ const DetailGroup = () => {
             await addHiveToGroup(currentIdGroup, { rucheId: rucheIDSaveHive, ruchePassword: ruchePasswordSaveHive })
             setTrigger(!trigger)
             setErrorSaveHive(null)
+            setOpenAddHive(false)
         } catch (err) {
             setErrorSaveHive(err)
         }
@@ -245,39 +246,42 @@ const DetailGroup = () => {
 
     return (
         <LayoutStackNav back_url="/" back_name="Mes groupes">
-            <button onClick={() => setOpenSetting(true)}>setting - {localStorage.getItem('currentGroupName')}</button>
+            <div style={{ padding: "20px" }}>
+                <button style={{ padding: '20px 0 40px 0' }} className='stack_btn_title' onClick={() => setOpenSetting(true)}>
+                    <IoSettings className='setting rotate' />{localStorage.getItem('currentGroupName')}
+                </button>
 
-            {type === 'solo' ? (
-                <div>
-                    <button onClick={() => setOpenSaveHive(true)}>Enregistrer sa ruche</button>
+                {type === 'solo' ? (
+                    <div style={{ marginBottom: "20px" }}>
+                        <button style={{ marginRight: "20px" }} className='general_btn' onClick={() => setOpenSaveHive(true)}>Enregistrer ruche</button>
 
-                    <button onClick={() => setOpenUpdateHive(true)}>Modifier votre ruche</button>
-                </div>
-            ) : (
-                <div>
-                    <button onClick={() => setOpenAddHive(true)}>Ajouter sa ruche</button>
+                        <button className='general_btn' onClick={() => setOpenUpdateHive(true)}>Modifier ruche</button>
+                    </div>
+                ) : (
+                    <div style={{ marginBottom: "20px" }}>
+                        <button style={{ marginRight: "20px" }} className='general_btn' onClick={() => setOpenAddHive(true)}>Ajouter sa ruche</button>
 
-                    <button onClick={() => setOpenAddUser(true)}>Ajouter un user</button>
-                </div>
-            )}
+                        <button className='general_btn' onClick={() => setOpenAddUser(true)}>Ajouter un user</button>
+                    </div>
+                )}
 
-            {loading ? (
-                <Skeleton active />
-            ) : Array.isArray(hive) && hive.length > 0 ? (
-                hive.map((item) => (
-                    <button onClick={() => {
-                        localStorage.setItem('currentHiveId', item.id)
-                        localStorage.setItem('currentHiveName', item.nom)
-                        navigate('/detail/hive')
-                    }}>
-                        {item.nom}
-                    </button>
-                ))
-            ) : (
-                <p>Aucune ruche trouvée</p>
-            )}
+                {loading ? (
+                    <Skeleton active />
+                ) : Array.isArray(hive) && hive.length > 0 ? (
+                    hive.map((item) => (
+                        <button style={{ marginTop: "40px" }} className='container_solo' onClick={() => {
+                            localStorage.setItem('currentHiveId', item.id)
+                            localStorage.setItem('currentHiveName', item.nom)
+                            navigate('/detail/hive')
+                        }}>
+                            <p>{item.nom}</p>
+                        </button>
+                    ))
+                ) : (
+                    <p>Aucune ruche trouvée</p>
+                )}
 
-
+            </div>
             <Sheet isOpen={openUpdateHive} onClose={() => {
                 setErrorUpdateHive(null)
                 setOpenUpdateHive(false)
@@ -285,45 +289,56 @@ const DetailGroup = () => {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        <h3>Modifier mes ruches</h3>
-                        {Array.isArray(hiveUser) && hiveUser.length > 0 ? (
-                            hiveUser.map((item) => (
-                                <form onSubmit={(e) => handleUpdateHive(e, item.id)} key={item.id}>
-                                    <p>{item.nom}</p>
-                                    <label htmlFor="">Nouveau nom</label>
-                                    <input type="text" onChange={(e) => setNewHiveUpdateName(e.target.value)} />
+                        <Sheet.Scroller>
+                            <div style={{ padding: "20px" }}>
+                                <h3 style={{ marginBottom: "20px" }}>Modifier mes ruches</h3>
+                                {Array.isArray(hiveUser) && hiveUser.length > 0 ? (
+                                    hiveUser.map((item) => (
+                                        <form onSubmit={(e) => handleUpdateHive(e, item.id)} key={item.id}>
 
-                                    <label htmlFor="">Nouvelle origin abeille</label>
-                                    <input type="text" onChange={(e) => setNewOrigin(e.target.value)} />
+                                            <label htmlFor="">Nouveau nom</label>
+                                            <input className='general_input' type="text" onChange={(e) => setNewHiveUpdateName(e.target.value)} />
 
-                                    <label htmlFor="">Nouvelle race reine</label>
-                                    <input type="text" onChange={(e) => setNewRace(e.target.value)} />
+                                            <label htmlFor="">Nouvelle origin abeille</label>
+                                            <input className='general_input' type="text" onChange={(e) => setNewOrigin(e.target.value)} />
 
-                                    <label htmlFor="">Nouveau nomre cadran</label>
-                                    <input type="number" onChange={(e) => setNewNbrCadran(parseInt(e.target.value))} />
+                                            <label htmlFor="">Nouvelle race reine</label>
+                                            <input className='general_input' type="text" onChange={(e) => setNewRace(e.target.value)} />
 
-                                    <label htmlFor="">Nouveau nombre hausse</label>
-                                    <input type="number" onChange={(e) => setNewNbrHausse(parseInt(e.target.value))} />
+                                            <label htmlFor="">Nouveau nomre cadran</label>
+                                            <input className='general_input' type="number" onChange={(e) => setNewNbrCadran(parseInt(e.target.value))} />
 
-                                    <label htmlFor="">Nouvelle couleur reine</label>
-                                    <input type="text" onChange={(e) => setNewCouleurReine(e.target.value)} />
+                                            <label htmlFor="">Nouveau nombre hausse</label>
+                                            <input className='general_input' type="number" onChange={(e) => setNewNbrHausse(parseInt(e.target.value))} />
 
-                                    <label htmlFor="">Concentement RGPD</label>
-                                    <Switch defaultChecked onChange={(checked) => setNewConcentementRGPD(checked)} />
+                                            <label htmlFor="">Nouvelle couleur reine</label>
+                                            <input className='general_input' type="text" onChange={(e) => setNewCouleurReine(e.target.value)} />
 
-                                    <label htmlFor="">Partage Localisation</label>
-                                    <Switch defaultChecked onChange={(checked) => setNewConcentementPartage(checked)} />
+                                            <div className='wrapper_detailg'>
+                                                <div className='swi_det'>
+                                                    <label htmlFor="">Concentement RGPD</label>
+                                                    <Switch defaultChecked onChange={(checked) => setNewConcentementRGPD(checked)} />
 
-                                    <button type='submit'>
-                                        Modifier
-                                    </button>
-                                </form>
-                            ))
-                        ) : (
-                            <p>Aucune ruche trouvée</p>
-                        )}
+                                                </div>
+                                                <div className='swi_det'>
+                                                    <label htmlFor="">Partage Localisation</label>
+                                                    <Switch defaultChecked onChange={(checked) => setNewConcentementPartage(checked)} />
+                                                </div>
 
-                        {errorUpdateHive && <p>{errorUpdateHive}</p>}
+                                            </div>
+                                            {errorUpdateHive && <p className='error_lab' style={{ marginBottom: "20px" }}>{errorUpdateHive}</p>}
+                                            <button className='general_btn' type='submit'>
+                                                Modifier
+                                            </button>
+
+                                            <button style={{ marginLeft: "20px", marginBottom: "200px" }} className='cancel_btn' onClick={() => setOpenUpdateHive(false)}>Annuler</button>
+                                        </form>
+                                    ))
+                                ) : (
+                                    <p>Aucune ruche trouvée</p>
+                                )}
+                            </div>
+                        </Sheet.Scroller>
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop />
@@ -336,15 +351,15 @@ const DetailGroup = () => {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        <form onSubmit={handleSaveHive}>
-                            <h3>Les champs ruches ID et password vous ont été envoyé par email</h3>
+                        <form onSubmit={handleSaveHive} style={{ padding: "20px" }}>
+                            <h3 style={{ marginBottom: "20px" }}>Les champs ruches ID et password vous ont été envoyé par email</h3>
                             <label htmlFor="">ID ruche</label>
-                            <input type="text" onChange={(e) => setRucheIDSaveHive(e.target.value)} />
+                            <input style={{ marginBottom: "20px" }} className='general_input' type="text" onChange={(e) => setRucheIDSaveHive(e.target.value)} />
                             <label htmlFor="">Mot de passe ruche</label>
-                            <input type="password" onChange={(e) => setRuchePasswordSaveHive(e.target.value)} />
-                            <button type='submit'>Ajouter la ruche</button>
-                            <button onClick={() => setOpenSaveHive(false)}></button>
-                            {errorSaveHive && <p>{errorSaveHive}</p>}
+                            <input style={{ marginBottom: "40px" }} className='general_input' type="password" onChange={(e) => setRuchePasswordSaveHive(e.target.value)} />
+                            <button className='general_btn' type='submit'>Ajouter la ruche</button>
+                            <button style={{ marginLeft: "20px" }} className='cancel_btn' onClick={() => setOpenSaveHive(false)}>Annuler</button>
+                            {errorSaveHive && <p className='error_lab'>{errorSaveHive}</p>}
                         </form>
                     </Sheet.Content>
                 </Sheet.Container>
@@ -361,35 +376,41 @@ const DetailGroup = () => {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        <p>{description ? description : "Pas de description de groupe"}</p>
+                        <Sheet.Scroller>
+                            <div style={{ padding: "20px" }}>
+                                <p style={{ marginBottom: "40px" }}>{description ? description : "Pas de description de groupe"}</p>
 
-                        <Collapse accordion>
-                            <Panel header="Utilisateur(s) dans le groupe" key="1">
-                                {
-                                    userInHive.map((item) => (
-                                        <div>
-                                            <p>{item.prenom} {item.nom}</p>
-                                            <button onClick={() => { handleLeaveGroup2(item.id) }}>
-                                                Supprimer
-                                            </button>
-                                        </div>
-                                    ))
-                                }
-                                {errorSetting && <p>{errorSetting}</p>}
-                            </Panel>
-                            <Panel header="Modifier ce groupe" key="2">
-                                <form onSubmit={handleUpdateGroup}>
-                                    <label htmlFor="">Nouveau nom du groupe</label>
-                                    <input type="text" onChange={(e) => setNewNameGroup(e.target.value)} />
-                                    <label htmlFor="">Nouvelle description</label>
-                                    <textarea name="" id="" onChange={(e) => setNewDescriptionGroup(e.target.value)}></textarea>
-                                    <button type='submit'>Modifier</button>
-                                    {errorUpdateGroup && <p>{errorUpdateGroup}</p>}
-                                </form>
-                            </Panel>
-                        </Collapse>
-                        <button onClick={handleLeaveGroup}>Quitter le groupe</button>
-                        {errorLeaveGroup && <p>{errorLeaveGroup}</p>}
+                                <Collapse accordion>
+                                    <Panel header="Utilisateur(s) dans le groupe" key="1">
+                                        {
+                                            userInHive.map((item) => (
+                                                <div className='det_del_user'>
+                                                    <p>{item.prenom} {item.nom}</p>
+                                                    <button className='del_btn' onClick={() => { handleLeaveGroup2(item.id) }}>
+                                                        Supprimer
+                                                    </button>
+                                                </div>
+                                            ))
+                                        }
+                                        {errorSetting && <p className='error_lab'>{errorSetting}</p>}
+                                    </Panel>
+                                    <Panel header="Modifier ce groupe" key="2">
+                                        <form onSubmit={handleUpdateGroup}>
+                                            <label htmlFor="">Nouveau nom du groupe</label>
+                                            <input className='general_input' type="text" onChange={(e) => setNewNameGroup(e.target.value)} />
+                                            <label htmlFor="">Nouvelle description</label>
+                                            <textarea style={{ margin: "20px 0 20px" }} className='general_input' name="" id="" onChange={(e) => setNewDescriptionGroup(e.target.value)}></textarea>
+                                            <button className='general_btn' type='submit'>Modifier</button>
+                                            {errorUpdateGroup && <p className='error_lab'>{errorUpdateGroup}</p>}
+                                        </form>
+                                    </Panel>
+                                </Collapse>
+                                {errorLeaveGroup && <p className='error_lab'>{errorLeaveGroup}</p>}
+                                <button style={{ marginTop: "40px", marginBottom: "20px" }} className='del_btn w100' onClick={handleLeaveGroup}>Quitter le groupe</button>
+                                <button className='cancel_btn w100' onClick={() => setOpenSetting(false)}>Annuler</button>
+
+                            </div>
+                        </Sheet.Scroller>
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop />
@@ -424,7 +445,7 @@ const DetailGroup = () => {
                                     <Text style={{ color: 'red' }}>{errReG}</Text> */}
                                 </>
                             ) : (
-                                errorAddHive && <p>{errorAddHive}</p>
+                                errorAddHive && <p className='error_lab'>{errorAddHive}</p>
                             )
                         }
                     </Sheet.Content>
@@ -471,7 +492,7 @@ const DetailGroup = () => {
                                 </div>
                             )}
 
-                            {errorAddUser && <p style={{ color: 'red' }}>{errorAddUser}</p>}
+                            {errorAddUser && <p className='error_lab'>{errorAddUser}</p>}
                         </div>
                     </Sheet.Content>
                 </Sheet.Container>

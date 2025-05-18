@@ -47,7 +47,7 @@ const User = () => {
 
     const [newPassword1, setNewPassword1] = useState('');
     const [newPassword, setNewPassword] = useState('');
-    const [errorPassword, setErrorPassword] = useState('');
+    const [errorPassword, setErrorPassword] = useState(null);
 
     const handleRegister = async (e) => {
         setRegisterError(null);
@@ -58,7 +58,6 @@ const User = () => {
             setRegisterError(null);
             setTrigger(prev => !prev);
         } catch (err) {
-            console.error(err);
             setRegisterError(err);
         }
     };
@@ -262,7 +261,7 @@ const User = () => {
 
 
 
-                                                    {errorNew && <p style={{ color: 'red' }}>{errorNew}</p>}
+                                                    {errorNew && <p className='error_lab'>{errorNew}</p>}
                                                 </form>
                                             </div>
                                         </Sheet.Scroller>
@@ -305,7 +304,7 @@ const User = () => {
                                                 <button className='general_btn' type="submit">Modifier mot de passe</button>
                                                 <button style={{ marginLeft: "20px" }} className='cancel_btn' type="button" onClick={() => setOpenPassword(false)}>Annuler</button>
 
-                                                {errorPassword && <p style={{ color: 'red' }}>{errorPassword}</p>}
+                                                {errorPassword && <p className='error_lab'>{errorPassword}</p>}
                                             </form>
                                         </div>
                                     </Sheet.Content>
@@ -346,7 +345,7 @@ const User = () => {
                                     style={{ marginBottom: "20px" }}
                                 />
                                 <button style={{ marginBottom: "20px" }} className='general_btn w100' type="submit">Se connecter</button>
-                                {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+                                {loginError && <p className='error_lab'>{loginError}</p>}
                             </form>
 
                             <button className='w100 general_btn' onClick={() => setOpenRegister(true)}>S'enregistrer</button>
@@ -380,7 +379,7 @@ const User = () => {
                                                     <button className='general_btn' type="submit">S'enregistrer</button>
                                                     <button style={{ marginLeft: '20px' }} className='cancel_btn' type="button" onClick={() => setOpenRegister(false)}>Annuler</button>
 
-                                                    {registerError && <p style={{ color: 'red' }}>{registerError}</p>}
+                                                    {registerError && <p className='error_lab'>{registerError}</p>}
                                                 </form>
                                             </div>
                                         </Sheet.Scroller>

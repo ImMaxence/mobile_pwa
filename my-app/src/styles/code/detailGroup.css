@@ -1,0 +1,53 @@
+.stack_btn_title {
+    background-color: transparent;
+
+    font-weight: 600;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
+
+    font-size: 16px;
+
+    color: var(--blue-ios);
+}
+
+.stack_btn {
+    color: white;
+    background-color: transparent;
+    font-weight: 600;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
+    font-size: 16px;
+}
+
+.setting {
+    color: grey;
+    font-size: 26px;
+}
+
+.wrapper_detailg {
+    /* background-color: red; */
+    padding: 20px 0;
+}
+
+.swi_det {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.det_del_user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}

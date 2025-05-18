@@ -69,7 +69,7 @@ const Home = () => {
             setIsLoading(true)
             setOpen(false);
         } catch (err) {
-            setErrorCreate(err.message || 'Erreur lors de la création');
+            setErrorCreate(err)
         }
     };
     return (
@@ -83,7 +83,7 @@ const Home = () => {
                     </>
                 ) : token ? (
                     <>
-                        {errorGroup && <p style={{ color: 'red' }}>{errorGroup}</p>}
+                        {errorGroup && <p className='error_lab'>{errorGroup}</p>}
 
                         {/* Groupes par défaut */}
                         {group
@@ -192,7 +192,7 @@ const Home = () => {
                                                 </button>
                                             </div>
 
-                                            {errorCreate && <p style={{ color: 'red' }}>{errorCreate}</p>}
+                                            {errorCreate && <p className='error_lab'>{errorCreate}</p>}
                                         </form>
                                     </div>
                                 </Sheet.Content>

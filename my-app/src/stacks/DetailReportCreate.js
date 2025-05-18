@@ -95,7 +95,7 @@ const DetailReportCreate = () => {
 
                 <button type="submit">Envoyer</button>
 
-                {error && <p style={{ color: "red" }}>{error}</p>}
+                {error && <p className='error_lab'>{error}</p>}
             </form>
         </LayoutStackNav>
     );
