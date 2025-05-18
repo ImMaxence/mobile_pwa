@@ -70,19 +70,6 @@
 
 }
 
-/* Navbar fixe en bas */
-.layout-navbar {
-    flex-shrink: 0;
-    height: 60px;
-    background-color: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    position: sticky;
-    bottom: 0;
-    z-index: 100;
-}
-
 .lay_sta_back {
     background-color: #252837;
     width: 100%;
