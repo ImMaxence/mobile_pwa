@@ -8,6 +8,7 @@ import WeightChart from '../components/charts/WeightChart';
 import PressureChart from '../components/charts/PressureChart';
 import HumidityDualChart from '../components/charts/HumidityDualChart';
 import HumidityChart from '../components/charts/HumidityChart';
+import MapChart from '../components/charts/MapChart';
 
 const DetailAllWidgets = () => {
     const [histo, setHisto] = useState(1440); // 1 jour en minutes
@@ -94,13 +95,13 @@ const DetailAllWidgets = () => {
         { label: "1 mois", value: 43800 },
     ];
 
-    return (
-        <LayoutStackNav back_name={'Retour'} back_url={'/detail/hive'}>
+    const default_render = (
+        <>
             <h2 className="text-xl font-bold mb-4">{nameWidget}</h2>
 
-            <div className="flex gap-4 mb-4">
+            <div>
                 {periods.map(({ label, value }) => (
-                    <label key={value} className="flex items-center gap-2">
+                    <label key={value}>
                         <input
                             type="radio"
                             name="his"
@@ -115,25 +116,53 @@ const DetailAllWidgets = () => {
                     </label>
                 ))}
             </div>
+        </>
+    )
+
+    return (
+        <LayoutStackNav back_name={'Retour'} back_url={'/detail/hive'}>
 
             {widgetType === 'poids' && (
-                <WeightChart data={data} />
+                <>
+                    <default_render />
+                    <WeightChart data={data} />
+                </>
             )}
 
             {widgetType === 'energy' && data?.pourcentage && data?.tension && (
-                <EnergyDualChart batteryData={data.pourcentage} voltageData={data.tension} />
+                <>
+                    <default_render />
+                    <EnergyDualChart batteryData={data.pourcentage} voltageData={data.tension} />
+                </>
+
             )}
 
             {widgetType === 'temperature' && data?.int && data?.ext && (
-                <TemperatureDualChart tempIntData={data.int} tempExtData={data.ext} />
+                <>
+                    <default_render />
+                    <TemperatureDualChart tempIntData={data.int} tempExtData={data.ext} />
+                </>
+
             )}
 
             {widgetType === 'pression' && data && (
-                <PressureChart data={data} />
+                <>
+                    <default_render />
+                    <PressureChart data={data} />
+                </>
+
             )}
 
             {widgetType === 'humidity' && data && (
-                <HumidityChart data={data} />
+
+                <>
+                    <default_render />
+                    <HumidityChart data={data} />
+                </>
+            )}
+
+            {widgetType === 'map' && (
+                <MapChart />
             )}
 
             {error && <p className='error_lab'>{error}</p>}
