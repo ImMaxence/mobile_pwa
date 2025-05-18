@@ -10,6 +10,8 @@ import HumidityDualChart from '../components/charts/HumidityDualChart';
 import HumidityChart from '../components/charts/HumidityChart';
 import MapChart from '../components/charts/MapChart';
 import EnergyDualChartZoomable from '../components/charts/EnergyDualChartZoomable';
+import { Radio } from 'antd';
+import HumidityChartZoomable from '../components/charts/HumidityChartZoomable';
 
 const DetailAllWidgets = () => {
     const [histo, setHisto] = useState(1440); // 1 jour en minutes
@@ -32,7 +34,6 @@ const DetailAllWidgets = () => {
                             type: "WEIGHT",
                             id_ruche: idHive
                         });
-                        console.log(poidsData)
                         setData(poidsData);
                         break;
                     case 'energy':
@@ -65,9 +66,8 @@ const DetailAllWidgets = () => {
                             type: "PRESSURE_EXT",
                             id_ruche: idHive
                         });
-                        console.log(pressionData)
                         setData(pressionData);
-                        break
+                        break;
                     case 'humidity':
                         setNameWidget("Humidité intérieure");
                         const humIntData = await getDataDash(histo, {
@@ -75,7 +75,7 @@ const DetailAllWidgets = () => {
                             id_ruche: idHive
                         });
                         setData(humIntData);
-                        break
+                        break;
                     default:
                         setNameWidget("Inconnu");
                         break;
@@ -87,7 +87,7 @@ const DetailAllWidgets = () => {
         };
 
         fetchData();
-    }, [trigger, histo]);
+    }, [trigger, histo, widgetType, idHive]);
 
     const periods = [
         { label: "1 heure", value: 60 },
@@ -96,30 +96,32 @@ const DetailAllWidgets = () => {
         { label: "1 mois", value: 43800 },
     ];
 
+    const onChangePeriod = (e) => {
+        setHisto(e.target.value);
+        setTrigger(!trigger);
+    };
+
     return (
         <LayoutStackNav back_name={'Retour'} back_url={'/detail/hive'}>
             {widgetType === 'poids' && (
                 <>
-                    <div>
-                        <h2 className="text-xl font-bold mb-4">{nameWidget}</h2>
-
-                        <div>
-                            {periods.map(({ label, value }) => (
-                                <label key={value}>
-                                    <input
-                                        type="radio"
-                                        name="his"
-                                        value={value}
-                                        checked={histo === value}
-                                        onChange={() => {
-                                            setHisto(value);
-                                            setTrigger(!trigger);
-                                        }}
-                                    />
-                                    {label}
-                                </label>
-                            ))}
+                    <div style={{ padding: "20px" }}>
+                        <h2>{nameWidget}</h2>
+                        <div className='radio_ant_ch'>
+                            <Radio.Group
+                                onChange={onChangePeriod}
+                                value={histo}
+                                buttonStyle="solid"
+                                style={{ marginBottom: 40 }}
+                            >
+                                {periods.map(({ label, value }) => (
+                                    <Radio.Button key={value} value={value}>
+                                        {label}
+                                    </Radio.Button>
+                                ))}
+                            </Radio.Group>
                         </div>
+
                     </div>
                     <WeightChart data={data} />
                 </>
@@ -127,116 +129,98 @@ const DetailAllWidgets = () => {
 
             {widgetType === 'energy' && data?.pourcentage && data?.tension && (
                 <>
-                    <div>
-                        <h2 style={{ padding: "20px" }}>{nameWidget}</h2>
-
-                        <div className='wid_period'>
-                            {periods.map(({ label, value }) => (
-                                <label key={value}>
-                                    <input
-                                        type="radio"
-                                        name="his"
-                                        value={value}
-                                        checked={histo === value}
-                                        onChange={() => {
-                                            setHisto(value);
-                                            setTrigger(!trigger);
-                                        }}
-                                    />
-                                    {label}
-                                </label>
-                            ))}
+                    <div style={{ padding: "20px" }}>
+                        <h2>{nameWidget}</h2>
+                        <div className='radio_ant_ch'>
+                            <Radio.Group
+                                onChange={onChangePeriod}
+                                value={histo}
+                                buttonStyle="solid"
+                                style={{ marginBottom: 40 }}
+                            >
+                                {periods.map(({ label, value }) => (
+                                    <Radio.Button key={value} value={value}>
+                                        {label}
+                                    </Radio.Button>
+                                ))}
+                            </Radio.Group>
                         </div>
+
                     </div>
-                    {/* 
-                    <EnergyDualChart batteryData={data.pourcentage} voltageData={data.tension} /> */}
+
                     <EnergyDualChartZoomable batteryData={data.pourcentage} voltageData={data.tension} />
-
                 </>
-
             )}
 
             {widgetType === 'temperature' && data?.int && data?.ext && (
                 <>
-                    <div>
-                        <h2 className="text-xl font-bold mb-4">{nameWidget}</h2>
-
-                        <div>
-                            {periods.map(({ label, value }) => (
-                                <label key={value}>
-                                    <input
-                                        type="radio"
-                                        name="his"
-                                        value={value}
-                                        checked={histo === value}
-                                        onChange={() => {
-                                            setHisto(value);
-                                            setTrigger(!trigger);
-                                        }}
-                                    />
-                                    {label}
-                                </label>
-                            ))}
+                    <div style={{ padding: "20px" }}>
+                        <h2>{nameWidget}</h2>
+                        <div className='radio_ant_ch'>
+                            <Radio.Group
+                                onChange={onChangePeriod}
+                                value={histo}
+                                buttonStyle="solid"
+                                style={{ marginBottom: 40 }}
+                            >
+                                {periods.map(({ label, value }) => (
+                                    <Radio.Button key={value} value={value}>
+                                        {label}
+                                    </Radio.Button>
+                                ))}
+                            </Radio.Group>
                         </div>
+
                     </div>
                     <TemperatureDualChart tempIntData={data.int} tempExtData={data.ext} />
                 </>
-
             )}
 
             {widgetType === 'pression' && data && (
                 <>
-                    <div>
-                        <h2 className="text-xl font-bold mb-4">{nameWidget}</h2>
-
-                        <div>
-                            {periods.map(({ label, value }) => (
-                                <label key={value}>
-                                    <input
-                                        type="radio"
-                                        name="his"
-                                        value={value}
-                                        checked={histo === value}
-                                        onChange={() => {
-                                            setHisto(value);
-                                            setTrigger(!trigger);
-                                        }}
-                                    />
-                                    {label}
-                                </label>
-                            ))}
+                    <div style={{ padding: "20px" }}>
+                        <h2>{nameWidget}</h2>
+                        <div className='radio_ant_ch'>
+                            <Radio.Group
+                                onChange={onChangePeriod}
+                                value={histo}
+                                buttonStyle="solid"
+                                style={{ marginBottom: 40 }}
+                            >
+                                {periods.map(({ label, value }) => (
+                                    <Radio.Button key={value} value={value}>
+                                        {label}
+                                    </Radio.Button>
+                                ))}
+                            </Radio.Group>
                         </div>
+
                     </div>
                     <PressureChart data={data} />
                 </>
-
             )}
 
             {widgetType === 'humidity' && data && (
-
                 <>
-                    <div>
-                        <h2 className="text-xl font-bold mb-4">{nameWidget}</h2>
-
-                        <div>
-                            {periods.map(({ label, value }) => (
-                                <label key={value}>
-                                    <input
-                                        type="radio"
-                                        name="his"
-                                        value={value}
-                                        checked={histo === value}
-                                        onChange={() => {
-                                            setHisto(value);
-                                            setTrigger(!trigger);
-                                        }}
-                                    />
-                                    {label}
-                                </label>
-                            ))}
+                    <div style={{ padding: "20px" }}>
+                        <h2>{nameWidget}</h2>
+                        <div className='radio_ant_ch'>
+                            <Radio.Group
+                                onChange={onChangePeriod}
+                                value={histo}
+                                buttonStyle="solid"
+                                style={{ marginBottom: 40 }}
+                            >
+                                {periods.map(({ label, value }) => (
+                                    <Radio.Button key={value} value={value}>
+                                        {label}
+                                    </Radio.Button>
+                                ))}
+                            </Radio.Group>
                         </div>
+
                     </div>
-                    <HumidityChart data={data} />
+                    <HumidityChartZoomable data={data} />
                 </>
             )}
 

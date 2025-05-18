@@ -74,7 +74,7 @@ const EnergyDualChartZoomable = ({ batteryData, voltageData }) => {
 
     const options = {
         responsive: true,
-        maintainAspectRatio: false, // 🔧 Important pour que height fonctionne
+        maintainAspectRatio: false,
         interaction: {
             mode: 'index',
             intersect: false,
@@ -93,7 +93,7 @@ const EnergyDualChartZoomable = ({ batteryData, voltageData }) => {
             y1: {
                 type: 'linear',
                 position: 'left',
-                min: 0,
+                min: -20,
                 max: 100,
                 title: {
                     display: true,
@@ -103,6 +103,9 @@ const EnergyDualChartZoomable = ({ batteryData, voltageData }) => {
             y2: {
                 type: 'linear',
                 position: 'right',
+                // Retire min/max fixe ici pour que la ligne orange reste visible
+                min: -20,
+                max: 5,
                 title: {
                     display: true,
                     text: 'Tension (V)',
@@ -114,10 +117,14 @@ const EnergyDualChartZoomable = ({ batteryData, voltageData }) => {
         },
         plugins: {
             zoom: {
+                limits: {
+                    y1: { min: 0, max: 100 }, // fixe uniquement y1
+                    // Pas de limite sur y2 => auto scale, mais zoom/pan limité à x
+                },
                 zoom: {
                     wheel: { enabled: true },
                     pinch: { enabled: true },
-                    mode: 'x',
+                    mode: 'x', // zoom/pan seulement horizontal => y ne bouge pas
                 },
                 pan: {
                     enabled: true,
@@ -127,8 +134,9 @@ const EnergyDualChartZoomable = ({ batteryData, voltageData }) => {
         },
     };
 
+
     return (
-        <div style={{ width: '100%', height: '500px' }}>
+        <div style={{ width: '100%', height: '550px' }}>
             <Line
                 ref={chartRef}
                 data={data}

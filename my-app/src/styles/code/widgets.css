@@ -7,3 +7,12 @@
     gap: 20px;
     flex-direction: column;
 }
+
+.radio_ant_ch {
+    width: 100%;
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0 0 0;
+}
