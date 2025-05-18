@@ -81,8 +81,8 @@ const TemperatureDualChartZoomable = ({ tempIntData, tempExtData }) => {
         responsive: true,
         maintainAspectRatio: false,
         interaction: {
-            mode: 'index',
-            intersect: false,
+            mode: 'index',        // Affiche toutes les séries à un point X donné
+            intersect: false      // Ne nécessite pas d'être exactement sur un point
         },
         scales: {
             x: {
@@ -122,17 +122,13 @@ const TemperatureDualChartZoomable = ({ tempIntData, tempExtData }) => {
                     mode: 'x',
                 },
             },
-            tooltip: {
-                enabled: true,
-                mode: 'nearest',
-                intersect: false,
-            },
             legend: {
                 display: true,
                 position: 'top',
             },
         },
     };
+
 
     return (
         <div style={{ width: '100%', height: '350px' }}>
