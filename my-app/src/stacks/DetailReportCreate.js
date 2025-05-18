@@ -44,59 +44,88 @@ const DetailReportCreate = () => {
 
     return (
         <LayoutStackNav back_name={'Retour'} back_url={'/detail/hive'}>
-            <form onSubmit={handleCreateReport}>
-                <label>Date du rapport</label>
-                <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                />
+            <div style={{ padding: "20px" }}>
+                <h4 style={{ marginBottom: "40px" }}>Créer un rapport</h4>
+                <form onSubmit={handleCreateReport}>
 
-                <label>Comportement des abeilles</label>
-                {["😡", "🙁", "😬", "😊", "😍"].map((emoji) => (
-                    <label key={emoji} htmlFor={emoji}>
-                        {emoji}
+                    <div className='report_date'>
+                        <label>Date du rapport</label>
                         <input
-                            type="radio"
-                            name="compo"
-                            value={emoji}
-                            id={emoji}
-                            checked={comportement === emoji}
-                            onChange={(e) => setComportement(e.target.value)}
+                            type="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            className='general_input w100'
+                            style={{ marginBottom: "20px" }}
                         />
-                    </label>
-                ))}
+                    </div>
 
-                <label>Présence oeuf</label>
-                <Switch checked={oeuf} onChange={(checked) => setOeuf(checked)} />
+                    <div className='report_compo'>
+                        <label>Comportement des abeilles</label>
+                        <div style={{ marginBottom: "20px" }}>
+                            {["😡", "🙁", "😬", "😊", "😍"].map((emoji) => (
+                                <label key={emoji} htmlFor={emoji}>
+                                    {emoji}
+                                    <input
+                                        type="radio"
+                                        name="compo"
+                                        value={emoji}
+                                        id={emoji}
+                                        checked={comportement === emoji}
+                                        onChange={(e) => setComportement(e.target.value)}
+                                    />
+                                </label>
+                            ))}
+                        </div>
 
-                <label>Présence couvain</label>
-                <Switch checked={couvaint} onChange={(checked) => setCouvaint(checked)} />
+                    </div>
 
-                <label>Cellule royale</label>
-                <Switch checked={royal} onChange={(checked) => setRoyal(checked)} />
+                    <div className='container_sw_repo' style={{ marginBottom: "20px" }}>
 
-                <label>Reine</label>
-                <Switch checked={reine} onChange={(checked) => setReine(checked)} />
+                        <div style={{ marginBottom: "20px" }}>
+                            <label>Présence oeuf</label>
+                            <Switch checked={oeuf} onChange={(checked) => setOeuf(checked)} />
+                        </div>
 
-                <label>Nombre de cellules royales détruites</label>
-                <input
-                    type="number"
-                    min={0}
-                    value={royalDet}
-                    onChange={(e) => setRoyalDet(parseInt(e.target.value, 10) || 0)}
-                />
+                        <div style={{ marginBottom: "20px" }}>
+                            <label>Présence couvain</label>
+                            <Switch checked={couvaint} onChange={(checked) => setCouvaint(checked)} />
+                        </div>
 
-                <label>Commentaire</label>
-                <textarea
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                ></textarea>
+                        <div style={{ marginBottom: "20px" }}>
+                            <label>Cellule royale</label>
+                            <Switch checked={royal} onChange={(checked) => setRoyal(checked)} />
+                        </div>
 
-                <button type="submit">Envoyer</button>
+                        <div style={{ marginBottom: "20px" }}>
+                            <label>Reine</label>
+                            <Switch checked={reine} onChange={(checked) => setReine(checked)} />
+                        </div>
 
-                {error && <p className='error_lab'>{error}</p>}
-            </form>
+                    </div>
+
+                    <label>Nombre de cellules royales détruites</label>
+                    <input
+                        type="number"
+                        min={0}
+                        value={royalDet}
+                        onChange={(e) => setRoyalDet(parseInt(e.target.value, 10) || 0)}
+                        className='general_input'
+                        style={{ marginBottom: "20px" }}
+                    />
+
+                    <label>Commentaire</label>
+                    <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        className='general_input'
+                        style={{ marginBottom: "20px" }}
+                    ></textarea>
+
+                    <button className='general_btn' type="submit">Envoyer</button>
+
+                    {error && <p className='error_lab'>{error}</p>}
+                </form>
+            </div>
         </LayoutStackNav>
     );
 };

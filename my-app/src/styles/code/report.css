@@ -1,0 +1,38 @@
+.report_date {
+    /* background-color: red; */
+
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+}
+
+.report_compo {
+    /* background-color: red; */
+}
+
+.report_compo div {
+    /* background-color: blue; */
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.container_sw_repo {
+    /* background-color: red; */
+}
+
+.container_sw_repo div {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.histo_repo {
+    /* background-color: red; */
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 40px;
+}

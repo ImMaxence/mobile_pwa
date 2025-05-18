@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { getNote } from '../services/hiveService';
 
@@ -11,13 +11,13 @@ const DetailReportHisto = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const idHive = localStorage.getItem('currentHiveId')
+                const idHive = localStorage.getItem('currentHiveId');
                 const res = await getNote(idHive);
                 const sortedData = [...res].sort((a, b) => new Date(b.date) - new Date(a.date));
                 setData(sortedData);
                 setFilteredData(sortedData);
             } catch (err) {
-                setError(err);
+                setError(err.message || 'Erreur lors de la récupération des données.');
             }
         };
 
@@ -25,7 +25,7 @@ const DetailReportHisto = () => {
     }, []);
 
     useEffect(() => {
-        if (searchDate.trim() === '') {
+        if (!searchDate) {
             setFilteredData(data);
         } else {
             const filtered = data.filter(item =>
@@ -36,7 +36,7 @@ const DetailReportHisto = () => {
     }, [searchDate, data]);
 
     const renderItem = (item) => (
-        <div key={item.id}>
+        <div key={item.id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px', borderRadius: "10px" }}>
             <h3>{item.ruche?.nom || 'Inconnu'}</h3>
             <p><strong>Date :</strong> {new Date(item.date).toLocaleString()}</p>
             <p><strong>Comportement :</strong> {item.comportement_abeille || 'Non spécifié'}</p>
@@ -50,18 +50,21 @@ const DetailReportHisto = () => {
     );
 
     return (
-        <LayoutStackNav back_name={'Retour'} back_url={'/detail/hive'}>
-            <div style={{ padding: '1rem' }}>
-                <label htmlFor="">format : AAAA-MM-JJ</label>
-                <input
-                    type="text"
-                    placeholder="Rechercher par date (AAAA-MM-JJ)"
-                    value={searchDate}
-                    onChange={(e) => setSearchDate(e.target.value)}
+        <LayoutStackNav back_name="Retour" back_url="/detail/hive">
+            <div style={{ padding: '20px' }}>
+                <div className='histo_repo'>
+                    <label htmlFor="search-date"><strong>Rechercher par date :</strong></label>
+                    <input
+                        id="search-date"
+                        type="date"
+                        value={searchDate}
+                        onChange={(e) => setSearchDate(e.target.value)}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                    />
+                </div>
 
-                />
 
-                {error && <p className='error_lab'>{error}</p>}
+                {error && <p className="error_lab" style={{ color: 'red' }}>{error}</p>}
 
                 {filteredData.length === 0 && !error && (
                     <p>Aucun rapport trouvé pour cette date.</p>
