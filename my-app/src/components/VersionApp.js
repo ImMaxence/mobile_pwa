@@ -3,7 +3,7 @@ import React from 'react';
 const VersionApp = () => {
     return (
         <div>
-            <p>v{process.env.REACT_APP_VERSION}</p>
+            <p style={{ color: 'grey' }}>v{process.env.REACT_APP_VERSION}</p>
         </div>
     );
 };

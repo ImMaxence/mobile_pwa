@@ -167,7 +167,7 @@ const Home = () => {
                             <Sheet.Container>
                                 <Sheet.Header />
                                 <Sheet.Content>
-                                    <div style={{ padding: '0 20px' }}>
+                                    <div style={{ padding: '20px' }}>
                                         <h3 style={{ marginBottom: "20px" }}>Créer un groupe</h3>
                                         <form onSubmit={handleCreateGroup}>
                                             <label>Nom du groupe</label>

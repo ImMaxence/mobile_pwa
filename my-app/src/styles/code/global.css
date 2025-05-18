@@ -3,6 +3,7 @@
 :root {
     --primary-color: #FFCE10;
     --secondary-color: #F1F1F1;
+    --color-3: #e74c3c;
     --border: #C1C1C1;
 
     --font-poppins: "Poppins", sans-serif;
@@ -25,10 +26,24 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.w100 {
+    width: 100%;
+}
+
 .cancel_btn {
     color: black;
     padding: 15px 20px;
     background-color: var(--secondary-color);
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.del_btn {
+    padding: 15px 20px;
+    background-color: var(--color-3);
+    color: white;
     border-radius: 10px;
     font-weight: 600;
     border: none;

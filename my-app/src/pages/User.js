@@ -160,31 +160,36 @@ const User = () => {
 
     return (
         <Layout>
-            <div>
+            <div style={{ padding: "20px" }}>
                 {
                     token ? (
                         <div>
-                            {avatar && (
-                                <img
-                                    src={`./assets/user/${avatar}.jpeg`}
-                                    alt="Avatar utilisateur"
-                                    style={{ width: '100px', height: '100px', borderRadius: '50%' }}
-                                />
-                            )}
-                            <h3>{nom}</h3>
-                            <h3>{prenom}</h3>
-                            <h3>{email}</h3>
 
-                            <button onClick={() => {
-                                localStorage.clear()
-                                setToken(null)
-                            }}>Se déconnecter</button>
+                            <div className="container_user_ava">
+                                {avatar && (
 
-                            <button onClick={() => setOpenUpdate(true)}>Modifier votre profil</button>
+                                    <img
+                                        src={`./assets/user/${avatar}.jpeg`}
+                                        alt="Avatar utilisateur"
 
-                            <button onClick={() => setOpenPassword(true)}>Modifier mot de passe</button>
+                                    />
+                                )}
+                                <h3>{nom} - {prenom}</h3>
+                                <h3>{email}</h3>
+                            </div>
+                            <div className="container_buttons_user">
+                                <button className='general_btn w100' onClick={() => setOpenUpdate(true)}>Modifier votre profil</button>
 
-                            <button onClick={() => handleDeleteUser()}>Supprimer mon compte</button>
+                                <button className='general_btn w100' onClick={() => setOpenPassword(true)}>Modifier mot de passe</button>
+
+                                <button className='del_btn w100' onClick={() => handleDeleteUser()}>Supprimer mon compte</button>
+
+                                <button className='cancel_btn w100' onClick={() => {
+                                    localStorage.clear()
+                                    setToken(null)
+                                }}>Se déconnecter</button>
+                            </div>
+
 
                             <Sheet isOpen={isOpenUpdate} onClose={() => {
                                 setOpenUpdate(false);
@@ -193,59 +198,74 @@ const User = () => {
                                 <Sheet.Container>
                                     <Sheet.Header />
                                     <Sheet.Content>
-                                        <h3>Modifier votre profil</h3>
-                                        <form onSubmit={handleUpdate}>
-                                            <label>Nouveau nom</label>
-                                            <input
-                                                type="text"
-                                                value={newNom}
-                                                onChange={(e) => setNewNom(e.target.value)}
-                                            />
-
-                                            <label>Nouveau prénom</label>
-                                            <input
-                                                type="text"
-                                                value={newPrenom}
-                                                onChange={(e) => setNewPrenom(e.target.value)}
-                                            />
-
-                                            <label>Nouvelle adresse</label>
-                                            <input
-                                                type="text"
-                                                value={newAdresse}
-                                                onChange={(e) => setNewAdresse(e.target.value)}
-                                            />
-
-                                            <label>Nouvelle adresse email</label>
-                                            <input
-                                                type="email"
-                                                value={newEmail}
-                                                onChange={(e) => setNewEmail(e.target.value)}
-                                            />
-
-                                            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                                                {avatarList.map((avatarId) => (
-                                                    <img
-                                                        key={avatarId}
-                                                        src={`/assets/user/${avatarId}.jpeg`}
-                                                        alt={`Avatar ${avatarId}`}
-                                                        style={{
-                                                            width: '60px',
-                                                            height: '60px',
-                                                            borderRadius: '50%',
-                                                            border: selectedAvatar === avatarId ? '3px solid #007bff' : '1px solid #ccc',
-                                                            cursor: 'pointer'
-                                                        }}
-                                                        onClick={() => setSelectedAvatar(avatarId)}
+                                        <Sheet.Scroller>
+                                            <div style={{ padding: "20px" }}>
+                                                <h3 style={{ marginBottom: "40px" }}>Modifier votre profil</h3>
+                                                <form onSubmit={handleUpdate}>
+                                                    <label>Nouveau nom</label>
+                                                    <input
+                                                        className='general_input'
+                                                        type="text"
+                                                        value={newNom}
+                                                        onChange={(e) => setNewNom(e.target.value)}
+                                                        style={{ marginBottom: '20px' }}
                                                     />
-                                                ))}
+
+                                                    <label>Nouveau prénom</label>
+                                                    <input
+                                                        className='general_input'
+                                                        type="text"
+                                                        value={newPrenom}
+                                                        onChange={(e) => setNewPrenom(e.target.value)}
+                                                        style={{ marginBottom: '20px' }}
+                                                    />
+
+                                                    <label>Nouvelle adresse</label>
+                                                    <input
+                                                        className='general_input'
+                                                        type="text"
+                                                        value={newAdresse}
+                                                        onChange={(e) => setNewAdresse(e.target.value)}
+                                                        style={{ marginBottom: '20px' }}
+                                                    />
+
+                                                    <label>Nouvelle adresse email</label>
+                                                    <input
+                                                        className='general_input'
+                                                        type="email"
+                                                        value={newEmail}
+                                                        onChange={(e) => setNewEmail(e.target.value)}
+                                                        style={{ marginBottom: '20px' }}
+                                                    />
+
+                                                    <label>Nouvelle image de profil</label>
+                                                    <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginTop: "10px", marginBottom: "40px" }}>
+                                                        {avatarList.map((avatarId) => (
+                                                            <img
+                                                                key={avatarId}
+                                                                src={`/assets/user/${avatarId}.jpeg`}
+                                                                alt={`Avatar ${avatarId}`}
+                                                                style={{
+                                                                    width: '60px',
+                                                                    height: '60px',
+                                                                    borderRadius: '50%',
+                                                                    border: selectedAvatar === avatarId ? '4px solid #FFCE10' : '1px solid #ccc',
+                                                                    cursor: 'pointer'
+                                                                }}
+                                                                onClick={() => setSelectedAvatar(avatarId)}
+                                                            />
+                                                        ))}
+                                                    </div>
+
+                                                    <button className='general_btn' type="submit">Modifier profil</button>
+                                                    <button style={{ marginBottom: "40px", marginLeft: "20px" }} className='cancel_btn' type="button" onClick={() => setOpenUpdate(false)}>Annuler</button>
+
+
+
+                                                    {errorNew && <p style={{ color: 'red' }}>{errorNew}</p>}
+                                                </form>
                                             </div>
-
-                                            <button type="submit">Modifier profil</button>
-                                            <button type="button" onClick={() => setOpenUpdate(false)}>Annuler</button>
-
-                                            {errorNew && <p style={{ color: 'red' }}>{errorNew}</p>}
-                                        </form>
+                                        </Sheet.Scroller>
                                     </Sheet.Content>
                                 </Sheet.Container>
                                 <Sheet.Backdrop />
@@ -258,27 +278,36 @@ const User = () => {
                                 <Sheet.Container>
                                     <Sheet.Header />
                                     <Sheet.Content>
-                                        Modifier votre mot de passe
-                                        <form onSubmit={handleUpdatePassword}>
-                                            <label>Nouveau mot de passe</label>
-                                            <input
-                                                type="password"
-                                                value={newPassword1}
-                                                onChange={(e) => setNewPassword1(e.target.value)}
-                                            />
+                                        <div style={{ padding: "20px" }}>
 
-                                            <label>Confirmer le nouveau mot de passe</label>
-                                            <input
-                                                type="password"
-                                                value={newPassword}
-                                                onChange={(e) => setNewPassword(e.target.value)}
-                                            />
 
-                                            <button type="submit">Modifier mot de passe</button>
-                                            <button type="button" onClick={() => setOpenPassword(false)}>Annuler</button>
+                                            <h3 style={{ marginBottom: '40px' }}>   Modifier votre mot de passe</h3>
 
-                                            {errorPassword && <p style={{ color: 'red' }}>{errorPassword}</p>}
-                                        </form>
+                                            <form onSubmit={handleUpdatePassword}>
+                                                <label>Nouveau mot de passe</label>
+                                                <input
+                                                    className='general_input'
+                                                    type="password"
+                                                    value={newPassword1}
+                                                    onChange={(e) => setNewPassword1(e.target.value)}
+                                                    style={{ marginBottom: "20px" }}
+                                                />
+
+                                                <label>Confirmer le nouveau mot de passe</label>
+                                                <input
+                                                    className='general_input'
+                                                    type="password"
+                                                    value={newPassword}
+                                                    onChange={(e) => setNewPassword(e.target.value)}
+                                                    style={{ marginBottom: "40px" }}
+                                                />
+
+                                                <button className='general_btn' type="submit">Modifier mot de passe</button>
+                                                <button style={{ marginLeft: "20px" }} className='cancel_btn' type="button" onClick={() => setOpenPassword(false)}>Annuler</button>
+
+                                                {errorPassword && <p style={{ color: 'red' }}>{errorPassword}</p>}
+                                            </form>
+                                        </div>
                                     </Sheet.Content>
                                 </Sheet.Container>
                                 <Sheet.Backdrop />
@@ -286,37 +315,41 @@ const User = () => {
                         </div>
                     ) : (
                         <div>
-                            <h2>Connectez-vous à{'\n'}votre compte ici</h2>
+                            <h2 style={{ textAlign: 'center' }}>Connectez-vous à{'\n'}votre compte ici</h2>
 
-                            <button>microsoft</button>
-                            <button>google</button>
+                            <div className='oauth_btn'>
+                                <button className='cancel_btn w100 alignCenter'>
+                                    <img src="./assets/microsoft.png" alt="" />
+                                </button>
+                                <button className='cancel_btn w100 alignCenter'>
+                                    <img src="./assets/google.png" alt="" />
+                                </button>
+                            </div>
 
-                            <p>Ou avec votre identifiant et mot de passe</p>
+                            <p style={{ color: 'grey', marginBottom: "40px", marginTop: "20px" }}>Ou avec votre identifiant et mot de passe</p>
 
                             <form onSubmit={handleLogin}>
                                 <label>Email du compte</label>
                                 <input
+                                    className='general_input'
                                     type="email"
                                     value={loginData.email}
                                     onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                                    style={{ marginBottom: "20px" }}
                                 />
                                 <label>Mot de passe</label>
                                 <input
+                                    className='general_input'
                                     type="password"
                                     value={loginData.mot_de_passe}
                                     onChange={(e) => setLoginData({ ...loginData, mot_de_passe: e.target.value })}
+                                    style={{ marginBottom: "20px" }}
                                 />
-                                <button type="submit">Se connecter</button>
+                                <button style={{ marginBottom: "20px" }} className='general_btn w100' type="submit">Se connecter</button>
                                 {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
                             </form>
 
-                            <button onClick={() => setOpenRegister(true)}>S'enregistrer</button>
-
-                            <VersionApp />
-
-                            <p>Un problème ?</p>
-
-                            <button onClick={() => localStorage.clear()}>Netoyer le cache</button>
+                            <button className='w100 general_btn' onClick={() => setOpenRegister(true)}>S'enregistrer</button>
 
                             <Sheet isOpen={isOpenRegister} onClose={() => {
                                 setOpenRegister(false);
@@ -325,27 +358,32 @@ const User = () => {
                                 <Sheet.Container>
                                     <Sheet.Header />
                                     <Sheet.Content>
-                                        <form onSubmit={handleRegister}>
-                                            <label>Nom</label>
-                                            <input type="text" value={registerData.nom} onChange={e => setRegisterData({ ...registerData, nom: e.target.value })} />
+                                        <Sheet.Scroller>
+                                            <div style={{ padding: '20px' }}>
+                                                <h3 style={{ marginBottom: "40px" }}>Créer votre compte</h3>
+                                                <form onSubmit={handleRegister}>
+                                                    <label>Nom</label>
+                                                    <input style={{ marginBottom: '20px' }} className='general_input' type="text" value={registerData.nom} onChange={e => setRegisterData({ ...registerData, nom: e.target.value })} />
 
-                                            <label>Prénom</label>
-                                            <input type="text" value={registerData.prenom} onChange={e => setRegisterData({ ...registerData, prenom: e.target.value })} />
+                                                    <label>Prénom</label>
+                                                    <input style={{ marginBottom: '20px' }} className='general_input' type="text" value={registerData.prenom} onChange={e => setRegisterData({ ...registerData, prenom: e.target.value })} />
 
-                                            <label>Adresse</label>
-                                            <input type="text" value={registerData.adresse} onChange={e => setRegisterData({ ...registerData, adresse: e.target.value })} />
+                                                    <label>Adresse</label>
+                                                    <input style={{ marginBottom: '20px' }} className='general_input' type="text" value={registerData.adresse} onChange={e => setRegisterData({ ...registerData, adresse: e.target.value })} />
 
-                                            <label>Email</label>
-                                            <input type="email" value={registerData.email} onChange={e => setRegisterData({ ...registerData, email: e.target.value })} />
+                                                    <label>Email</label>
+                                                    <input style={{ marginBottom: '20px' }} className='general_input' type="email" value={registerData.email} onChange={e => setRegisterData({ ...registerData, email: e.target.value })} />
 
-                                            <label>Mot de passe</label>
-                                            <input type="password" value={registerData.mot_de_passe} onChange={e => setRegisterData({ ...registerData, mot_de_passe: e.target.value })} />
+                                                    <label>Mot de passe</label>
+                                                    <input style={{ marginBottom: '40px' }} className='general_input' type="password" value={registerData.mot_de_passe} onChange={e => setRegisterData({ ...registerData, mot_de_passe: e.target.value })} />
 
-                                            <button type="submit">S'enregistrer</button>
-                                            <button type="button" onClick={() => setOpenRegister(false)}>Annuler</button>
+                                                    <button className='general_btn' type="submit">S'enregistrer</button>
+                                                    <button style={{ marginLeft: '20px' }} className='cancel_btn' type="button" onClick={() => setOpenRegister(false)}>Annuler</button>
 
-                                            {registerError && <p style={{ color: 'red' }}>{registerError}</p>}
-                                        </form>
+                                                    {registerError && <p style={{ color: 'red' }}>{registerError}</p>}
+                                                </form>
+                                            </div>
+                                        </Sheet.Scroller>
                                     </Sheet.Content>
                                 </Sheet.Container>
                                 <Sheet.Backdrop />
@@ -353,6 +391,14 @@ const User = () => {
                         </div>
                     )
                 }
+
+                <div className="containe_nett">
+                    <VersionApp />
+
+                    <p>Un problème ?</p>
+
+                    <button className='cancel_btn w100' onClick={() => localStorage.clear()}>Netoyer le cache</button>
+                </div>
             </div>
         </Layout >
     );
