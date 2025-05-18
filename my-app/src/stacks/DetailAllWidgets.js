@@ -9,6 +9,7 @@ import PressureChart from '../components/charts/PressureChart';
 import HumidityDualChart from '../components/charts/HumidityDualChart';
 import HumidityChart from '../components/charts/HumidityChart';
 import MapChart from '../components/charts/MapChart';
+import EnergyDualChartZoomable from '../components/charts/EnergyDualChartZoomable';
 
 const DetailAllWidgets = () => {
     const [histo, setHisto] = useState(1440); // 1 jour en minutes
@@ -147,9 +148,9 @@ const DetailAllWidgets = () => {
                             ))}
                         </div>
                     </div>
-
-                    <EnergyDualChart batteryData={data.pourcentage} voltageData={data.tension} />
-
+                    {/* 
+                    <EnergyDualChart batteryData={data.pourcentage} voltageData={data.tension} /> */}
+                    <EnergyDualChartZoomable batteryData={data.pourcentage} voltageData={data.tension} />
 
                 </>
 
