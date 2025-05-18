@@ -1,0 +1,9 @@
+.wid_period {
+    /* background-color: red; */
+    padding: 0 20px 40px 20px;
+
+    display: flex;
+    justify-content: left;
+    gap: 20px;
+    flex-direction: column;
+}

@@ -40,8 +40,8 @@ const EnergyDualChart = ({ batteryData, voltageData }) => {
 
     return (
         <div>
-            <h3 className="text-lg font-semibold mb-2">Énergie - Pourcentage & Tension</h3>
-            <ResponsiveContainer width="100%" height={300}>
+
+            <ResponsiveContainer width="100%" height={500} style={{ marginBottom: "40px" }}>
                 <LineChart data={combinedData}>
                     <XAxis dataKey="date" />
                     <YAxis yAxisId="left" domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
