@@ -96,7 +96,9 @@ const Tutorial = () => {
             <h3 style={{ marginTop: "20px" }}>Installation possible sur :</h3>
             <li>IOS</li>
             <li>Android</li>
-            <li>PC ❌</li>
+            <li>MacOs</li>
+            <li>Windows</li>
+            <li>TV</li>
 
             <div className="center_div_tuto">
                 <img src="./logo192.png" alt="logo" style={{ width: '140px' }} />
