@@ -51,3 +51,23 @@
     margin: 20px 0;
     flex-wrap: wrap;
 }
+
+.manage_hive_gr {
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    flex-wrap: wrap;
+}
+
+.container_search_user_add_del {
+    /* background-color: red; */
+    padding: 20px 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}

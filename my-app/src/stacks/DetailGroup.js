@@ -63,6 +63,7 @@ const DetailGroup = () => {
 
     useEffect(() => {
         const fetchGroupType = async () => {
+
             try {
                 const res = await getCurrentGroupType();
                 setType(res);
@@ -114,7 +115,7 @@ const DetailGroup = () => {
 
         fetchGroupType();
         fecthHiveUser()
-        setTimeout(() => { fetchInfoGroup() }, 1000)
+        setTimeout(() => { fetchInfoGroup(); }, 1000)
     }, [trigger])
 
     const handleSaveHive = async (e) => {
@@ -123,8 +124,8 @@ const DetailGroup = () => {
             const currentIdGroup = localStorage.getItem("currentGroupId")
             await addHiveToGroup(currentIdGroup, { rucheId: rucheIDSaveHive, ruchePassword: ruchePasswordSaveHive })
             setTrigger(!trigger)
-            setErrorSaveHive(null)
             setOpenAddHive(false)
+            setErrorSaveHive(null)
         } catch (err) {
             setErrorSaveHive(err)
         }
@@ -136,6 +137,7 @@ const DetailGroup = () => {
             await leaveGroup(idG, { userId: id })
             setTrigger(!trigger)
             setOpenSetting(false)
+            setLoading(true)
         } catch (err) {
             setErrorSetting(err)
         }
@@ -197,10 +199,11 @@ const DetailGroup = () => {
             const currentID = localStorage.getItem("currentGroupId")
             await addHiveToGroup(currentID, { rucheId: id, ruchePassword: "none" })
             setTrigger(!trigger)
+            setLoading(true)
             setOpenAddHive(false)
             setErrorAddHive(null)
         } catch (err) {
-            setOpenAddHive(err)
+            setErrorAddHive(err)
         }
     }
 
@@ -211,9 +214,10 @@ const DetailGroup = () => {
             await deleteHiveToGroup(currentID, { rucheId: id })
             setTrigger(!trigger)
             setOpenAddHive(false)
+            setLoading(true)
             setErrorAddHive(null)
         } catch (err) {
-            setOpenAddHive(err)
+            setErrorAddHive(err)
         }
     }
 
@@ -239,6 +243,7 @@ const DetailGroup = () => {
             setTrigger(!trigger)
             setOpenAddUser(false)
             setErrorAddUser(null)
+            setLoading(true)
         } catch (err) {
             setErrorAddUser(err)
         }
@@ -259,9 +264,9 @@ const DetailGroup = () => {
                     </div>
                 ) : (
                     <div style={{ marginBottom: "20px" }}>
-                        <button style={{ marginRight: "20px" }} className='general_btn' onClick={() => setOpenAddHive(true)}>Ajouter sa ruche</button>
+                        <button style={{ marginRight: "20px" }} className='general_btn' onClick={() => { setOpenAddHive(true) }}>Ajouter sa ruche</button>
 
-                        <button className='general_btn' onClick={() => setOpenAddUser(true)}>Ajouter un user</button>
+                        <button className='general_btn' onClick={() => setOpenAddUser(true)}>Ajouter une personne</button>
                     </div>
                 )}
 
@@ -427,30 +432,36 @@ const DetailGroup = () => {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        <h4>Gérer mes ruches</h4>
+                        <Sheet.Scroller>
+                            <div style={{ padding: "20px" }}>
+                                <h3 style={{ marginBottom: '40px' }}>Gérer mes ruches</h3>
 
-                        {
-                            Array.isArray(hiveUser) && hiveUser.length > 0 ? (
-                                <>
-                                    {
-                                        hiveUser.map((item) => (
+                                {
+                                    Array.isArray(hiveUser) && hiveUser.length > 0 ? (
+                                        <>
+                                            {errorAddHive && <p className='error_lab'>{errorAddHive}</p>}
+                                            {
+                                                hiveUser.map((item) => (
 
-                                            <div key={item.id}>
-                                                <p>{item.nom}</p>
-                                                <div>
-                                                    <button onClick={() => handleAddHiveToGroupV2(item.id)}>Ajouter</button>
-                                                    <button onClick={() => handleDeleteHiveFromGroup(item.id)}>Enlever</button>
-                                                </div>
-                                            </div>
+                                                    <div key={item.id} className='manage_hive_gr'>
+                                                        <p>{item.nom}</p>
+                                                        <div>
+                                                            <button className='general_btn' onClick={() => handleAddHiveToGroupV2(item.id)}>Ajouter</button>
+                                                            <button style={{ marginLeft: "10px" }} className='del_btn' onClick={() => handleDeleteHiveFromGroup(item.id)}>Enlever</button>
+                                                        </div>
+                                                    </div>
 
-                                        ))}
-                                    {/* <Text style={{ color: 'red' }}>{errAddG}</Text>
+                                                ))}
+                                            {/* <Text style={{ color: 'red' }}>{errAddG}</Text>
                                     <Text style={{ color: 'red' }}>{errReG}</Text> */}
-                                </>
-                            ) : (
-                                errorAddHive && <p className='error_lab'>{errorAddHive}</p>
-                            )
-                        }
+
+                                        </>
+                                    ) : (
+                                        <p>Aucune ruche trouvée</p>
+                                    )
+                                }
+                            </div>
+                        </Sheet.Scroller>
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop />
@@ -463,40 +474,45 @@ const DetailGroup = () => {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        <div >
-                            <label htmlFor="search">Rechercher un utilisateur</label>
-                            <input
-                                id="search"
-                                type="text"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                        <Sheet.Scroller>
+                            <div style={{ padding: "20px" }}>
+                                <label htmlFor="search">Rechercher un utilisateur</label>
+                                <input
+                                    id="search"
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className='general_input'
+                                />
+                                <button
+                                    onClick={handleSearchUser}
+                                    className='general_btn w100'
+                                    style={{ marginTop: "20px" }}
+                                >
+                                    Rechercher
+                                </button>
 
-                            />
-                            <button
-                                onClick={handleSearchUser}
+                                <button style={{ marginTop: "20px" }} className='cancel_btn w100' onClick={() => setOpenAddUser(false)}>Annuler</button>
 
-                            >
-                                Rechercher
-                            </button>
+                                {searchResults.length > 0 && (
+                                    <div style={{ marginTop: '20px' }}>
+                                        {searchResults.map((user) => (
+                                            <div key={user.id} className='container_search_user_add_del'>
+                                                <span>{user.prenom} {user.nom}</span>
+                                                <button
+                                                    onClick={() => handleAddUser(user.id)}
+                                                    className='general_btn'
+                                                >
+                                                    Ajouter
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
 
-                            {searchResults.length > 0 && (
-                                <div style={{ marginTop: '20px' }}>
-                                    {searchResults.map((user) => (
-                                        <div key={user.id} >
-                                            <span>{user.prenom} {user.nom}</span>
-                                            <button
-                                                onClick={() => handleAddUser(user.id)}
-
-                                            >
-                                                Ajouter
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {errorAddUser && <p className='error_lab'>{errorAddUser}</p>}
-                        </div>
+                                {errorAddUser && <p className='error_lab'>{errorAddUser}</p>}
+                            </div>
+                        </Sheet.Scroller>
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop />
