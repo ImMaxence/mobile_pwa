@@ -1,0 +1,34 @@
+.container_hive_detail_btn {
+    /* background-color: red; */
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    margin-bottom: 40px;
+}
+
+.container_hive_detail_btn button {
+    width: 100%;
+}
+
+.container_wid_hive {
+    /* background-color: red; */
+}
+
+.container_wid_hive button {
+    width: 100%;
+
+    color: black;
+    padding: 15px 20px;
+    background-color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    font-size: 1rem;
+    text-align: center;
+
+    margin-top: 10px;
+}
