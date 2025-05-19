@@ -74,3 +74,9 @@
     background-color: #252837;
     width: 100%;
 }
+
+.map_spe {
+    width: 100%;
+    height: calc(100% + 20px);
+
+}

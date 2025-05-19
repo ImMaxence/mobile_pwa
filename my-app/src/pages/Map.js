@@ -29,7 +29,7 @@ const Map = () => {
 
     return (
         <Layout>
-            <div style={{ height: '100%', width: '100%' }}>
+            <div className='map_spe'>
                 {!hasRuches ? (
                     <div style={{ padding: 20 }}>
                         <p >
