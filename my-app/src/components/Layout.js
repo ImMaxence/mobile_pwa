@@ -10,7 +10,9 @@ const Layout = ({ children }) => {
             <Header />
             <NetworkStatusBanner />
             <main className="layout-content">
+
                 {children}
+
             </main>
             <Nav />
         </div>

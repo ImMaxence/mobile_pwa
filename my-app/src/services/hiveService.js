@@ -145,3 +145,21 @@ export const updateInfoHive = async (id_ruche, payload) => {
         throw error;
     }
 }
+
+export const getAlerts = async (idRuche) => {
+    try {
+        const res = await apiDash.get(`/api/get/AlertesByRuche/${idRuche}`)
+        return res.data
+    } catch (err) {
+        throw (err)
+    }
+}
+
+export const delAlert = async (id) => {
+    try {
+        const res = await apiDash.delete(`/api/delete/deleteAlerte/${id}`)
+        return res.data
+    } catch (err) {
+        throw (err)
+    }
+}

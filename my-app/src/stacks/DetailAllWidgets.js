@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
-import { getDataDash } from '../services/hiveService';
+import { getAlerts, getDataDash } from '../services/hiveService';
 
 import TemperatureDualChart from '../components/charts/TemperatureDualChart';
 import EnergyDualChart from '../components/charts/EnergyDualChart';
@@ -79,13 +79,17 @@ const DetailAllWidgets = () => {
                         });
                         setData(humIntData);
                         break;
+                    case 'event':
+
+                        setNameWidget("Notifications ruches")
+                        const eventData = await getAlerts(idHive)
+                        setData(eventData)
                     default:
                         setNameWidget("Inconnu");
                         break;
                 }
             } catch (err) {
-                setError("Erreur lors du chargement des données.");
-                console.error(err);
+                setError(err);
             }
         };
 

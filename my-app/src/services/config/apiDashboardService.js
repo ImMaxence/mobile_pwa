@@ -10,6 +10,7 @@ apiDash.interceptors.request.use(
         console.log('[API DASHBOARD SERVICE WEB] 🚀 - Request...');
 
         const token = await getToken();
+        console.log(token)
         if (token) {
             config.headers['x-access-token'] = token;
         }

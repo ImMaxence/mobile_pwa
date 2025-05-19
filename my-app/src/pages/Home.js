@@ -49,6 +49,28 @@ const Home = () => {
 
                 const resGroups = await getGroups();
                 setGroup(resGroups);
+
+                const ruchesMap = new Map();
+
+                // Étape 1 : collecter toutes les ruches actuelles
+                resGroups.forEach(group => {
+                    const proprietaire = group.Liste_utilisateur_partage[0];
+                    group.Liste_ruche.forEach(ruche => {
+                        ruchesMap.set(ruche.id, {
+                            id: ruche.id,
+                            nom: ruche.nom,
+                            latitude: ruche.latitude,
+                            longitude: ruche.longitude,
+                            proprietaire_nom: proprietaire ? `${proprietaire.prenom} ${proprietaire.nom}` : null
+                        });
+                    });
+                });
+
+                const updatedRuches = Array.from(ruchesMap.values());
+
+                // Étape 2 : sauvegarder les ruches filtrées dans le localStorage
+                localStorage.setItem('ruches_localisees', JSON.stringify(updatedRuches));
+
             } catch (err) {
                 setErrorGroup(err);
             } finally {

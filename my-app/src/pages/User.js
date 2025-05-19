@@ -325,7 +325,7 @@ const User = () => {
                                 </button>
                             </div>
 
-                            <p style={{ color: 'grey', marginBottom: "40px", marginTop: "20px" }}>Ou avec votre identifiant et mot de passe</p>
+                            <p style={{ color: 'grey', marginBottom: "40px", marginTop: "20px", textAlign: "center" }}>Ou avec votre identifiant et mot de passe</p>
 
                             <form onSubmit={handleLogin}>
                                 <label>Email du compte</label>
