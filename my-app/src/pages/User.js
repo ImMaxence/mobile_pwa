@@ -317,10 +317,12 @@ const User = () => {
                             <h2 style={{ textAlign: 'center' }}>Connectez-vous à{'\n'}votre compte ici</h2>
 
                             <div className='oauth_btn'>
-                                <button className='cancel_btn w100 alignCenter'>
+                                <button className='cancel_btn w100 alignCenter' style={{ backgroundColor: 'white' }}>
                                     <img src="./assets/microsoft.png" alt="" />
                                 </button>
-                                <button className='cancel_btn w100 alignCenter'>
+                                <button className='cancel_btn w100 alignCenter' style={{ backgroundColor: 'white' }} onClick={() => {
+                                    window.location.href = 'http://localhost:3001/auth/google'; // L’URL du backend
+                                }}>
                                     <img src="./assets/google.png" alt="" />
                                 </button>
                             </div>

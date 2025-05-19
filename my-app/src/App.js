@@ -34,7 +34,7 @@ const App = () => {
       ) : isStandalone ? (
         <MainApp />
       ) : (
-        <MainApp /> //<Tutorial /> 
+        <Tutorial /> //<Tutorial /> 
       )}
     </>
   );
