@@ -77,8 +77,8 @@ const WeightChartZoomable = ({ data }) => {
             },
             y: {
                 type: 'linear',
-                min: 0,
-                max: 60,
+                // min: 0,
+                // auto,
                 title: {
                     display: true,
                     text: 'Poids (kg)',
@@ -112,8 +112,8 @@ const WeightChartZoomable = ({ data }) => {
 
     return (
         <div>
-            <h3 className="text-lg font-semibold mb-2">Poids (kg)</h3>
-            <div style={{ width: '100%', height: '300px' }}>
+
+            <div style={{ width: '100%', height: '500px' }}>
                 <Line ref={chartRef} data={chartData} options={options} />
             </div>
         </div>

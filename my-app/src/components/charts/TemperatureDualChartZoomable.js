@@ -131,7 +131,7 @@ const TemperatureDualChartZoomable = ({ tempIntData, tempExtData }) => {
 
 
     return (
-        <div style={{ width: '100%', height: '350px' }}>
+        <div style={{ width: '100%', height: '500px' }}>
             <Line ref={chartRef} data={data} options={options} />
         </div>
     );

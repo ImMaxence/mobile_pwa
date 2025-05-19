@@ -64,7 +64,7 @@ const DetailAllWidgets = () => {
                         setData({ int: tempInt, ext: tempExt });
                         break;
                     case 'pression':
-                        setNameWidget("Poids");
+                        setNameWidget("Pression");
                         const pressionData = await getDataDash(histo, {
                             type: "PRESSURE_EXT",
                             id_ruche: idHive

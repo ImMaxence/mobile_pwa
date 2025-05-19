@@ -80,8 +80,8 @@ const PressureChartZoomable = ({ data }) => {
             y: {
                 type: 'linear',
                 position: 'left',
-                min: 900,
-                max: 1000,
+                // min: 900,
+                // max: 1000,
                 title: {
                     display: true,
                     text: 'Pression (hPa)',
@@ -116,7 +116,7 @@ const PressureChartZoomable = ({ data }) => {
     };
 
     return (
-        <div style={{ width: '100%', height: '350px' }}>
+        <div style={{ width: '100%', height: '500px' }}>
             <Line ref={chartRef} data={chartData} options={options} />
         </div>
     );

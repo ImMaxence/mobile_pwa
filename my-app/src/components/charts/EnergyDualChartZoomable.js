@@ -136,7 +136,7 @@ const EnergyDualChartZoomable = ({ batteryData, voltageData }) => {
 
 
     return (
-        <div style={{ width: '100%', height: '550px' }}>
+        <div style={{ width: '100%', height: '500px' }}>
             <Line
                 ref={chartRef}
                 data={data}

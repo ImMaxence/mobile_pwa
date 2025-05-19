@@ -24,8 +24,8 @@ const PressureChart = ({ data }) => {
 
     return (
         <div>
-            <h3 className="text-lg font-semibold mb-2">Pression externe (hPa)</h3>
-            <ResponsiveContainer width="100%" height={300}>
+            <h3>Pression externe (hPa)</h3>
+            <ResponsiveContainer width="100%" height={500}>
                 <LineChart data={formattedData}>
                     <XAxis dataKey="date" />
                     <YAxis domain={['auto', 'auto']} />
