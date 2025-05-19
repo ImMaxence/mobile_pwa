@@ -20,10 +20,18 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const standalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      window.navigator.standalone === true;
-    setIsStandalone(standalone);
+    const checkStandalone = () => {
+      const standalone =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
+      setIsStandalone(standalone);
+    };
+
+    checkStandalone();
+    window.addEventListener('visibilitychange', checkStandalone); // Au cas où l'user installe en cours
+    return () => {
+      window.removeEventListener('visibilitychange', checkStandalone);
+    };
   }, []);
 
   return (
@@ -34,7 +42,7 @@ const App = () => {
       ) : isStandalone ? (
         <MainApp />
       ) : (
-        <Tutorial /> //<Tutorial /> 
+        <Tutorial />
       )}
     </>
   );

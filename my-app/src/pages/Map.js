@@ -32,8 +32,8 @@ const Map = () => {
             <div style={{ height: '100%', width: '100%' }}>
                 {!hasRuches ? (
                     <div style={{ padding: 20 }}>
-                        <p>
-                            Veuillez ajouter votre ruche dans <strong>"Mes Groupes"</strong> avant de la voir sur la carte.
+                        <p >
+                            Veuillez vous connecter et ajouter votre ruche dans <strong>"Mes Groupes"</strong> avant de la voir sur la carte.
                         </p>
                     </div>
                 ) : (
