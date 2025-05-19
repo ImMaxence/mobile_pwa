@@ -234,8 +234,11 @@ const Qrcode = () => {
                     <Sheet.Header />
                     <Sheet.Content>
                         {scanResult === "valide" ? (
-                            <>
-                                ✅ QR code officiel
+                            <div style={{ padding: "20px" }}>
+                                <h3 style={{ textAlign: "center", padding: "20px" }}>
+                                    ✅ QR code officiel
+                                </h3>
+
                                 <label>
                                     Rentrez le mot de passe de la ruche (reçu par email lors de l'achat)
                                 </label>
@@ -243,27 +246,30 @@ const Qrcode = () => {
                                     type="password"
                                     value={passwordRuche}
                                     onChange={(e) => setPasswordRuche(e.target.value)}
-
+                                    className="general_input"
+                                    style={{ marginBottom: "40px" }}
                                 />
                                 <button
+                                    className="general_btn"
                                     onClick={sendData}
                                 >
                                     Associer la ruche
                                 </button>
 
-                                <button onClick={() => setIsSheetOpen(false)}>Annuler</button>
+                                <button style={{ marginLeft: "20px" }} className="cancel_btn" onClick={() => setIsSheetOpen(false)}>Annuler</button>
 
                                 {errorMessage && (
-                                    <div style={{ color: "red", textAlign: "center" }}>
+                                    <div className="error_lab" style={{ textAlign: "center" }}>
                                         {errorMessage}
                                     </div>
                                 )}
-                            </>
+                            </div>
                         ) : (
-                            <h3 style={{ color: "red", textAlign: "center" }}>
-                                ❌ QR code non officiel
-                                <button onClick={() => setIsSheetOpen(false)}>Fermer</button>
-                            </h3>
+                            <div style={{ padding: "20px" }}>
+                                <h3 className="error_lab" style={{ textAlign: "center", padding: "20px" }}>
+                                    ❌ QR code non officiel     </h3>
+                                <button className="general_btn w100" onClick={() => setIsSheetOpen(false)}>Fermer</button>
+                            </div>
                         )}
                     </Sheet.Content>
 
