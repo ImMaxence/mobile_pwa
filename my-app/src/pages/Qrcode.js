@@ -191,7 +191,7 @@ const Qrcode = () => {
                         left: 0,
                         width: "100%",
                         height: "100%",
-                        backgroundColor: "rgba(0,0,0,0.5)",
+                        backgroundColor: "white",
                         zIndex: 2,
                     }}
                 />
@@ -203,7 +203,7 @@ const Qrcode = () => {
                         left: "50%",
                         width: "250px",
                         height: "250px",
-                        border: "3px solid #00ff00",
+                        border: "4px solid #FFCE10",
                         borderRadius: "12px",
                         transform: "translate(-50%, -50%)",
                         zIndex: 3,
@@ -215,12 +215,14 @@ const Qrcode = () => {
                     <div
                         style={{
                             position: "absolute",
+                            padding: "20px",
                             bottom: "20px",
                             width: "100%",
                             textAlign: "center",
-                            color: "red",
                             zIndex: 4,
                         }}
+
+                        className="error_lab"
                     >
                         {error}
                     </div>
