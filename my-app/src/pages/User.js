@@ -382,6 +382,7 @@ const User = () => {
                                                     <button style={{ marginLeft: '20px' }} className='cancel_btn' type="button" onClick={() => setOpenRegister(false)}>Annuler</button>
 
                                                     {registerError && <p className='error_lab'>{registerError}</p>}
+                                                    <div style={{ padding: "200px 0" }}></div>
                                                 </form>
                                             </div>
                                         </Sheet.Scroller>
