@@ -7,17 +7,18 @@ import { useNavigate } from 'react-router-dom';
 import { Skeleton } from 'antd';
 import { MdGroups } from "react-icons/md";
 import { IoMdRefresh } from "react-icons/io";
+import { Avatar } from 'antd';
 
-const defaultAvatar = '/assets/def.png';
+
+// const defaultAvatar = '/assets/def.png';
 
 const getAvatar = (avatar) => {
-    // avatar est censé être un numéro en string ou number (ex: '1', 1)
-    // On vérifie si avatar est dans 1..16 et construit le chemin, sinon default
+
     const avatarNum = parseInt(avatar, 10);
     if (avatarNum >= 1 && avatarNum <= 16) {
         return `/assets/user/${avatarNum}.jpeg`;
     }
-    return defaultAvatar;
+    return null;
 };
 
 const Home = () => {
@@ -173,24 +174,41 @@ const Home = () => {
                                             navigate('/detail/group');
                                         }}>
 
-                                            <div className='grouped_img_group'>
-                                                {/* {[img1, img2, img3, img4].map((imgSrc, i) => (
-                                                    <img
-                                                        key={i}
-                                                        src={imgSrc}
-                                                        alt={`avatar ${i + 1}`}
-
-                                                        onError={(e) => (e.currentTarget.src = defaultAvatar)}
-                                                    />
-                                                ))} */}
-
+                                            {/* <div className='grouped_img_group'>                      
+{img1 ? "image" : "pas image"}
                                                 <img src={img1} alt="" />
                                                 <img src={img2} alt="" style={{ position: 'relative', left: '-15px' }} />
                                                 <img src={img3} alt="" style={{ position: 'relative', left: '-30px' }} />
                                                 <img src={img4} alt="" style={{ position: 'relative', left: '-45px' }} />
+                                            </div> */}
+                                            <Avatar.Group size={48} max={{
 
-                                            </div>
-                                            <p>{item.Nom}</p>
+                                                count: 4,
+                                                style: { color: '#f56a00', backgroundColor: '#fde3cf' },
+                                            }}>
+                                                {liste.slice(0, 5).map((user, index) => {
+                                                    const avatarUrl = getAvatar(user?.avatar);
+                                                    return (
+                                                        <Avatar
+                                                            key={index}
+                                                            src={avatarUrl}
+                                                            alt={`avatar ${index + 1}`}
+                                                            size={48}
+                                                        // style={{ border: '3px solid #fff' }}
+                                                        >
+                                                            {!avatarUrl && user?.prenom?.[0]}
+                                                        </Avatar>
+                                                    );
+                                                })}
+                                            </Avatar.Group>
+                                            <p style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                maxWidth: '150px' // ajuste selon la taille de ton container
+                                            }}>
+                                                {item.Nom}
+                                            </p>
                                         </button>
 
                                     );
