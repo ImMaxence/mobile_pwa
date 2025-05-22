@@ -99,6 +99,7 @@ const Tutorial = () => {
             <li>MacOs</li>
             <li>Windows</li>
             <li>TV</li>
+            <li>Meta Quest</li>
 
             <div className="center_div_tuto">
                 <img src="./logo192.png" alt="logo" style={{ width: '140px' }} />
