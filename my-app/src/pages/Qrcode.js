@@ -1,79 +1,79 @@
-import React, { useEffect, useRef, useState } from "react";
-import Layout from "../components/Layout";
+// import React, { useEffect, useRef, useState } from "react";
+// import Layout from "../components/Layout";
 
-const Qrcode = () => {
-    const videoRef = useRef(null);
-    const [error, setError] = useState(null);
+// const Qrcode = () => {
+//     const videoRef = useRef(null);
+//     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: "environment" },
-                });
-                if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
-                }
-            } catch (err) {
-                setError("Impossible d'accéder à la caméra: " + err.message);
-            }
-        }
+//     useEffect(() => {
+//         async function startCamera() {
+//             try {
+//                 const stream = await navigator.mediaDevices.getUserMedia({
+//                     video: { facingMode: "environment" },
+//                 });
+//                 if (videoRef.current) {
+//                     videoRef.current.srcObject = stream;
+//                 }
+//             } catch (err) {
+//                 setError("Impossible d'accéder à la caméra: " + err.message);
+//             }
+//         }
 
-        startCamera();
+//         startCamera();
 
-        return () => {
-            if (videoRef.current?.srcObject) {
-                videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
-            }
-        };
-    }, []);
+//         return () => {
+//             if (videoRef.current?.srcObject) {
+//                 videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+//             }
+//         };
+//     }, []);
 
-    return (
-        <Layout>
-            <div
-                style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100vh",
-                    overflow: "hidden",
-                    backgroundColor: "black",
-                }}
-            >
-                <video
-                    ref={videoRef}
-                    autoPlay
-                    muted
-                    playsInline
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                    }}
-                />
-                {error && (
-                    <div
-                        style={{
-                            position: "absolute",
-                            padding: "20px",
-                            bottom: "20px",
-                            width: "100%",
-                            textAlign: "center",
-                            zIndex: 10,
-                            color: "red",
-                        }}
-                    >
-                        {error}
-                    </div>
-                )}
-            </div>
-        </Layout>
-    );
-};
+//     return (
+//         <Layout>
+//             <div
+//                 style={{
+//                     position: "relative",
+//                     width: "100%",
+//                     height: "100vh",
+//                     overflow: "hidden",
+//                     backgroundColor: "black",
+//                 }}
+//             >
+//                 <video
+//                     ref={videoRef}
+//                     autoPlay
+//                     muted
+//                     playsInline
+//                     style={{
+//                         width: "100%",
+//                         height: "100%",
+//                         objectFit: "cover",
+//                     }}
+//                 />
+//                 {error && (
+//                     <div
+//                         style={{
+//                             position: "absolute",
+//                             padding: "20px",
+//                             bottom: "20px",
+//                             width: "100%",
+//                             textAlign: "center",
+//                             zIndex: 10,
+//                             color: "red",
+//                         }}
+//                     >
+//                         {error}
+//                     </div>
+//                 )}
+//             </div>
+//         </Layout>
+//     );
+// };
 
-export default Qrcode;
+// export default Qrcode;
 
 
-/*
+
 import React, { useEffect, useRef, useState } from "react";
 import jsQR from "jsqr";
 import Layout from "../components/Layout";
@@ -358,4 +358,3 @@ const Qrcode = () => {
 };
 
 export default Qrcode;
-*/

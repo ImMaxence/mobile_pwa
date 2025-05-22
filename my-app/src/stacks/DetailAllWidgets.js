@@ -2,12 +2,6 @@ import React, { useState, useEffect } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { getAlerts, getDataDash } from '../services/hiveService';
 
-import TemperatureDualChart from '../components/charts/TemperatureDualChart';
-import EnergyDualChart from '../components/charts/EnergyDualChart';
-import WeightChart from '../components/charts/WeightChart';
-import PressureChart from '../components/charts/PressureChart';
-import HumidityDualChart from '../components/charts/HumidityDualChart';
-import HumidityChart from '../components/charts/HumidityChart';
 import MapChart from '../components/charts/MapChart';
 import EnergyDualChartZoomable from '../components/charts/EnergyDualChartZoomable';
 import { Radio } from 'antd';
@@ -82,6 +76,7 @@ const DetailAllWidgets = () => {
                     case 'event':
 
                         setNameWidget("Notifications ruches")
+                        console.log(idHive)
                         const eventData = await getAlerts(idHive)
                         setData(eventData)
                     default:

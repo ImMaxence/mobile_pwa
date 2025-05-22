@@ -10,6 +10,7 @@ apiUser.interceptors.request.use(
         console.log('[API USER SERVICE WEB] 🚀 - Request...');
 
         const token = await getToken();
+        console.log(token)
         if (token) {
             config.headers['x-access-token'] = token;
         }
