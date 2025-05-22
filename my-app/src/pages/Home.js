@@ -29,6 +29,7 @@ const Home = () => {
     const [errorCreate, setErrorCreate] = useState(null);
     const [isOpen, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingGroupsNonDefaut, setIsLoadingGroupsNonDefaut] = useState(false);
 
 
     const navigate = useNavigate();
@@ -45,7 +46,16 @@ const Home = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true);
+            // Ne gère QUE les loaders côté useEffect,
+            // et surtout ne touche pas à isLoading ici au refresh
+            if (!trigger) {
+                // chargement initial → loader global
+                setIsLoading(true);
+                setIsLoadingGroupsNonDefaut(false);
+            }
+            // au refresh, on part du principe que isLoadingGroupsNonDefaut est déjà true
+            // donc pas besoin de le remettre à true ici
+
             try {
                 const resToken = await getToken();
                 setToken(resToken);
@@ -53,9 +63,9 @@ const Home = () => {
                 const resGroups = await getGroups();
                 setGroup(resGroups);
 
+                // Ton code ruches ici
                 const ruchesMap = new Map();
 
-                // Étape 1 : collecter toutes les ruches actuelles
                 resGroups.forEach(group => {
                     const proprietaire = group.Liste_utilisateur_partage[0];
                     group.Liste_ruche.forEach(ruche => {
@@ -64,25 +74,33 @@ const Home = () => {
                             nom: ruche.nom,
                             latitude: ruche.latitude,
                             longitude: ruche.longitude,
-                            proprietaire_nom: proprietaire ? `${proprietaire.prenom} ${proprietaire.nom}` : null
+                            proprietaire_nom: proprietaire ? `${proprietaire.prenom} ${proprietaire.nom}` : null,
                         });
                     });
                 });
 
                 const updatedRuches = Array.from(ruchesMap.values());
-
-                // Étape 2 : sauvegarder les ruches filtrées dans le localStorage
                 localStorage.setItem('ruches_localisees', JSON.stringify(updatedRuches));
 
+                setErrorGroup(null);
             } catch (err) {
-                setErrorGroup(err);
+                setErrorGroup(err.message || "Erreur lors du chargement");
             } finally {
-                setIsLoading(false);
+                if (!trigger) {
+                    // Fin du chargement initial
+                    setIsLoading(false);
+                }
+                // Au refresh, on éteint juste le loader partiel
+                if (trigger) {
+                    setIsLoadingGroupsNonDefaut(false);
+                }
             }
         };
 
-        setTimeout(() => { fetchData(); }, 650)
+        setTimeout(fetchData, 650);
     }, [trigger]);
+
+
 
 
     const handleCreateGroup = async (e) => {
@@ -143,50 +161,41 @@ const Home = () => {
                                     <MdGroups />
                                 </button>
 
-                                <button className='icon_btn cancel_back' onClick={() => {
-                                    setTrigger(!trigger)
-                                    setIsLoading(true)
-                                }}>
-                                    <IoMdRefresh />
+                                <button
+                                    className='icon_btn cancel_back'
+                                    onClick={() => {
+                                        setIsLoadingGroupsNonDefaut(true)
+                                        setTrigger(!trigger)
+                                    }}
+                                >
+                                    <IoMdRefresh className={isLoadingGroupsNonDefaut ? 'spin-smooth' : ''} />
                                 </button>
                             </div>
                         </div>
 
+
                         {/* Groupes non par défaut */}
-                        {group.filter((item) => !item.default).length === 0 ? (
+                        {isLoadingGroupsNonDefaut ? (
+                            <Skeleton active paragraph={{ rows: 3 }} />
+                        ) : group.filter((item) => !item.default).length === 0 ? (
                             <p>Vous n'avez pas de groupe 🐝</p>
                         ) : (
                             group
                                 .filter((item) => !item.default)
                                 .map((item) => {
                                     const liste = item.Liste_utilisateur_partage || [];
-                                    const img1 = getAvatar(liste[0]?.avatar);
-                                    const img2 = getAvatar(liste[1]?.avatar);
-                                    const img3 = getAvatar(liste[2]?.avatar);
-                                    const img4 = getAvatar(liste[3]?.avatar);
-
                                     return (
-
                                         <button key={item.id} className='container_solo' onClick={() => {
                                             localStorage.setItem("currentGroupId", item.id);
                                             localStorage.setItem("currentGroupType", "group");
                                             localStorage.setItem("currentGroupName", item.Nom);
                                             navigate('/detail/group');
                                         }}>
-
-                                            {/* <div className='grouped_img_group'>                      
-{img1 ? "image" : "pas image"}
-                                                <img src={img1} alt="" />
-                                                <img src={img2} alt="" style={{ position: 'relative', left: '-15px' }} />
-                                                <img src={img3} alt="" style={{ position: 'relative', left: '-30px' }} />
-                                                <img src={img4} alt="" style={{ position: 'relative', left: '-45px' }} />
-                                            </div> */}
                                             <Avatar.Group size={48} max={{
-
-                                                count: 4,
+                                                count: 3,
                                                 style: { color: '#f56a00', backgroundColor: '#fde3cf' },
                                             }}>
-                                                {liste.slice(0, 5).map((user, index) => {
+                                                {liste.slice(0, 500).map((user, index) => {
                                                     const avatarUrl = getAvatar(user?.avatar);
                                                     return (
                                                         <Avatar
@@ -194,7 +203,6 @@ const Home = () => {
                                                             src={avatarUrl}
                                                             alt={`avatar ${index + 1}`}
                                                             size={48}
-                                                        // style={{ border: '3px solid #fff' }}
                                                         >
                                                             {!avatarUrl && user?.prenom?.[0]}
                                                         </Avatar>
@@ -205,15 +213,15 @@ const Home = () => {
                                                 whiteSpace: 'nowrap',
                                                 overflow: 'hidden',
                                                 textOverflow: 'ellipsis',
-                                                maxWidth: '150px' // ajuste selon la taille de ton container
+                                                maxWidth: '150px'
                                             }}>
                                                 {item.Nom}
                                             </p>
                                         </button>
-
                                     );
                                 })
                         )}
+
 
                         <Sheet
                             isOpen={isOpen}

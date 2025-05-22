@@ -65,6 +65,8 @@ const DetailGroup = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
+    const [loadingRefresh, setLoadingRefresh] = useState(false);
+
     useEffect(() => {
         const fetchGroupType = async () => {
 
@@ -77,10 +79,15 @@ const DetailGroup = () => {
         };
 
         const fetchInfoGroup = async () => {
-            setLoading(true);
+            if (!loadingRefresh) {
+                setLoading(true);
+            }
+
             const currentId = localStorage.getItem("currentGroupId")
             if (!currentId) {
                 setHive([]);
+                setLoading(false);
+                setLoadingRefresh(false);
                 return;
             }
 
@@ -91,15 +98,17 @@ const DetailGroup = () => {
                     setDescription(data.Description)
                     setHive(data.Liste_ruche)
                     setUserinHive(data.Liste_utilisateur_partage)
-                    // localStorage.setItem('idHive3', data.Liste_ruche[0].id)
-                    setLoading(false)
+
                 } else {
                     setHive([])
-                    setLoading(false)
+
                 }
             } catch (err) {
                 setErrorHive(err)
                 setHive([])
+            } finally {
+                setLoading(false);
+                setLoadingRefresh(false);
             }
         }
 
@@ -112,6 +121,7 @@ const DetailGroup = () => {
                 const allRuches = allDefaultTrueHives.flatMap(hive => hive.Liste_ruche ?? []);
 
                 setHiveUser(allRuches)
+
             } catch (err) {
                 setErrorUpdateHive(err)
             }
@@ -261,7 +271,7 @@ const DetailGroup = () => {
                     {localStorage.getItem('currentGroupName')}
                 </h4>
 
-                {loading ? (
+                {loading || loadingRefresh ? (
                     <>
                         <Skeleton.Button active style={{ marginBottom: "40px" }} />
                     </>
@@ -280,12 +290,10 @@ const DetailGroup = () => {
 
                         <button className='icon_btn cancel_back' onClick={() => {
                             setTrigger(!trigger)
-                            setLoading(true)
+                            setLoadingRefresh(true);
                         }}>
-                            <IoMdRefresh />
+                            <IoMdRefresh className={loadingRefresh ? 'spin-smooth' : ''} />
                         </button>
-
-                        <button className='icon_btn ios_back' onClick={() => setOpenSetting(true)}><IoSettings className='rotate' /></button>
 
                     </div>
                 ) : (
@@ -296,9 +304,9 @@ const DetailGroup = () => {
 
                         <button className='icon_btn cancel_back' onClick={() => {
                             setTrigger(!trigger)
-                            setLoading(true)
+                            setLoadingRefresh(true);
                         }}>
-                            <IoMdRefresh />
+                            <IoMdRefresh className={loadingRefresh ? 'spin-smooth' : ''} />
                         </button>
 
                         <button className='icon_btn ios_back' onClick={() => setOpenSetting(true)}><IoSettings className='rotate' /></button>
@@ -306,7 +314,7 @@ const DetailGroup = () => {
                     </div>
                 )}
 
-                {loading ? (
+                {loading || loadingRefresh ? (
                     <Skeleton active />
                 ) : Array.isArray(hive) && hive.length > 0 ? (
                     hive.map((item) => (
@@ -333,54 +341,99 @@ const DetailGroup = () => {
                         <Sheet.Scroller>
                             <div style={{ padding: "20px" }}>
                                 <h3 style={{ marginBottom: "20px" }}>Modifier mes ruches</h3>
+
                                 {Array.isArray(hiveUser) && hiveUser.length > 0 ? (
-                                    hiveUser.map((item) => (
-                                        <>
-                                            <form onSubmit={(e) => handleUpdateHive(e, item.id)} key={item.id}>
+                                    <Collapse accordion>
+                                        {hiveUser.map((item) => (
+                                            <Panel header={`${item.nom || 'Sans nom'}`} key={item.id}>
+                                                <form onSubmit={(e) => handleUpdateHive(e, item.id)}>
 
-                                                <label htmlFor="">Nouveau nom</label>
-                                                <input style={{ marginBottom: "20px" }} className='general_input' type="text" onChange={(e) => setNewHiveUpdateName(e.target.value)} />
+                                                    <label>Nouveau nom</label>
+                                                    <input
+                                                        style={{ marginBottom: "20px" }}
+                                                        className='general_input'
+                                                        type="text"
+                                                        onChange={(e) => setNewHiveUpdateName(e.target.value)}
+                                                    />
 
-                                                <label htmlFor="">Nouvelle origin abeille</label>
-                                                <input style={{ marginBottom: "20px" }} className='general_input' type="text" onChange={(e) => setNewOrigin(e.target.value)} />
+                                                    <label>Nouvelle origine abeille</label>
+                                                    <input
+                                                        style={{ marginBottom: "20px" }}
+                                                        className='general_input'
+                                                        type="text"
+                                                        onChange={(e) => setNewOrigin(e.target.value)}
+                                                    />
 
-                                                <label htmlFor="">Nouvelle race reine</label>
-                                                <input style={{ marginBottom: "20px" }} className='general_input' type="text" onChange={(e) => setNewRace(e.target.value)} />
+                                                    <label>Nouvelle race reine</label>
+                                                    <input
+                                                        style={{ marginBottom: "20px" }}
+                                                        className='general_input'
+                                                        type="text"
+                                                        onChange={(e) => setNewRace(e.target.value)}
+                                                    />
 
-                                                <label htmlFor="">Nouveau nomre cadran</label>
-                                                <input style={{ marginBottom: "20px" }} className='general_input' type="number" onChange={(e) => setNewNbrCadran(parseInt(e.target.value))} />
+                                                    <label>Nouveau nombre de cadrans</label>
+                                                    <input
+                                                        style={{ marginBottom: "20px" }}
+                                                        className='general_input'
+                                                        type="number"
+                                                        onChange={(e) => setNewNbrCadran(parseInt(e.target.value))}
+                                                    />
 
-                                                <label htmlFor="">Nouveau nombre hausse</label>
-                                                <input style={{ marginBottom: "20px" }} className='general_input' type="number" onChange={(e) => setNewNbrHausse(parseInt(e.target.value))} />
+                                                    <label>Nouveau nombre de hausses</label>
+                                                    <input
+                                                        style={{ marginBottom: "20px" }}
+                                                        className='general_input'
+                                                        type="number"
+                                                        onChange={(e) => setNewNbrHausse(parseInt(e.target.value))}
+                                                    />
 
-                                                <label htmlFor="">Nouvelle couleur reine</label>
-                                                <input style={{ marginBottom: "20px" }} className='general_input' type="text" onChange={(e) => setNewCouleurReine(e.target.value)} />
+                                                    <label>Nouvelle couleur reine</label>
+                                                    <input
+                                                        style={{ marginBottom: "20px" }}
+                                                        className='general_input'
+                                                        type="text"
+                                                        onChange={(e) => setNewCouleurReine(e.target.value)}
+                                                    />
 
-                                                <div className='wrapper_detailg'>
-                                                    <div className='swi_det'>
-                                                        <label htmlFor="">Concentement RGPD</label>
-                                                        <Switch defaultChecked onChange={(checked) => setNewConcentementRGPD(checked)} />
-
+                                                    <div className='wrapper_detailg'>
+                                                        <div className='swi_det'>
+                                                            <label>Consentement RGPD</label>
+                                                            <Switch defaultChecked onChange={(checked) => setNewConcentementRGPD(checked)} />
+                                                        </div>
+                                                        <div className='swi_det'>
+                                                            <label>Partage Localisation</label>
+                                                            <Switch defaultChecked onChange={(checked) => setNewConcentementPartage(checked)} />
+                                                        </div>
                                                     </div>
-                                                    <div className='swi_det'>
-                                                        <label htmlFor="">Partage Localisation</label>
-                                                        <Switch defaultChecked onChange={(checked) => setNewConcentementPartage(checked)} />
-                                                    </div>
 
-                                                </div>
-                                                {errorUpdateHive && <p className='error_lab' style={{ marginBottom: "20px" }}>{errorUpdateHive}</p>}
-                                                <button className='general_btn w100' type='submit'>
-                                                    Modifier
+                                                    {errorUpdateHive && (
+                                                        <p className='error_lab' style={{ marginBottom: "20px" }}>{errorUpdateHive}</p>
+                                                    )}
+
+                                                    <button className='general_btn w100' type='submit'>
+                                                        Modifier
+                                                    </button>
+                                                </form>
+
+                                                <button
+                                                    type='button'
+                                                    style={{ marginTop: "20px", marginBottom: "20px" }}
+                                                    className='cancel_btn w100'
+                                                    onClick={() => setOpenUpdateHive(false)}
+                                                >
+                                                    Annuler
                                                 </button>
 
-
-                                            </form>
-                                            <button type='button' style={{ marginTop: "20px", marginBottom: "200px" }} className='cancel_btn w100' onClick={() => setOpenUpdateHive(false)}>Annuler</button>
-                                        </>
-                                    ))
+                                                <button onClick={() => handleDeleteHiveFromGroup(item.id)} className='del_btn w100'>Supprimer la ruche</button>
+                                            </Panel>
+                                        ))}
+                                    </Collapse>
                                 ) : (
                                     <p>Aucune ruche trouvée</p>
                                 )}
+
+
                             </div>
                         </Sheet.Scroller>
                     </Sheet.Content>
