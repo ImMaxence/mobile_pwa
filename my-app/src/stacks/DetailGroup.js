@@ -9,6 +9,10 @@ import { getUserId } from '../utils/manageStorage';
 import { searchUserByName } from '../services/userService';
 import { Skeleton } from 'antd';
 import { IoSettings } from "react-icons/io5";
+import { FiPlusCircle } from "react-icons/fi";
+import { FaBoxArchive } from "react-icons/fa6";
+import { IoMdRefresh } from "react-icons/io";
+import { IoPersonAdd } from "react-icons/io5";
 
 const { Panel } = Collapse;
 
@@ -124,7 +128,7 @@ const DetailGroup = () => {
             const currentIdGroup = localStorage.getItem("currentGroupId")
             await addHiveToGroup(currentIdGroup, { rucheId: rucheIDSaveHive, ruchePassword: ruchePasswordSaveHive })
             setTrigger(!trigger)
-            setOpenAddHive(false)
+            setOpenSaveHive(false);
             setErrorSaveHive(null)
         } catch (err) {
             setErrorSaveHive(err)
@@ -150,6 +154,7 @@ const DetailGroup = () => {
         try {
             const idG = await getCurrentGroupId()
             await updateGroup(idG, { Nom: newNameGroup, Description: newDescriptionGroup })
+            setLoading(true)
             setTrigger(!trigger)
             setOpenSetting(false)
         } catch (err) {
@@ -252,21 +257,52 @@ const DetailGroup = () => {
     return (
         <LayoutStackNav back_url="/" back_name="Mes groupes">
             <div style={{ padding: "20px" }}>
-                <button style={{ padding: '20px 0 40px 0' }} className='stack_btn_title' onClick={() => setOpenSetting(true)}>
-                    <IoSettings className='setting rotate' />{localStorage.getItem('currentGroupName')}
-                </button>
+                <h4 style={{ padding: '20px 0 20px 0' }}>
+                    {localStorage.getItem('currentGroupName')}
+                </h4>
+
+                {loading ? (
+                    <>
+                        <Skeleton.Button active style={{ marginBottom: "40px" }} />
+                    </>
+                ) : (
+                    <>
+                        <p style={{ marginBottom: "40px", color: 'gray' }}>{description ? description : "Aucune description de groupe trouvée"}</p>
+                    </>
+                )}
+
 
                 {type === 'solo' ? (
-                    <div style={{ marginBottom: "20px" }}>
-                        <button style={{ marginRight: "20px" }} className='general_btn' onClick={() => setOpenSaveHive(true)}>Enregistrer ruche</button>
+                    <div className='detailg_btn_action'>
+                        <button className='icon_btn' onClick={() => setOpenSaveHive(true)}><FiPlusCircle /></button>
 
-                        <button className='general_btn' onClick={() => setOpenUpdateHive(true)}>Modifier ruche</button>
+                        <button className='icon_btn' onClick={() => setOpenUpdateHive(true)}><FaBoxArchive /></button>
+
+                        <button className='icon_btn cancel_back' onClick={() => {
+                            setTrigger(!trigger)
+                            setLoading(true)
+                        }}>
+                            <IoMdRefresh />
+                        </button>
+
+                        <button className='icon_btn ios_back' onClick={() => setOpenSetting(true)}><IoSettings className='rotate' /></button>
+
                     </div>
                 ) : (
-                    <div style={{ marginBottom: "20px" }}>
-                        <button style={{ marginRight: "20px" }} className='general_btn' onClick={() => { setOpenAddHive(true) }}>Ajouter sa ruche</button>
+                    <div className='detailg_btn_action'>
+                        <button className='icon_btn' onClick={() => { setOpenAddHive(true) }}><FaBoxArchive /></button>
 
-                        <button className='general_btn' onClick={() => setOpenAddUser(true)}>Ajouter une personne</button>
+                        <button className='icon_btn' onClick={() => setOpenAddUser(true)}><IoPersonAdd /></button>
+
+                        <button className='icon_btn cancel_back' onClick={() => {
+                            setTrigger(!trigger)
+                            setLoading(true)
+                        }}>
+                            <IoMdRefresh />
+                        </button>
+
+                        <button className='icon_btn ios_back' onClick={() => setOpenSetting(true)}><IoSettings className='rotate' /></button>
+
                     </div>
                 )}
 
@@ -386,7 +422,6 @@ const DetailGroup = () => {
                     <Sheet.Content>
                         <Sheet.Scroller>
                             <div style={{ padding: "20px" }}>
-                                <p style={{ marginBottom: "40px" }}>{description ? description : "Pas de description de groupe"}</p>
 
                                 <Collapse accordion>
                                     <Panel header="Utilisateur(s) dans le groupe" key="1">

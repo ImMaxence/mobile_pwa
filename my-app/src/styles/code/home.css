@@ -68,3 +68,10 @@
     gap: 20px;
     padding: 40px 0;
 }
+
+.home_group_icons {
+    /* background-color: red; */
+
+    display: flex;
+    gap: 20px;
+}

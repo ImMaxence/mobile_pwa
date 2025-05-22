@@ -148,7 +148,7 @@ export const updateInfoHive = async (id_ruche, payload) => {
 
 export const getAlerts = async (idRuche) => {
     try {
-        const res = await apiDash.get(`/api/get/AlertesByRuche/${idRuche}`)
+        const res = await apiDash.get(`api/alerte/api/get/AlertesByRuche/${idRuche}`)
         return res.data
     } catch (err) {
         throw (err)

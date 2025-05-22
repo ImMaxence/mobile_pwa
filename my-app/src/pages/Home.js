@@ -5,6 +5,8 @@ import { createGroup, getGroups } from '../services/hiveService';
 import { Sheet } from 'react-modal-sheet';
 import { useNavigate } from 'react-router-dom';
 import { Skeleton } from 'antd';
+import { MdGroups } from "react-icons/md";
+import { IoMdRefresh } from "react-icons/io";
 
 const defaultAvatar = '/assets/def.png';
 
@@ -99,38 +101,54 @@ const Home = () => {
             <div style={{ padding: "20px" }}>
                 {isLoading ? (
                     <>
-                        <Skeleton active />
-                        <div style={{ padding: "10px" }}></div>
-                        <Skeleton active />
+
+                        <div style={{ padding: "20px" }}>
+                            <Skeleton active style={{ marginBottom: "60px" }} />
+                            <Skeleton active />
+                        </div>
+
+
                     </>
                 ) : token ? (
                     <>
                         {errorGroup && <p className='error_lab'>{errorGroup}</p>}
 
-                        {/* Groupes par défaut */}
-                        {group
-                            .filter((item) => item.default)
-                            .map((item) => (
+                        {group.filter((item) => item.default).length > 0 ? (
+                            group
+                                .filter((item) => item.default)
+                                .map((item) => (
+                                    <button className='container_solo' key={item.id} onClick={() => {
+                                        localStorage.setItem("currentGroupId", item.id);
+                                        localStorage.setItem("currentGroupType", "solo");
+                                        localStorage.setItem("currentGroupName", item.Nom);
+                                        navigate('/detail/group');
+                                    }}>
+                                        <div className="container_img_group_solo">
+                                            <img src="./assets/logo.png" alt="" />
+                                        </div>
+                                        <p>{item.Nom}</p>
+                                    </button>
+                                ))
+                        ) : (
+                            <p>Aucun groupement par défaut trouvé</p>
+                        )}
 
-                                <button className='container_solo' key={item.id} onClick={() => {
-                                    localStorage.setItem("currentGroupId", item.id);
-                                    localStorage.setItem("currentGroupType", "solo");
-                                    localStorage.setItem("currentGroupName", item.Nom);
-                                    navigate('/detail/group');
-                                }}>
-
-                                    <div className="container_img_group_solo">
-                                        <img src="./assets/logo.png" alt="" />
-                                    </div>
-                                    <p>{item.Nom}</p>
-
-                                </button>
-
-                            ))}
 
                         <div className="middle_home_btn">
                             <h4>Vos groupes</h4>
-                            <button onClick={() => setOpen(true)} className='general_btn'>Créer un groupe</button>
+
+                            <div className='home_group_icons'>
+                                <button onClick={() => setOpen(true)} className='icon_btn'>
+                                    <MdGroups />
+                                </button>
+
+                                <button className='icon_btn cancel_back' onClick={() => {
+                                    setTrigger(!trigger)
+                                    setIsLoading(true)
+                                }}>
+                                    <IoMdRefresh />
+                                </button>
+                            </div>
                         </div>
 
                         {/* Groupes non par défaut */}

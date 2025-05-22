@@ -92,10 +92,10 @@ const DetailAllWidgets = () => {
     }, [trigger, histo, widgetType, idHive]);
 
     const periods = [
-        { label: "1 heure", value: 60 },
-        { label: "1 jour", value: 1440 },
-        { label: "1 semaine", value: 10080 },
-        { label: "1 mois", value: 43800 },
+        { label: "Heure", value: 60 },
+        { label: "Jour", value: 1440 },
+        { label: "Semaine", value: 10080 },
+        { label: "Mois", value: 43800 },
     ];
 
     const onChangePeriod = (e) => {
@@ -114,7 +114,7 @@ const DetailAllWidgets = () => {
                                 onChange={onChangePeriod}
                                 value={histo}
                                 buttonStyle="solid"
-                                style={{ marginBottom: 40 }}
+                                style={{ marginBottom: 40, width: "100%" }}
                             >
                                 {periods.map(({ label, value }) => (
                                     <Radio.Button key={value} value={value}>

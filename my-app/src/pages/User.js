@@ -350,6 +350,9 @@ const User = () => {
                                 {loginError && <p className='error_lab'>{loginError}</p>}
                             </form>
 
+                            <p style={{ color: 'grey', marginBottom: "40px", marginTop: "20px", textAlign: "center" }}>Ou bien ...</p>
+
+
                             <button className='w100 general_btn' onClick={() => setOpenRegister(true)}>S'enregistrer</button>
 
                             <Sheet isOpen={isOpenRegister} onClose={() => {
