@@ -230,7 +230,13 @@ const DetailAllWidgets = () => {
                 <MapChart />
             )}
 
-            {error && <p className='error_lab'>{error}</p>}
+            {widgetType === 'event' && data && (
+                <>
+                    <p>data</p>
+                </>
+            )}
+
+            {error && <p style={{ padding: "20px" }} className='error_lab'>{error}</p>}
         </LayoutStackNav>
     );
 };
