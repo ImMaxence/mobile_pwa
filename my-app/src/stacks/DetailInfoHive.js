@@ -21,32 +21,35 @@ const DetailInfoHive = () => {
 
         }
 
-        setTimeout(() => { fetchData() }, 1000)
+        setTimeout(() => { fetchData() }, 650)
     }, [])
 
     return (
         <LayoutStackNav back_name={'Retour'} back_url={'/detail/hive'}>
             <div style={{ padding: "40px" }}>
-                <h4 style={{ padding: '20px 0 40px 0' }}>Informations de la ruche</h4>
+                <h4 style={{ padding: '20px 0 20px 0' }}>Informations de la ruche</h4>
                 {loading ? (
                     <Skeleton active />
 
                 ) : (
-                    <div>
-                        <li>ID: {data.id}</li>
-                        <li>Nom: {data.nom}</li>
-                        <li>Origine Abeille: {data.origin_abeille}</li>
-                        <li>Race Reine: {data.race_reine}</li>
-                        <li>Couleur Reine: {data.couleur_reine}</li>
-                        <li>Nombre de Cadrans: {data.nbr_cadran}</li>
-                        <li>Nombre de Hausses: {data.nbr_hausse}</li>
-                        <li>Longitude: {data.longitude}</li>
-                        <li>Latitude: {data.latitude}</li>
-                        <li>Consentement RGPD: {data.concentement_rgpd ? 'Oui' : 'Non'}</li>
-                        <li>Consentement Partage: {data.concentement_partage ? 'Oui' : 'Non'}</li>
-                        <li>Créé le: {new Date(data.createdAt).toLocaleDateString()}</li>
-                        <li>Mis à jour le: {new Date(data.updatedAt).toLocaleDateString()}</li>
+                    <div className="data-card">
+                        <ul>
+                            <li><strong>ID:</strong> {data.id}</li>
+                            <li><strong>Nom:</strong> {data.nom}</li>
+                            <li><strong>Origine Abeille:</strong> {data.origin_abeille}</li>
+                            <li><strong>Race Reine:</strong> {data.race_reine}</li>
+                            <li><strong>Couleur Reine:</strong> {data.couleur_reine}</li>
+                            <li><strong>Nombre de Cadrans:</strong> {data.nbr_cadran}</li>
+                            <li><strong>Nombre de Hausses:</strong> {data.nbr_hausse}</li>
+                            <li><strong>Longitude:</strong> {data.longitude}</li>
+                            <li><strong>Latitude:</strong> {data.latitude}</li>
+                            <li><strong>Consentement RGPD:</strong> {data.concentement_rgpd ? 'Oui' : 'Non'}</li>
+                            <li><strong>Consentement Partage:</strong> {data.concentement_partage ? 'Oui' : 'Non'}</li>
+                            <li><strong>Créé le:</strong> {new Date(data.createdAt).toLocaleDateString()}</li>
+                            <li><strong>Mis à jour le:</strong> {new Date(data.updatedAt).toLocaleDateString()}</li>
+                        </ul>
                     </div>
+
                 )}
             </div>
         </LayoutStackNav>

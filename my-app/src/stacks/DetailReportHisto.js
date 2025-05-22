@@ -5,7 +5,9 @@ import { Skeleton } from 'antd';
 
 const DetailReportHisto = () => {
     const [error, setError] = useState('');
-    const [searchDate, setSearchDate] = useState('');
+    const [dateError, setDateError] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -20,28 +22,50 @@ const DetailReportHisto = () => {
                 setData(sortedData);
                 setFilteredData(sortedData);
             } catch (err) {
-                setError(err);
+                setError(err.toString());
             } finally {
                 setLoading(false);
             }
         };
 
-        setTimeout(fetchData, 1000);
+        setTimeout(fetchData, 650);
     }, []);
 
     useEffect(() => {
-        if (!searchDate) {
+        if (!startDate || !endDate) {
+            setDateError('');
             setFilteredData(data);
-        } else {
-            const filtered = data.filter(item =>
-                item.date.startsWith(searchDate)
-            );
-            setFilteredData(filtered);
+            return;
         }
-    }, [searchDate, data]);
+
+        const from = new Date(startDate);
+        const to = new Date(endDate);
+
+        if (to < from) {
+            setDateError("❌ La date de fin ne peut pas être antérieure à la date de début.");
+            setFilteredData([]);
+            return;
+        }
+
+        setDateError('');
+        const filtered = data.filter(item => {
+            const itemDate = new Date(item.date);
+            return itemDate >= from && itemDate <= to;
+        });
+        setFilteredData(filtered);
+    }, [startDate, endDate, data]);
 
     const renderItem = (item) => (
-        <div key={item.id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px', borderRadius: '10px' }}>
+        <div
+            key={item.id}
+            style={{
+                border: '1px solid #ccc',
+                padding: '10px',
+                marginBottom: '10px',
+                borderRadius: '10px',
+                backgroundColor: '#f9f9f9'
+            }}
+        >
             <h3>{item.ruche?.nom || 'Inconnu'}</h3>
             <p><strong>Date :</strong> {new Date(item.date).toLocaleString()}</p>
             <p><strong>Comportement :</strong> {item.comportement_abeille || 'Non spécifié'}</p>
@@ -57,25 +81,39 @@ const DetailReportHisto = () => {
     return (
         <LayoutStackNav back_name="Retour" back_url="/detail/hive">
             <div style={{ padding: '20px' }}>
-                <div className="histo_repo" style={{ marginBottom: '15px' }}>
-                    <label htmlFor="search-date"><strong>Rechercher par date :</strong></label>
-                    <input
-                        id="search-date"
-                        type="date"
-                        value={searchDate}
-                        onChange={(e) => setSearchDate(e.target.value)}
-                        style={{ marginLeft: '10px', padding: '5px' }}
-                    />
+                <div style={{ marginBottom: '15px', display: 'flex', gap: '20px', alignItems: 'center' }}>
+                    <div>
+                        <label><strong>Date de début :</strong></label><br />
+                        <input
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc' }}
+                        />
+                    </div>
+                    <div>
+                        <label><strong>Date de fin :</strong></label><br />
+                        <input
+                            type="date"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            style={{ padding: '5px', borderRadius: '5px', border: '1px solid #ccc' }}
+                        />
+                    </div>
                 </div>
 
-                {loading && <Skeleton active />}
+                {dateError && (
+                    <p style={{ color: 'red', marginBottom: '10px' }}>{dateError}</p>
+                )}
+
+                {loading && <Skeleton active paragraph={{ rows: 6 }} />}
 
                 {!loading && error && (
                     <p className="error_lab">{error}</p>
                 )}
 
-                {!loading && !error && filteredData.length === 0 && (
-                    <p>Aucun rapport trouvé pour cette date.</p>
+                {!loading && !error && filteredData.length === 0 && !dateError && (
+                    <p>Aucun rapport trouvé dans cette plage de dates.</p>
                 )}
 
                 {!loading && filteredData.map(renderItem)}

@@ -81,7 +81,7 @@ const Home = () => {
             }
         };
 
-        setTimeout(() => { fetchData(); }, 1000)
+        setTimeout(() => { fetchData(); }, 650)
     }, [trigger]);
 
 

@@ -119,7 +119,7 @@ const DetailGroup = () => {
 
         fetchGroupType();
         fecthHiveUser()
-        setTimeout(() => { fetchInfoGroup(); }, 1000)
+        setTimeout(() => { fetchInfoGroup(); }, 650)
     }, [trigger])
 
     const handleSaveHive = async (e) => {
