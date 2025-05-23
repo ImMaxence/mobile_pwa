@@ -175,3 +175,9 @@ p {
     transform-origin: center;
     display: inline-block;
 }
+
+.google-login-button {
+    width: 100% !important;
+    min-width: unset !important;
+    display: block !important;
+}

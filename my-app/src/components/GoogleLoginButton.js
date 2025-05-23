@@ -35,6 +35,7 @@ const GoogleLoginButton = ({ onSuccess, onError }) => {
                     console.log("Échec de la connexion Google");
                     onError && onError();
                 }}
+
             />
         </GoogleOAuthProvider>
     );

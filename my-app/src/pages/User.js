@@ -355,7 +355,7 @@ const User = () => {
                                     <img src="./assets/microsoft.png" alt="" />
                                 </button>
 
-                                <div className='w100'>
+                                <div style={{ width: "100%" }}>
                                     <GoogleLoginButton onSuccess={handleLoginSuccess} />
                                 </div>
 
