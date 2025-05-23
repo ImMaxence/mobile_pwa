@@ -159,8 +159,21 @@ const User = () => {
     }, [trigger])
 
     const handleLoginSuccess = (response) => {
-        // Ici tu peux envoyer le token (response.credential) au backend par exemple
         console.log("Token reçu:", response);
+
+        localStorage.setItem('accessToken', response.user.accessToken);
+        localStorage.setItem('email', response.user.email);
+        localStorage.setItem('prenom', response.user.prenom);
+        localStorage.setItem('nom', response.user.nom);
+        localStorage.setItem('avatar', response.user.avatar == null ? 'null' : response.user.avatar.toString())
+        localStorage.setItem('userId', response.user.id)
+
+        setToken(response.user.accessToken);
+        setEmail(response.user.email);
+        setNom(response.user.nom);
+        setPrenom(response.user.prenom);
+        setAvatar(response.user.avatar == null ? 'null' : response.user.avatar.toString());
+        setTrigger(prev => !prev);
     };
 
     return (

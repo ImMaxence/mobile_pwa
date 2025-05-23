@@ -45,3 +45,15 @@ export const updatePassword = async (id, new1, new2) => {
         throw error
     }
 }
+
+export const getInfoUserGoogle = async (token) => {
+    try {
+        console.log("📤 Envoi du token Google au backend:", token);
+        const res = await apiUser.post(`/api/auth/google`, {
+            credential: token,
+        });
+        return res.data
+    } catch (err) {
+        throw err
+    }
+}

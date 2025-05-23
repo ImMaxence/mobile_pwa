@@ -1,34 +1,36 @@
 import React from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { getInfoUserGoogle } from "../services/userService";
 import { jwtDecode } from "jwt-decode";
-
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const GoogleLoginButton = ({ onSuccess, onError }) => {
+    const handleLogin = async (credentialResponse) => {
+        try {
+            const token = credentialResponse.credential;
+
+            // Optionnel : tu peux lire les données du token Google
+            const decoded = jwtDecode(token);
+            console.log("Token Google décodé :", decoded);
+
+
+            const { user } = await getInfoUserGoogle(token);
+
+
+
+
+            onSuccess && onSuccess({ user });
+        } catch (err) {
+            console.error("Erreur lors du login Google :", err);
+            onError && onError(err);
+        }
+    };
+
     return (
         <GoogleOAuthProvider clientId={clientId}>
             <GoogleLogin
-                onSuccess={credentialResponse => {
-                    try {
-                        const token = credentialResponse.credential;
-                        const decoded = jwtDecode(token);
-
-                        const userInfo = {
-                            email: decoded.email,
-                            nom: decoded.family_name,
-                            prenom: decoded.given_name,
-                            picture: decoded.picture,
-
-                        };
-
-                        console.log("Utilisateur Google :", userInfo);
-                        onSuccess && onSuccess(userInfo);
-                    } catch (err) {
-                        console.error("Erreur de décodage :", err);
-                        onError && onError(err);
-                    }
-                }}
+                onSuccess={handleLogin}
                 onError={() => {
                     console.log("Échec de la connexion Google");
                     onError && onError();
