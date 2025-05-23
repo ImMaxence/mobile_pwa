@@ -161,6 +161,8 @@ const User = () => {
     const handleLoginSuccess = (response) => {
         console.log("Token reçu:", response);
 
+        localStorage.setItem('gg', true)
+
         localStorage.setItem('accessToken', response.user.accessToken);
         localStorage.setItem('email', response.user.email);
         localStorage.setItem('prenom', response.user.prenom);
@@ -198,7 +200,10 @@ const User = () => {
                             <div className="container_buttons_user">
                                 <button className='general_btn w100' onClick={() => setOpenUpdate(true)}>Modifier votre profil</button>
 
-                                <button className='general_btn w100' onClick={() => setOpenPassword(true)}>Modifier mot de passe</button>
+                                {localStorage.getItem('gg') ? null : (
+                                    <button className='general_btn w100' onClick={() => setOpenPassword(true)}>Modifier mot de passe</button>
+
+                                )}
 
                                 <button className='del_btn w100' onClick={() => handleDeleteUser()}>Supprimer mon compte</button>
 
