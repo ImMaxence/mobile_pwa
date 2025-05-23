@@ -160,7 +160,7 @@ const User = () => {
 
     const handleLoginSuccess = (response) => {
         // Ici tu peux envoyer le token (response.credential) au backend par exemple
-        console.log("Token reçu:", response.credential);
+        console.log("Token reçu:", response);
     };
 
     return (

@@ -19,6 +19,7 @@ const GoogleLoginButton = ({ onSuccess, onError }) => {
                             nom: decoded.family_name,
                             prenom: decoded.given_name,
                             picture: decoded.picture,
+
                         };
 
                         console.log("Utilisateur Google :", userInfo);
