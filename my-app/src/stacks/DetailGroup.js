@@ -342,11 +342,12 @@ const DetailGroup = () => {
                     </div>
                 )}
 
+                <p style={{ marginBottom: '40px' }}></p>
                 {loading || loadingRefresh ? (
                     <Skeleton active />
                 ) : Array.isArray(hive) && hive.length > 0 ? (
                     hive.map((item) => (
-                        <button style={{ marginTop: "40px" }} className='container_solo' onClick={() => {
+                        <button style={{ padding: "22px" }} className='container_solo' onClick={() => {
                             localStorage.setItem('currentHiveId', item.id)
                             localStorage.setItem('currentHiveName', item.nom)
                             navigate('/detail/hive')
