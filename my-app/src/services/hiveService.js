@@ -130,7 +130,7 @@ export const updateGroup = async (id, payload) => {
 
 export const getInfoHiveById = async (id) => {
     try {
-        const res = await apiDash.get(`/api/ruches?id_ruche=${id}`);
+        const res = await apiDash.get(`/api/ruches`, { id_ruche: id });
         return res.data;
     } catch (error) {
         throw error;

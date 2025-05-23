@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { getCurrentGroupId, getCurrentGroupType } from '../utils/manageStorage';
 import { Sheet } from 'react-modal-sheet';
-import { addHiveToGroup, addUserToGroup, deleteHiveToGroup, getDataFromGroup, getGroups, leaveGroup, updateGroup, updateInfoHive } from '../services/hiveService'
+import { addHiveToGroup, addUserToGroup, deleteHiveToGroup, getDataFromGroup, getGroups, getInfoHiveById, leaveGroup, updateGroup, updateInfoHive } from '../services/hiveService'
 import { useNavigate } from 'react-router-dom';
 import { Collapse, Switch } from 'antd';
 import { getUserId } from '../utils/manageStorage';
@@ -67,6 +67,8 @@ const DetailGroup = () => {
 
     const [loadingRefresh, setLoadingRefresh] = useState(false);
 
+    const [hiveInputs, setHiveInputs] = useState({});
+
     useEffect(() => {
         const fetchGroupType = async () => {
 
@@ -127,9 +129,28 @@ const DetailGroup = () => {
             }
         }
 
+        const fetchHiveInputs = async () => {
+            try {
+                console.log("🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺")
+                const data = {};
+                for (const hive of hiveUser) {
+                    const info = await getInfoHiveById(hive.id);
+
+                    console.log(info)
+                    data[hive.id] = info;
+                }
+                setHiveInputs(data); // state à déclarer en haut
+            } catch (error) {
+                console.error("Erreur lors de la récupération des infos ruche :", error);
+            }
+        };
+
         fetchGroupType();
         fecthHiveUser()
-        setTimeout(() => { fetchInfoGroup(); }, 650)
+        setTimeout(() => {
+            fetchInfoGroup()
+        }, 650)
+        fetchHiveInputs();
     }, [trigger])
 
     const handleSaveHive = async (e) => {
@@ -265,6 +286,12 @@ const DetailGroup = () => {
         }
     }
 
+
+    const getInfoHiveForInput = async (idRuche) => {
+        const res = await getInfoHiveById(idRuche)
+        return res
+    }
+
     return (
         <LayoutStackNav back_url="/" back_name="Mes groupes">
             <div style={{ padding: "20px" }}>
@@ -346,6 +373,7 @@ const DetailGroup = () => {
                                 {Array.isArray(hiveUser) && hiveUser.length > 0 ? (
                                     <Collapse accordion>
                                         {hiveUser.map((item) => (
+
                                             <Panel header={`${item.nom || 'Sans nom'}`} key={item.id}>
                                                 <form onSubmit={(e) => handleUpdateHive(e, item.id)}>
 
@@ -355,6 +383,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewHiveUpdateName(e.target.value)}
+                                                        defaultValue={hiveInputs[item.id]?.nom || ''}
                                                     />
 
                                                     <label>Nouvelle origine abeille</label>
@@ -363,6 +392,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewOrigin(e.target.value)}
+                                                        defaultValue={hiveInputs[item.id]?.origine || ''}
                                                     />
 
                                                     <label>Nouvelle race reine</label>
@@ -371,6 +401,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewRace(e.target.value)}
+                                                        defaultValue={hiveInputs[item.id]?.race_reine || ''}
                                                     />
 
                                                     <label>Nouveau nombre de cadrans</label>
@@ -379,6 +410,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="number"
                                                         onChange={(e) => setNewNbrCadran(parseInt(e.target.value))}
+                                                        defaultValue={hiveInputs[item.id]?.nb_cadrans || ''}
                                                     />
 
                                                     <label>Nouveau nombre de hausses</label>
@@ -387,6 +419,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="number"
                                                         onChange={(e) => setNewNbrHausse(parseInt(e.target.value))}
+                                                        defaultValue={hiveInputs[item.id]?.nb_hausses || ''}
                                                     />
 
                                                     <label>Nouvelle couleur reine</label>
@@ -395,16 +428,17 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewCouleurReine(e.target.value)}
+                                                        defaultValue={hiveInputs[item.id]?.couleur_reine || ''}
                                                     />
 
                                                     <div className='wrapper_detailg'>
                                                         <div className='swi_det'>
                                                             <label>Consentement RGPD</label>
-                                                            <Switch defaultChecked onChange={(checked) => setNewConcentementRGPD(checked)} />
+                                                            <Switch defaultChecked={hiveInputs[item.id]?.consentement_rgpd ?? true} onChange={(checked) => setNewConcentementRGPD(checked)} />
                                                         </div>
                                                         <div className='swi_det'>
                                                             <label>Partage Localisation</label>
-                                                            <Switch defaultChecked onChange={(checked) => setNewConcentementPartage(checked)} />
+                                                            <Switch defaultChecked={hiveInputs[item.id]?.partage_localisation ?? true} onChange={(checked) => setNewConcentementPartage(checked)} />
                                                         </div>
                                                     </div>
 
