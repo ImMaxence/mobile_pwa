@@ -21,6 +21,7 @@ const DetailReportHisto = () => {
                 const sortedData = [...res].sort((a, b) => new Date(b.date) - new Date(a.date));
                 setData(sortedData);
                 setFilteredData(sortedData);
+                console.log(res)
             } catch (err) {
                 setError(err.toString());
             } finally {
@@ -75,6 +76,9 @@ const DetailReportHisto = () => {
             <p><strong>Reine observée :</strong> {item.reine_observe ? 'Oui' : 'Non'}</p>
             <p><strong>Cellules royales détruites :</strong> {item.cellule_royale_detruite_nombre || 'Non spécifié'}</p>
             <p><strong>Commentaire :</strong> {item.commentaire_general || 'Aucun'}</p>
+            <p style={{ margin: '20px 0' }}></p>
+            <p><strong>Publié par :</strong> {item.redacteur_name || 'Inconnu'}</p>
+            <p><strong>Le :</strong> {item.createdAt || 'Date non trouvée'}</p>
         </div>
     );
 
