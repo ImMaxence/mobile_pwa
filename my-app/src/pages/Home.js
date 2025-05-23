@@ -109,7 +109,7 @@ const Home = () => {
         try {
             await createGroup(formData);
             setTrigger(!trigger);
-            setIsLoading(true)
+            setIsLoadingGroupsNonDefaut(true)
             setOpen(false);
         } catch (err) {
             setErrorCreate(err)

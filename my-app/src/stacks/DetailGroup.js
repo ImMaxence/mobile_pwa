@@ -167,6 +167,7 @@ const DetailGroup = () => {
             setLoading(true)
             setTrigger(!trigger)
             setOpenSetting(false)
+            localStorage.setItem('currentGroupName', newNameGroup)
         } catch (err) {
             setErrorUpdateGroup(err)
         }
@@ -493,9 +494,9 @@ const DetailGroup = () => {
                                     <Panel header="Modifier ce groupe" key="2">
                                         <form onSubmit={handleUpdateGroup}>
                                             <label htmlFor="">Nouveau nom du groupe</label>
-                                            <input className='general_input' type="text" onChange={(e) => setNewNameGroup(e.target.value)} />
+                                            <input style={{ marginBottom: "20px" }} className='general_input' type="text" onChange={(e) => setNewNameGroup(e.target.value)} defaultValue={localStorage.getItem('currentGroupName')} />
                                             <label htmlFor="">Nouvelle description</label>
-                                            <textarea style={{ margin: "20px 0 20px" }} className='general_input' name="" id="" onChange={(e) => setNewDescriptionGroup(e.target.value)}></textarea>
+                                            <textarea style={{ margin: "0 0 20px" }} className='general_input' name="" id="" onChange={(e) => setNewDescriptionGroup(e.target.value)} defaultValue={description}></textarea>
                                             <button className='general_btn' type='submit'>Modifier</button>
                                             {errorUpdateGroup && <p className='error_lab'>{errorUpdateGroup}</p>}
                                         </form>
