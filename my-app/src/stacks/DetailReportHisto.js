@@ -68,7 +68,8 @@ const DetailReportHisto = () => {
             }}
         >
             <h3>{item.ruche?.nom || 'Inconnu'}</h3>
-            <p><strong>Date :</strong> {new Date(item.date).toLocaleString()}</p>
+            <p style={{ margin: '20px 0' }}></p>
+            <p><strong>Date intervention :</strong> {new Date(item.date).toLocaleString()}</p>
             <p><strong>Comportement :</strong> {item.comportement_abeille || 'Non spécifié'}</p>
             <p><strong>Cellule royale observée :</strong> {item.cellule_royale_observe ? 'Oui' : 'Non'}</p>
             <p><strong>Couvain observé :</strong> {item.couvain_observe ? 'Oui' : 'Non'}</p>
