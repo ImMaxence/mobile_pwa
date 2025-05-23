@@ -24,15 +24,22 @@ const Map = () => {
     // Lire et parser les ruches localisées
     const ruchesLocalisees = JSON.parse(localStorage.getItem('ruches_localisees') || '[]');
 
+    // Filtrer uniquement les ruches avec des coordonnées valides
+    const ruchesFiltrees = ruchesLocalisees.filter(ruche =>
+        ruche.latitude && ruche.longitude &&
+        parseFloat(ruche.latitude) !== 0 &&
+        parseFloat(ruche.longitude) !== 0
+    );
+
     // Vérification s'il y a des données valides
-    const hasRuches = Array.isArray(ruchesLocalisees) && ruchesLocalisees.length > 0;
+    const hasRuches = ruchesFiltrees.length > 0;
 
     return (
         <Layout>
             <div className='map_spe'>
                 {!hasRuches ? (
                     <div style={{ padding: 20 }}>
-                        <p >
+                        <p>
                             Veuillez vous connecter et ajouter votre ruche dans <strong>"Mes Groupes"</strong> avant de la voir sur la carte.
                         </p>
                     </div>
@@ -42,7 +49,7 @@ const Map = () => {
                             attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        {ruchesLocalisees.map((ruche) => (
+                        {ruchesFiltrees.map((ruche) => (
                             <Marker
                                 key={ruche.id}
                                 position={[parseFloat(ruche.latitude), parseFloat(ruche.longitude)]}

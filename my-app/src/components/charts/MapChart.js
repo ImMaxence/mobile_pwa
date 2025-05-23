@@ -22,11 +22,15 @@ const MapChart = () => {
     // Trouver la ruche concernée
     const ruche = ruchesLocalisees.find(r => r.id === currentHiveId);
 
-    // Si non trouvée
-    if (!ruche) {
+    // Si ruche introuvable ou coordonnées invalides
+    if (
+        !ruche ||
+        !ruche.latitude || !ruche.longitude ||
+        parseFloat(ruche.latitude) === 0 || parseFloat(ruche.longitude) === 0
+    ) {
         return (
             <div style={{ padding: 20 }}>
-                <p>Ruche introuvable. Vérifiez que la ruche est bien localisée.</p>
+                <p>Vous n'êtes pas autorisé à voir la location de cette ruche.</p>
             </div>
         );
     }
