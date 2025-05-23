@@ -166,9 +166,10 @@ const Qrcode = () => {
                 style={{
                     position: "relative",
                     width: "100%",
-                    height: "100%",
+                    height: "calc(100% + 20px)",
                     overflow: "hidden",
                     backgroundColor: "black",
+                    overflowY: 'hidden'
                 }}
             >
                 <video

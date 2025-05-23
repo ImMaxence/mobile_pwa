@@ -34,7 +34,7 @@ const MapChart = () => {
     const position = [parseFloat(ruche.latitude), parseFloat(ruche.longitude)];
 
     return (
-        <div style={{ height: '100%', width: '100%' }}>
+        <div style={{ height: "calc(100% + 20px)", width: '100%' }}>
             <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
                 <TileLayer
                     attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
