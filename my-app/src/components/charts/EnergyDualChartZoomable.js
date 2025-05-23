@@ -93,8 +93,8 @@ const EnergyDualChartZoomable = ({ batteryData, voltageData }) => {
             y1: {
                 type: 'linear',
                 position: 'left',
-                min: -20,
-                max: 100,
+                // min: -20,
+                // max: 100,
                 title: {
                     display: true,
                     text: 'Pourcentage (%)',
@@ -104,8 +104,8 @@ const EnergyDualChartZoomable = ({ batteryData, voltageData }) => {
                 type: 'linear',
                 position: 'right',
                 // Retire min/max fixe ici pour que la ligne orange reste visible
-                min: -20,
-                max: 5,
+                // min: -20,
+                // max: 5,
                 title: {
                     display: true,
                     text: 'Tension (V)',
