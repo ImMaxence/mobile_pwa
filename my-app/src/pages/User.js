@@ -205,7 +205,17 @@ const User = () => {
 
                                 )}
 
-                                <button className='del_btn w100' onClick={() => handleDeleteUser()}>Supprimer mon compte</button>
+                                <button
+                                    className='del_btn w100'
+                                    onClick={() => {
+                                        const confirmed = window.confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.");
+                                        if (confirmed) {
+                                            handleDeleteUser();
+                                        }
+                                    }}
+                                >
+                                    Supprimer mon compte
+                                </button>
 
                                 <button className='cancel_btn w100' onClick={() => {
                                     localStorage.clear()
