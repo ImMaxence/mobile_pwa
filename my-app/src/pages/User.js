@@ -421,7 +421,7 @@ const User = () => {
 
                     <p>Un problème ?</p>
 
-                    <button className='cancel_btn w100' onClick={() => localStorage.clear()}>Netoyer le cache</button>
+                    <button className='cancel_btn w100' onClick={() => localStorage.clear()}>Nettoyer le cache</button>
                 </div>
             </div>
         </Layout >

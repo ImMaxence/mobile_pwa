@@ -34,7 +34,7 @@ const DetailHive = () => {
                     <button onClick={() => {
                         localStorage.setItem('currentWidgetType', 'event')
                         navigate('/detail/hive/widget')
-                    }}>🔔 Evènements</button>
+                    }}>🔔 Evenements</button>
                     <button onClick={() => {
                         localStorage.setItem('currentWidgetType', 'temperature')
                         navigate('/detail/hive/widget')
@@ -42,7 +42,7 @@ const DetailHive = () => {
                     <button onClick={() => {
                         localStorage.setItem('currentWidgetType', 'pression')
                         navigate('/detail/hive/widget')
-                    }}>☁️ Préssion</button>
+                    }}>☁️ Pression</button>
                     <button onClick={() => {
                         localStorage.setItem('currentWidgetType', 'humidity')
                         navigate('/detail/hive/widget')

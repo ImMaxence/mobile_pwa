@@ -46,15 +46,13 @@ const Home = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            // Ne gère QUE les loaders côté useEffect,
-            // et surtout ne touche pas à isLoading ici au refresh
+
             if (!trigger) {
-                // chargement initial → loader global
+
                 setIsLoading(true);
                 setIsLoadingGroupsNonDefaut(false);
             }
-            // au refresh, on part du principe que isLoadingGroupsNonDefaut est déjà true
-            // donc pas besoin de le remettre à true ici
+
 
             try {
                 const resToken = await getToken();
@@ -63,7 +61,7 @@ const Home = () => {
                 const resGroups = await getGroups();
                 setGroup(resGroups);
 
-                // Ton code ruches ici
+
                 const ruchesMap = new Map();
 
                 resGroups.forEach(group => {
@@ -78,6 +76,8 @@ const Home = () => {
                         });
                     });
                 });
+                console.log("⚡️⚡️⚡️⚡️⚡️⚡️")
+                console.log(resGroups)
 
                 const updatedRuches = Array.from(ruchesMap.values());
                 localStorage.setItem('ruches_localisees', JSON.stringify(updatedRuches));

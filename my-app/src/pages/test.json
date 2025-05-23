@@ -1,0 +1,146 @@
+[
+    {
+        "id": "0a3ceafe-2f66-4897-8ab4-c387a6cab069",
+        "default": false,
+        "Nom": "Les Boyz",
+        "Description": "Hello guys",
+        "Liste_utilisateur_partage": [
+            {
+                "id": "2d1bc7b7-46ee-482f-aef1-2d81a3478148",
+                "nom": "",
+                "prenom": "",
+                "avatar": 11
+            },
+            {
+                "id": "3a442b7e-dfbe-4800-9166-c1f91fcb098e",
+                "nom": "",
+                "prenom": "",
+                "avatar": 12
+            },
+            {
+                "id": "415c4854-5c17-4502-b61a-435a03aa8092",
+                "nom": "Suarez",
+                "prenom": "Federico",
+                "avatar": 7
+            },
+            {
+                "id": "44c42181-bf9f-4d1d-8d7c-caf25caeead8",
+                "nom": "Lolo",
+                "prenom": "Lolo",
+                "avatar": 7
+            },
+            {
+                "id": "5e98f492-314d-43e1-9edc-368695674356",
+                "nom": "",
+                "prenom": "",
+                "avatar": 11
+            },
+            {
+                "id": "6d06e991-4823-4647-9939-62059730652b",
+                "nom": "Rengifo",
+                "prenom": "David",
+                "avatar": 7
+            },
+            {
+                "id": "f344cb4d-44dc-4ebd-ade5-48d28604c308",
+                "nom": "",
+                "prenom": "",
+                "avatar": 2
+            }
+        ],
+        "Liste_ruche": [
+            {
+                "id": "2f8f8899-e9ff-438e-94c8-de56a1173446",
+                "nom": "Ruche-Maxence",
+                "longitude": "5.554557",
+                "latitude": "43.39542",
+                "concentement_partage": false,
+                "proprietaires": []
+            }
+        ],
+        "createdAt": "2025-05-23T09:21:53.000Z",
+        "updatedAt": "2025-05-23T15:19:06.000Z"
+    },
+    {
+        "id": "326531d2-39ca-454a-aad9-77d8f704ffae",
+        "default": true,
+        "Nom": "Mes Ruches",
+        "Description": "Cet emplacement est exclusivement réservé à mes ruches. Toutes les autres ruches que je lierai à mon compte seront ajoutées ici.",
+        "Liste_utilisateur_partage": [
+            {
+                "id": "44c42181-bf9f-4d1d-8d7c-caf25caeead8",
+                "nom": "Lolo",
+                "prenom": "Lolo",
+                "avatar": 7
+            }
+        ],
+        "Liste_ruche": [
+            {
+                "id": "2f8f8899-e9ff-438e-94c8-de56a1173446",
+                "nom": "Ruche-Maxence",
+                "longitude": "5.554557",
+                "latitude": "43.39542",
+                "concentement_partage": false,
+                "proprietaires": []
+            }
+        ],
+        "createdAt": "2025-05-09T21:34:16.000Z",
+        "updatedAt": "2025-05-23T21:01:36.000Z"
+    },
+    {
+        "id": "c4e54ab2-dd98-4ea7-90c6-64de1d599a21",
+        "default": false,
+        "Nom": "Partage Maxou",
+        "Description": "",
+        "Liste_utilisateur_partage": [
+            {
+                "id": "057ecb71-1202-4449-a214-89f86ffb7aba",
+                "nom": "Allain",
+                "prenom": "Édouard",
+                "avatar": 4
+            },
+            {
+                "id": "1342faf0-49e8-4b8e-afba-3d68e7124890",
+                "nom": "",
+                "prenom": "",
+                "avatar": 2
+            },
+            {
+                "id": "1f6bc6f5-e423-4791-819d-9c3b8a70c5f3",
+                "nom": "Poulain",
+                "prenom": "Benjamin",
+                "avatar": 15
+            },
+            {
+                "id": "44c42181-bf9f-4d1d-8d7c-caf25caeead8",
+                "nom": "Lolo",
+                "prenom": "Lolo",
+                "avatar": 7
+            },
+            {
+                "id": "5bbb8356-aa84-40ce-84f7-81625dada183",
+                "nom": "Hardy",
+                "prenom": "Gabrielle",
+                "avatar": 6
+            },
+            {
+                "id": "61e23a17-fce4-4350-b38a-e5cd7e9b4f9b",
+                "nom": "",
+                "prenom": "",
+                "avatar": 14
+            }
+        ],
+        "Liste_ruche": [
+            {
+                "id": "2f8f8899-e9ff-438e-94c8-de56a1173446",
+                "nom": "Ruche-Maxence",
+                "longitude": "5.554557",
+                "latitude": "43.39542",
+                "concentement_partage": false,
+                "proprietaires": []
+            }
+        ],
+        "createdAt": "2025-05-22T14:16:18.000Z",
+        "updatedAt": "2025-05-22T14:51:46.000Z"
+    }
+]
