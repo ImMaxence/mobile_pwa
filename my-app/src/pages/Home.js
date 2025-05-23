@@ -121,7 +121,7 @@ const Home = () => {
                 {isLoading ? (
                     <>
 
-                        <div style={{ padding: "20px" }}>
+                        <div style={{ paddingTop: "20px" }}>
                             <Skeleton active style={{ marginBottom: "60px" }} />
                             <Skeleton active />
                         </div>

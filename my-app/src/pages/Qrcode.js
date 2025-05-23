@@ -10,8 +10,9 @@ const Qrcode = () => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const scanInterval = useRef(null);
-    const streamRef = useRef(null); // 🔁 Pour stopper proprement la caméra
+    const streamRef = useRef(null);
 
+    const [cameraStarted, setCameraStarted] = useState(false);
     const [error, setError] = useState(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [scanResult, setScanResult] = useState("");
@@ -77,45 +78,46 @@ const Qrcode = () => {
         }
     };
 
-    useEffect(() => {
-        const startCamera = async () => {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: "environment" },
-                });
-                streamRef.current = stream; // 🧠 Stockage du stream
-                if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
-                    videoRef.current.onloadedmetadata = () => {
-                        console.log("🎥 Vidéo prête");
-                        startScanLoop();
-                    };
-                }
-            } catch (err) {
-                setError("Impossible d'accéder à la caméra: " + err.message);
-            }
-        };
-
-        const stopCamera = () => {
-            const stream = streamRef.current;
-            if (stream) {
-                stream.getTracks().forEach((track) => track.stop());
-                streamRef.current = null;
-            }
+    const startCamera = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: "environment" },
+            });
+            streamRef.current = stream;
             if (videoRef.current) {
-                videoRef.current.srcObject = null;
+                videoRef.current.srcObject = stream;
+                videoRef.current.onloadedmetadata = () => {
+                    videoRef.current.play();
+                    console.log("🎥 Vidéo prête");
+                    startScanLoop();
+                };
             }
-            stopScanLoop();
-            console.log("🎞️ Caméra arrêtée");
-        };
+            setCameraStarted(true);
+        } catch (err) {
+            setError("Impossible d'accéder à la caméra: " + err.message);
+        }
+    };
 
+    const stopCamera = () => {
+        const stream = streamRef.current;
+        if (stream) {
+            stream.getTracks().forEach((track) => track.stop());
+            streamRef.current = null;
+        }
+        if (videoRef.current) {
+            videoRef.current.srcObject = null;
+        }
+        stopScanLoop();
+        console.log("🎞️ Caméra arrêtée");
+    };
+
+    useEffect(() => {
         const handleVisibilityChange = () => {
             if (document.visibilityState === "hidden") {
                 stopCamera();
             }
         };
 
-        startCamera();
         window.addEventListener("beforeunload", stopCamera);
         document.addEventListener("visibilitychange", handleVisibilityChange);
 
@@ -199,6 +201,32 @@ const Qrcode = () => {
                         boxSizing: "border-box",
                     }}
                 />
+                {!cameraStarted && (
+                    <div
+                        style={{
+                            zIndex: 10,
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            background: "rgba(0, 0, 0, 0.85)",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                            padding: 20,
+                            textAlign: "center",
+                        }}
+                    >
+                        <p style={{ color: "white", fontSize: 18, marginBottom: 20 }}>
+                            Pour lancer le scan, autorisez l'accès à la caméra
+                        </p>
+                        <button className="general_btn" onClick={startCamera}>
+                            Démarrer la caméra
+                        </button>
+                    </div>
+                )}
                 {error && (
                     <div
                         style={{
