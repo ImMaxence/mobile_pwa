@@ -351,9 +351,7 @@ const User = () => {
                             <h2 style={{ textAlign: 'center' }}>Connectez-vous à{'\n'}votre compte ici</h2>
 
                             <div className='oauth_btn'>
-                                <button className='cancel_btn w100 alignCenter' style={{ backgroundColor: 'white' }}>
-                                    <img src="./assets/microsoft.png" alt="" />
-                                </button>
+
 
                                 <div style={{ width: "100%" }}>
                                     <GoogleLoginButton onSuccess={handleLoginSuccess} />
