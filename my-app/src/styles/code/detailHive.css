@@ -64,3 +64,30 @@
     font-weight: 600;
     color: #333;
 }
+
+.emoji_flex {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.emoji_label {
+    font-size: 24px;
+    /* taille normale */
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+/* Cacher les inputs radios */
+.emoji_label input[type="radio"] {
+    display: none;
+}
+
+/* Agrandir l’emoji sélectionné */
+.emoji_label.selected {
+    font-size: 36px;
+    transition: font-size 0.3s ease;
+}

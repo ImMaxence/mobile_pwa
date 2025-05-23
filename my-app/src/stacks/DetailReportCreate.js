@@ -61,9 +61,13 @@ const DetailReportCreate = () => {
 
                     <div className='report_compo'>
                         <label>Comportement des abeilles</label>
-                        <div style={{ marginBottom: "20px" }}>
+                        <div className='emoji_flex'>
                             {["😡", "🙁", "😬", "😊", "😍"].map((emoji) => (
-                                <label key={emoji} htmlFor={emoji}>
+                                <label
+                                    key={emoji}
+                                    htmlFor={emoji}
+                                    className={`emoji_label ${comportement === emoji ? 'selected' : ''}`}
+                                >
                                     {emoji}
                                     <input
                                         type="radio"
@@ -76,6 +80,7 @@ const DetailReportCreate = () => {
                                 </label>
                             ))}
                         </div>
+
 
                     </div>
 
