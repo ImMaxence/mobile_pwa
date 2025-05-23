@@ -5,6 +5,7 @@ import { getAvatarUser, getFirstNameUser, getLastNameUser, getToken, getUserEmai
 import { Sheet } from 'react-modal-sheet';
 import { register, logIn } from '../services/authService';
 import { deleteUser, updatePassword, updateUser } from '../services/userService';
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const User = () => {
 
@@ -156,6 +157,11 @@ const User = () => {
 
         fetchToken()
     }, [trigger])
+
+    const handleLoginSuccess = (response) => {
+        // Ici tu peux envoyer le token (response.credential) au backend par exemple
+        console.log("Token reçu:", response.credential);
+    };
 
     return (
         <Layout>
@@ -320,11 +326,11 @@ const User = () => {
                                 <button className='cancel_btn w100 alignCenter' style={{ backgroundColor: 'white' }}>
                                     <img src="./assets/microsoft.png" alt="" />
                                 </button>
-                                <button className='cancel_btn w100 alignCenter' style={{ backgroundColor: 'white' }} onClick={() => {
-                                    window.location.href = 'http://localhost:3001/auth/google'; // L’URL du backend
-                                }}>
-                                    <img src="./assets/google.png" alt="" />
-                                </button>
+
+                                <div className='w100'>
+                                    <GoogleLoginButton onSuccess={handleLoginSuccess} />
+                                </div>
+
                             </div>
 
                             <p style={{ color: 'grey', marginBottom: "40px", marginTop: "20px", textAlign: "center" }}>Ou avec votre identifiant et mot de passe</p>
