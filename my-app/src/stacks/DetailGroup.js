@@ -124,33 +124,45 @@ const DetailGroup = () => {
 
                 setHiveUser(allRuches)
 
+                console.log("🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺")
+                const data = {};
+                for (const hive of allRuches) {
+                    const info = await getInfoHiveById(hive.id);
+                    data[hive.id] = info;
+                }
+                setHiveInputs(data);
+                console.log('✅')
+                console.log(hiveInputs)
+
             } catch (err) {
                 setErrorUpdateHive(err)
             }
         }
 
-        const fetchHiveInputs = async () => {
-            try {
-                console.log("🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺")
-                const data = {};
-                for (const hive of hiveUser) {
-                    const info = await getInfoHiveById(hive.id);
-
-                    console.log(info)
-                    data[hive.id] = info;
-                }
-                setHiveInputs(data); // state à déclarer en haut
-            } catch (error) {
-                console.error("Erreur lors de la récupération des infos ruche :", error);
-            }
-        };
+        // const fetchHiveInputs = async () => {
+        //     try {
+        //         console.log("🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺")
+        //         const data = {};
+        //         for (const hive of hiveUser) {
+        //             const info = await getInfoHiveById(hive.id);
+        //             data[hive.id] = info;
+        //         }
+        //         setHiveInputs(data);
+        //         console.log('✅')
+        //         console.log(hiveInputs)
+        //     } catch (error) {
+        //         console.error("Erreur lors de la récupération des infos ruche :", error);
+        //     }
+        // };
 
         fetchGroupType();
         fecthHiveUser()
         setTimeout(() => {
+
             fetchInfoGroup()
+            // fetchHiveInputs();
         }, 650)
-        fetchHiveInputs();
+
     }, [trigger])
 
     const handleSaveHive = async (e) => {
@@ -287,11 +299,6 @@ const DetailGroup = () => {
     }
 
 
-    const getInfoHiveForInput = async (idRuche) => {
-        const res = await getInfoHiveById(idRuche)
-        return res
-    }
-
     return (
         <LayoutStackNav back_url="/" back_name="Mes groupes">
             <div style={{ padding: "20px" }}>
@@ -343,7 +350,7 @@ const DetailGroup = () => {
                 )}
 
                 <p style={{ marginBottom: '40px' }}></p>
-                {loading || loadingRefresh ? (
+                {loading || loadingRefresh && hiveInputs ? (
                     <Skeleton active />
                 ) : Array.isArray(hive) && hive.length > 0 ? (
                     hive.map((item) => (
@@ -393,7 +400,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewOrigin(e.target.value)}
-                                                        defaultValue={hiveInputs[item.id]?.origine || ''}
+                                                        defaultValue={hiveInputs[item.id]?.origin_abeille || ''}
                                                     />
 
                                                     <label>Nouvelle race reine</label>
@@ -411,7 +418,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="number"
                                                         onChange={(e) => setNewNbrCadran(parseInt(e.target.value))}
-                                                        defaultValue={hiveInputs[item.id]?.nb_cadrans || ''}
+                                                        defaultValue={hiveInputs[item.id]?.nbr_cadran || ''}
                                                     />
 
                                                     <label>Nouveau nombre de hausses</label>
@@ -420,7 +427,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="number"
                                                         onChange={(e) => setNewNbrHausse(parseInt(e.target.value))}
-                                                        defaultValue={hiveInputs[item.id]?.nb_hausses || ''}
+                                                        defaultValue={hiveInputs[item.id]?.nbr_hausse || ''}
                                                     />
 
                                                     <label>Nouvelle couleur reine</label>
@@ -435,11 +442,11 @@ const DetailGroup = () => {
                                                     <div className='wrapper_detailg'>
                                                         <div className='swi_det'>
                                                             <label>Consentement RGPD</label>
-                                                            <Switch defaultChecked={hiveInputs[item.id]?.consentement_rgpd ?? true} onChange={(checked) => setNewConcentementRGPD(checked)} />
+                                                            <Switch defaultChecked={hiveInputs[item.id]?.concentement_rgpd ?? true} onChange={(checked) => setNewConcentementRGPD(checked)} />
                                                         </div>
                                                         <div className='swi_det'>
                                                             <label>Partage Localisation</label>
-                                                            <Switch defaultChecked={hiveInputs[item.id]?.partage_localisation ?? true} onChange={(checked) => setNewConcentementPartage(checked)} />
+                                                            <Switch defaultChecked={hiveInputs[item.id]?.concentement_partage ?? true} onChange={(checked) => setNewConcentementPartage(checked)} />
                                                         </div>
                                                     </div>
 
