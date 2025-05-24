@@ -128,13 +128,13 @@ const Qrcode = () => {
         };
     }, []);
 
-    const handleCloseSheet = () => {
-        setIsSheetOpen(false);
-        setTimeout(() => {
-            console.log("🔁 Redémarrage du scan");
-            startScanLoop();
-        }, 500);
-    };
+    // const handleCloseSheet = () => {
+    //     setIsSheetOpen(false);
+    //     setTimeout(() => {
+    //         console.log("🔁 Redémarrage du scan");
+    //         startScanLoop();
+    //     }, 500);
+    // };
 
     const sendData = async () => {
         setErrorMessage(null);
@@ -158,6 +158,19 @@ const Qrcode = () => {
         } catch (err) {
             setErrorMessage(err.message || err.toString());
         }
+    };
+
+    const handleCloseSheet = () => {
+        setIsSheetOpen(false);
+        setPasswordRuche("");
+        setScanResult("");
+        setApiHiveValue(null);
+        setTimeout(() => {
+            if (cameraStarted) {
+                console.log("🔁 Redémarrage du scan");
+                startScanLoop();
+            }
+        }, 500);
     };
 
     return (
@@ -264,13 +277,19 @@ const Qrcode = () => {
                                     className="general_input"
                                     style={{ marginBottom: "40px" }}
                                 />
-                                <button className="general_btn" onClick={sendData}>
+                                <button className="general_btn" onClick={sendData} style={{ marginRight: "20px" }}>
                                     Associer la ruche
                                 </button>
-                                <button
+                                {/* <button
                                     style={{ marginLeft: "20px" }}
                                     className="cancel_btn"
                                     onClick={() => setIsSheetOpen(false)}
+                                >
+                                    Annuler
+                                </button> */}
+                                <button
+                                    className="cancel_btn"
+                                    onClick={handleCloseSheet}
                                 >
                                     Annuler
                                 </button>
@@ -285,7 +304,14 @@ const Qrcode = () => {
                                 <h3 className="error_lab" style={{ textAlign: "center", padding: "20px" }}>
                                     ❌ QR code non officiel
                                 </h3>
-                                <button className="general_btn w100" onClick={() => setIsSheetOpen(false)}>
+                                {/* <button className="general_btn w100" onClick={() => setIsSheetOpen(false)}>
+                                    Fermer
+                                </button> */}
+
+                                <button
+                                    className="general_btn w100"
+                                    onClick={handleCloseSheet}
+                                >
                                     Fermer
                                 </button>
                             </div>
