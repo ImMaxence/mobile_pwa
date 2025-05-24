@@ -57,3 +57,12 @@ export const getInfoUserGoogle = async (token) => {
         throw err
     }
 }
+
+export const getInfoProfil = async (id) => {
+    try {
+        const res = await apiUser.get(`/api/get/profil/${id}`)
+        return res.data
+    } catch (err) {
+        throw err
+    }
+}

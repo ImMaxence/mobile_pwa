@@ -391,7 +391,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewHiveUpdateName(e.target.value)}
-                                                        defaultValue={hiveInputs[item.id]?.nom || ''}
+                                                        placeholder={hiveInputs[item.id]?.nom || ''}
                                                     />
 
                                                     <label>Nouvelle origine abeille</label>
@@ -400,7 +400,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewOrigin(e.target.value)}
-                                                        defaultValue={hiveInputs[item.id]?.origin_abeille || ''}
+                                                        placeholder={hiveInputs[item.id]?.origin_abeille || ''}
                                                     />
 
                                                     <label>Nouvelle race reine</label>
@@ -409,7 +409,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewRace(e.target.value)}
-                                                        defaultValue={hiveInputs[item.id]?.race_reine || ''}
+                                                        placeholder={hiveInputs[item.id]?.race_reine || ''}
                                                     />
 
                                                     <label>Nouveau nombre de cadrans</label>
@@ -418,7 +418,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="number"
                                                         onChange={(e) => setNewNbrCadran(parseInt(e.target.value))}
-                                                        defaultValue={hiveInputs[item.id]?.nbr_cadran || ''}
+                                                        placeholder={hiveInputs[item.id]?.nbr_cadran || ''}
                                                     />
 
                                                     <label>Nouveau nombre de hausses</label>
@@ -427,7 +427,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="number"
                                                         onChange={(e) => setNewNbrHausse(parseInt(e.target.value))}
-                                                        defaultValue={hiveInputs[item.id]?.nbr_hausse || ''}
+                                                        placeholder={hiveInputs[item.id]?.nbr_hausse || ''}
                                                     />
 
                                                     <label>Nouvelle couleur reine</label>
@@ -436,7 +436,7 @@ const DetailGroup = () => {
                                                         className='general_input'
                                                         type="text"
                                                         onChange={(e) => setNewCouleurReine(e.target.value)}
-                                                        defaultValue={hiveInputs[item.id]?.couleur_reine || ''}
+                                                        placeholder={hiveInputs[item.id]?.couleur_reine || ''}
                                                     />
 
                                                     <div className='wrapper_detailg'>

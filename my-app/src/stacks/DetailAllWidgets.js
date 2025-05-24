@@ -78,6 +78,7 @@ const DetailAllWidgets = () => {
                         setNameWidget("Notifications ruches")
                         console.log(idHive)
                         const eventData = await getAlerts(idHive)
+                        console.log(JSON.stringify(eventData))
                         setData(eventData)
                     default:
                         setNameWidget("Inconnu");

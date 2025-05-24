@@ -23,7 +23,7 @@ const User = () => {
     const [registerData, setRegisterData] = useState({
         nom: '',
         prenom: '',
-        adresse: '',
+        // adresse: '',
         email: '',
         mot_de_passe: '',
         role: 1,
@@ -39,7 +39,7 @@ const User = () => {
 
     const [newNom, setNewNom] = useState('');
     const [newPrenom, setNewPrenom] = useState('');
-    const [newAdresse, setNewAdresse] = useState('');
+    // const [newAdresse, setNewAdresse] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [selectedAvatar, setSelectedAvatar] = useState(null);
     const [errorNew, setErrorNew] = useState(null);
@@ -153,6 +153,8 @@ const User = () => {
             setNom(nom)
             setPrenom(prenom)
             setAvatar(avatar)
+            console.log("AVATAR", avatar)
+            setSelectedAvatar(avatar)
         }
 
         fetchToken()
@@ -239,36 +241,39 @@ const User = () => {
                                                     <input
                                                         className='general_input'
                                                         type="text"
-                                                        value={newNom}
+                                                        // value={newNom}
                                                         onChange={(e) => setNewNom(e.target.value)}
                                                         style={{ marginBottom: '20px' }}
+                                                        placeholder={nom}
                                                     />
 
                                                     <label>Nouveau prénom</label>
                                                     <input
                                                         className='general_input'
                                                         type="text"
-                                                        value={newPrenom}
+                                                        // value={newPrenom}
                                                         onChange={(e) => setNewPrenom(e.target.value)}
                                                         style={{ marginBottom: '20px' }}
+                                                        placeholder={prenom}
                                                     />
 
-                                                    <label>Nouvelle adresse</label>
+                                                    {/* <label>Nouvelle adresse</label>
                                                     <input
                                                         className='general_input'
                                                         type="text"
                                                         value={newAdresse}
                                                         onChange={(e) => setNewAdresse(e.target.value)}
                                                         style={{ marginBottom: '20px' }}
-                                                    />
+                                                    /> */}
 
                                                     <label>Nouvelle adresse email</label>
                                                     <input
                                                         className='general_input'
                                                         type="email"
-                                                        value={newEmail}
+                                                        // value={newEmail}
                                                         onChange={(e) => setNewEmail(e.target.value)}
                                                         style={{ marginBottom: '20px' }}
+                                                        placeholder={email}
                                                     />
 
                                                     <label>Nouvelle image de profil</label>
@@ -403,9 +408,9 @@ const User = () => {
 
                                                     <label>Prénom</label>
                                                     <input style={{ marginBottom: '20px' }} className='general_input' type="text" value={registerData.prenom} onChange={e => setRegisterData({ ...registerData, prenom: e.target.value })} />
-
+                                                    {/* 
                                                     <label>Adresse</label>
-                                                    <input style={{ marginBottom: '20px' }} className='general_input' type="text" value={registerData.adresse} onChange={e => setRegisterData({ ...registerData, adresse: e.target.value })} />
+                                                    <input style={{ marginBottom: '20px' }} className='general_input' type="text" value={registerData.adresse} onChange={e => setRegisterData({ ...registerData, adresse: e.target.value })} /> */}
 
                                                     <label>Email</label>
                                                     <input style={{ marginBottom: '20px' }} className='general_input' type="email" value={registerData.email} onChange={e => setRegisterData({ ...registerData, email: e.target.value })} />
