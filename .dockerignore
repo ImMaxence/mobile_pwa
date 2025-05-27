@@ -1,0 +1,49 @@
+# Dépendances Node.js
+node_modules
+.pnp
+.pnp.js
+
+# Builds locaux
+build
+dist
+
+# Tests et couverture
+coverage
+
+# Fichiers et dossiers Git
+.git
+.github
+.gitignore
+
+# Fichiers macOS
+.DS_Store
+._*
+
+# VS Code
+.vscode
+
+# JetBrains IDE (WebStorm, PhpStorm, IntelliJ, etc.)
+.idea
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Ignorer les fichiers spécifiques à Docker
+*Dockerfile*
+*.dockerignore
+*docker-compose*
+
+# Scripts ou dossiers non nécessaires dans l'image
+versioning
+spec
+
+# Exclure les fichiers de documentation
+README.md
+LICENSE
+docs/
+
+# Exclure les fichiers temporaires
+*.tmp
