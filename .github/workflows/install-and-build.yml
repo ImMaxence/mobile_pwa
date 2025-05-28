@@ -23,12 +23,12 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: cd my-app && npm ci
+        run: npm ci
 
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: my-app/node_modules
+          path: node_modules
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
@@ -52,13 +52,13 @@ jobs:
       - name: Restore cached node_modules
         uses: actions/cache@v3
         with:
-          path: my-app/node_modules
+          path: node_modules
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
 
       - name: Install dependencies (verify or update)
-        run: cd my-app && npm ci
+        run: npm ci
 
       - name: Run build
-        run: cd my-app && npm run build
+        run: npm run build
