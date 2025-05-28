@@ -1,0 +1,138 @@
+name: Versioning
+
+on:
+  workflow_run:
+    workflows: ["Install and Build"]
+    types:
+      - completed
+
+jobs:
+  versioning:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Validate choix_version_type file
+        id: validate_version
+        run: |
+          # Vérifier que le fichier `choix_version_type` existe dans le dossier versioning
+          if [ ! -f versioning/choix_version_type ]; then
+            echo "Le fichier choix_version_type est introuvable dans le dossier versioning. Ajoutez-le au bon emplacement."
+            exit 1
+          fi
+
+          # Récupérer la ligne non commentée
+          VERSION_TYPE=$(grep -v '^#' versioning/choix_version_type | awk -F '=' '{print $2}' | xargs)
+
+          # Valider que la version est correcte
+          if [[ "$VERSION_TYPE" != "major" && "$VERSION_TYPE" != "minor" && "$VERSION_TYPE" != "patch" ]]; then
+            echo "La valeur dans choix_version_type doit être 'major', 'minor' ou 'patch'."
+            exit 1
+          fi
+
+          echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
+          echo "Type de version sélectionné : $VERSION_TYPE"
+
+      - name: Get current version and increment
+        id: version_update
+        env:
+          VERSION_TYPE: ${{ env.VERSION_TYPE }} # Transmettre VERSION_TYPE à cette étape
+        run: |
+          # Vérification de la variable VERSION_TYPE
+          if [[ -z "$VERSION_TYPE" ]]; then
+            echo "VERSION_TYPE n'est pas défini. Vérifiez l'étape précédente."
+            exit 1
+          fi
+
+          # Extraire la version actuelle depuis package.json
+          CURRENT_VERSION=$(jq -r .version package.json)
+          echo "Current version: $CURRENT_VERSION"
+
+          # Découper la version en MAJOR, MINOR et PATCH
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+
+          # Décider de l'incrémentation basée sur VERSION_TYPE
+          if [[ "$VERSION_TYPE" == "major" ]]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif [[ "$VERSION_TYPE" == "minor" ]]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          elif [[ "$VERSION_TYPE" == "patch" ]]; then
+            PATCH=$((PATCH + 1))
+          fi
+
+          # Construire la nouvelle version
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "New version: $NEW_VERSION"
+
+          # Mettre à jour package.json avec la nouvelle version
+          jq --arg version "$NEW_VERSION" '.version = $version' package.json > tmp.json && mv tmp.json package.json
+
+          # Exporter la nouvelle version pour les étapes suivantes
+          echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit new version
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add package.json
+          git commit -m "bump version to ${{ env.new_version }}"
+          git push
+
+      - name: Create Git tag
+        run: |
+          git tag -a "v${{ env.new_version }}" -m "Release version ${{ env.new_version }}"
+          git push origin "v${{ env.new_version }}"
+
+      - name: Generate release notes
+        id: generate_release_notes
+        run: |
+          # Assurer que nous avons tout l'historique
+          git fetch --prune --unshallow || true
+
+          # Récupérer tous les tags triés par version sémantique
+          git fetch --tags
+          TAGS=$(git tag --list "v[0-9]*" --sort=-v:refname)
+
+          LAST_TAG=$(echo "$TAGS" | grep -xv "v${{ env.new_version }}" | sed -n '1p')
+
+          if [[ -n "$LAST_TAG" ]]; then
+            RANGE="$LAST_TAG..HEAD"
+            echo "Last tag found: $LAST_TAG"
+          else
+            RANGE="HEAD"
+            echo "No previous tag found, using all commits"
+          fi
+
+          # Tous les commits
+          LOG=$(git log --pretty=format:"- %h %s" $RANGE || echo "")
+
+          if [[ -z "$LOG" ]]; then
+            LOG="Aucun changement détecté."
+          fi
+
+          # Enregistrement des release notes
+          echo "release_notes<<EOF" >> $GITHUB_ENV
+          echo "### Commits" >> $GITHUB_ENV
+          echo "$LOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ env.new_version }}"
+          release_name: v${{ env.new_version }}
+          body: |
+            ## Changelog for version v${{ env.new_version }}
+
+            ### 📝 Changements récents
+            ${{ env.release_notes }}
+          draft: false
+          prerelease: false
