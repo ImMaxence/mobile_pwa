@@ -1,9 +1,10 @@
 import React from 'react';
+import version from "../../package.json"
 
 const VersionApp = () => {
     return (
         <div>
-            <p style={{ color: 'grey' }}>v{process.env.REACT_APP_VERSION}</p>
+            <p style={{ color: 'grey' }}>v{version.version}</p>
         </div>
     );
 };
