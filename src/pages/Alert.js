@@ -85,7 +85,7 @@ const Alert = () => {
 
     return (
         <Layout>
-            <div style={{ padding: 24, width: "100%", margin: "20px 0" }}>
+            <div style={{ padding: 24, width: "100%" }}>
                 {/* <h2 style={{ textAlign: 'center', marginBottom: 24 }}>📢 Alertes des ruches</h2> */}
 
                 {loading ? (
