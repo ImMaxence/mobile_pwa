@@ -38,7 +38,7 @@ const Map = () => {
         <Layout>
             <div className='map_spe'>
                 {!hasRuches ? (
-                    <div style={{ padding: 20 }}>
+                    <div style={{ padding: 40 }}>
                         <p>
                             Veuillez vous connecter et ajouter votre ruche dans <strong>"Mes Groupes"</strong> avant de la voir sur la carte.
                         </p>
