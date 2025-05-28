@@ -12,7 +12,7 @@ import {
 
 const HumidityDualChart = ({ humIntData, humExtData }) => {
     if (!humIntData || !humExtData || humIntData.length === 0 || humExtData.length === 0)
-        return <p>Aucune donnée disponible</p>;
+        return <p style={{ padding: "20px" }}>Aucune donnée disponible</p>;
 
     // On suppose que les deux tableaux ont des timestamps similaires, on fait un merge simple sur la date
     // Ici, on fait la jointure sur date_collecte_donnee

@@ -76,8 +76,8 @@ const HumidityChartZoomable = ({ data }) => {
             y: {
                 type: 'linear',
                 position: 'left',
-                min: 0,
-                max: 100,
+                // min: 0,
+                // max: 100,
                 title: {
                     display: true,
                     text: 'Humidité (%)',

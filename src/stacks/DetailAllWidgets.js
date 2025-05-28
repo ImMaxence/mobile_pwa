@@ -9,6 +9,7 @@ import HumidityChartZoomable from '../components/charts/HumidityChartZoomable';
 import PressureChartZoomable from '../components/charts/PressureChartZoomable';
 import TemperatureDualChartZoomable from '../components/charts/TemperatureDualChartZoomable';
 import WeightChartZoomable from '../components/charts/WeightChartZoomable';
+import EventPage from '../components/EventPage';
 
 const DetailAllWidgets = () => {
     const [histo, setHisto] = useState(1440); // 1 jour en minutes
@@ -233,7 +234,7 @@ const DetailAllWidgets = () => {
 
             {widgetType === 'event' && data && (
                 <>
-                    <p>data</p>
+                    <EventPage data={data} />
                 </>
             )}
 

@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 const BatteryChart = ({ data }) => {
-    if (!data || data.length === 0) return <p>Aucune donnée disponible</p>;
+    if (!data || data.length === 0) return <p style={{ padding: "20px" }}>Aucune donnée disponible</p>;
 
     const formattedData = data.map(d => ({
         value: d.valeur,

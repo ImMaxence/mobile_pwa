@@ -34,7 +34,7 @@ const formatData = (batteryData, voltageData) => {
 };
 
 const EnergyDualChart = ({ batteryData, voltageData }) => {
-    if (!batteryData || !voltageData) return <p>Aucune donnée disponible</p>;
+    if (!batteryData || !voltageData) return <p style={{ padding: "20px" }}>Aucune donnée disponible</p>;
 
     const combinedData = formatData(batteryData, voltageData);
 
