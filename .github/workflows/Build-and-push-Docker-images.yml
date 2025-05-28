@@ -31,6 +31,9 @@ jobs:
 
           # On stocke dans une variable d'environnement
           echo "NEW_VERSION=$LAST_VERSION" >> $GITHUB_ENV
+          
+      - name: Write .env file from secret
+        run: echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
 
       - name: Docker Login
         uses: docker/login-action@v3.3.0
