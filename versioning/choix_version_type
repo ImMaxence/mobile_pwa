@@ -1,0 +1,3 @@
+#VERSION_TYPE=major
+#VERSION_TYPE=minor
+VERSION_TYPE=patch
