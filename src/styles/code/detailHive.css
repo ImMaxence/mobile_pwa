@@ -91,3 +91,8 @@
     font-size: 36px;
     transition: font-size 0.3s ease;
 }
+
+.ia_container {
+    margin-bottom: 40px;
+    /* padding: 0 20px; */
+}
