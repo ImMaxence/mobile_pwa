@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
-import '../styles/code/galaxyBtn.css';
+import { useNavigate } from 'react-router-dom';
 
 const GalaxyButton = ({ text = "Explore", onClick }) => {
+
+    const navigate = useNavigate()
+
     useEffect(() => {
         const random = (min, max) =>
             Math.floor(Math.random() * (max - min + 1) + min);
@@ -23,7 +26,7 @@ const GalaxyButton = ({ text = "Explore", onClick }) => {
     }, []);
 
     return (
-        <div className="galaxy-button just_sha">
+        <div className="galaxy-button just_sha" onClick={() => navigate('/detail/ia')}>
             <button onClick={onClick}>
                 <span className="spark"></span>
                 <span className="backdrop"></span>

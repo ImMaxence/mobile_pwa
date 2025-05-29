@@ -14,6 +14,7 @@ import DetailReportHisto from './stacks/DetailReportHisto';
 import DetailAllWidgets from './stacks/DetailAllWidgets';
 import ServiceWorkerWrapper from './pwa/ServiceWorkerWrapper';
 import SplashScreen from './components/SplashScreen';
+import DetailIA from './stacks/DetailIA';
 
 const App = () => {
   const [isStandalone, setIsStandalone] = useState(false);
@@ -42,7 +43,7 @@ const App = () => {
       ) : isStandalone ? (
         <MainApp />
       ) : (
-        <MainApp /> //tuto
+        <Tutorial /> //tuto
       )}
     </>
   );
@@ -63,6 +64,7 @@ const MainApp = () => {
         <Route path="/detail/hive/report-create" element={<DetailReportCreate />} />
         <Route path="/detail/hive/report-histo" element={<DetailReportHisto />} />
         <Route path="/detail/hive/widget" element={<DetailAllWidgets />} />
+        <Route path='/detail/ia' element={<DetailIA />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>
