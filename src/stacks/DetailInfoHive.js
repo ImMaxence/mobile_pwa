@@ -15,6 +15,7 @@ const DetailInfoHive = () => {
                 const res = await getInfoHiveById(currentIdHive)
                 setData(res)
                 setLoading(false)
+                console.log(res)
             } catch (err) {
 
             }

@@ -101,6 +101,8 @@ const DetailGroup = () => {
                     setHive(data.Liste_ruche)
                     setUserinHive(data.Liste_utilisateur_partage)
 
+                    console.log(data)
+
                 } else {
                     setHive([])
 
@@ -354,11 +356,17 @@ const DetailGroup = () => {
                     <Skeleton active />
                 ) : Array.isArray(hive) && hive.length > 0 ? (
                     hive.map((item) => (
-                        <button style={{ padding: "22px" }} className='container_solo' onClick={() => {
-                            localStorage.setItem('currentHiveId', item.id)
-                            localStorage.setItem('currentHiveName', item.nom)
-                            navigate('/detail/hive')
-                        }}>
+                        <button
+                            style={{ padding: "22px" }}
+                            className='container_solo'
+                            onClick={() => {
+                                localStorage.setItem('currentHiveId', item.id);
+                                localStorage.setItem('currentHiveName', item.nom);
+                                localStorage.setItem('currentHiveLatitude', item.latitude);
+                                localStorage.setItem('currentHiveLongitude', item.longitude);
+                                navigate('/detail/hive');
+                            }}
+                        >
                             <p>{item.nom}</p>
                         </button>
                     ))

@@ -5,6 +5,7 @@ import { getAvatarUser, getFirstNameUser, getLastNameUser, getToken, getUserEmai
 import { Sheet } from 'react-modal-sheet';
 import { register, logIn } from '../services/authService';
 import { deleteUser, updatePassword, updateUser } from '../services/userService';
+import { authMicrosoft } from '../services/authService';
 import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const User = () => {
@@ -160,6 +161,18 @@ const User = () => {
         fetchToken()
     }, [trigger])
 
+    const handleMicrosoftLogin = () => {
+        const params = new URLSearchParams({
+            client_id: process.env.REACT_APP_MICROSOFT_CLIENT_ID,
+            response_type: 'code',
+            redirect_uri: 'http://localhost:3000/user',
+            response_mode: 'query',
+            scope: 'openid profile email https://graph.microsoft.com/user.read',
+        });
+
+        window.location.href = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${params.toString()}`;
+    };
+
     const handleLoginSuccess = (response) => {
         console.log("Token reçu:", response);
 
@@ -179,6 +192,27 @@ const User = () => {
         setAvatar(response.user.avatar == null ? 'null' : response.user.avatar.toString());
         setTrigger(prev => !prev);
     };
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+
+        if (!code) return; // on sort si aucun code présent
+
+        const fetchMicrosoftUser = async () => {
+            try {
+                const res = await authMicrosoft(code); // appelle ton backend
+                handleLoginSuccess(res); // ta fonction existante
+                urlParams.delete('code');
+                window.history.replaceState({}, document.title, "/user"); // on nettoie l’URL
+            } catch (error) {
+                console.error("Erreur lors de la connexion Microsoft :", error);
+            }
+        };
+
+        fetchMicrosoftUser();
+    }, []);
+
 
     return (
         <Layout>
@@ -357,8 +391,12 @@ const User = () => {
 
                             <div className='oauth_btn'>
 
+                                <button onClick={handleMicrosoftLogin}>
+                                    Se connecter avec Microsoft
+                                </button>
 
-                                <div style={{ width: "100%" }}>
+
+                                <div style={{ width: "100%", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <GoogleLoginButton onSuccess={handleLoginSuccess} />
                                 </div>
 

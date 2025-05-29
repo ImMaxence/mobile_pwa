@@ -26,3 +26,14 @@ export const decodeToken = async () => {
         throw error;
     }
 };
+
+export const authMicrosoft = async (code) => {
+    try {
+        const response = await apiUser.post('/api/auth/microsoft', { code });
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+};
+
+
