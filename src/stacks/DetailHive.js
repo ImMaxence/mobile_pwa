@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LayoutStackNav from '../components/LayoutStackNav';
 import { useNavigate } from 'react-router-dom';
+import GalaxyButton from '../components/GalaxyButton';
 
 const DetailHive = () => {
 
@@ -18,6 +19,16 @@ const DetailHive = () => {
                     <button className='general_btn' onClick={() => navigate('/detail/hive/report-create')}>Rapport ruche</button>
                     <button className='general_btn' onClick={() => navigate('/detail/hive/report-histo')}>Historique rapports</button>
                 </div>
+
+                <div className='ia_container'>
+
+
+                    <GalaxyButton text="🤖 IA 🤖" onClick={() => console.log('Clicked')} />
+
+
+                </div>
+
+
                 <div className='container_wid_hive'>
                     <button onClick={() => {
                         localStorage.setItem('currentWidgetType', 'map')
@@ -50,7 +61,7 @@ const DetailHive = () => {
 
                 </div>
             </div>
-        </LayoutStackNav>
+        </LayoutStackNav >
     );
 };
 

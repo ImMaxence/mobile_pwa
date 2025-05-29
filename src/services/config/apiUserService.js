@@ -28,6 +28,7 @@ apiUser.interceptors.response.use(
     (error) => {
         const message = error.response?.data?.message || 'Erreur inconnue';
         console.error('[API USER SERVICE WEB] ❌ - Error:', message);
+        console.log("full error", error)
         return Promise.reject(message);
     }
 );
