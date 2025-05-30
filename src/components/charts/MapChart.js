@@ -13,16 +13,10 @@ const MapChart = () => {
         shadowSize: [41, 41],
     });
 
-    // Récupérer currentHiveId
     const currentHiveId = localStorage.getItem('currentHiveId');
-
-    // Récupérer les ruches localisées
     const ruchesLocalisees = JSON.parse(localStorage.getItem('ruches_localisees') || '[]');
-
-    // Trouver la ruche concernée
     const ruche = ruchesLocalisees.find(r => r.id === currentHiveId);
 
-    // Si ruche introuvable ou coordonnées invalides
     if (
         !ruche ||
         !ruche.latitude || !ruche.longitude ||
@@ -47,8 +41,27 @@ const MapChart = () => {
                 <Marker position={position} icon={icon}>
                     <Popup>
                         <strong>{ruche.nom}</strong><br />
-                        Propriétaire : {ruche.proprietaire_nom}
+                        <div>
+                            Propriétaires :
+                            <ul style={{ margin: 0, paddingLeft: '1rem' }}>
+                                {(ruche.proprietaires || [])
+                                    .filter(p => p.nom && p.nom.trim() !== '')
+                                    .map((p, index) => (
+                                        <li key={index}>{p.nom}</li>
+                                    ))
+                                }
+                            </ul>
+                            <a
+                                href={`https://www.google.com/maps?q=${ruche.latitude},${ruche.longitude}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ display: 'inline-block', marginTop: '8px', color: '#007bff' }}
+                            >
+                                📍 Ouvrir dans Google Maps
+                            </a>
+                        </div>
                     </Popup>
+
                 </Marker>
             </MapContainer>
         </div>

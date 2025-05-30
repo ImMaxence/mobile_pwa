@@ -70,6 +70,25 @@
     /* padding: 20px; */
 }
 
+.layout-content-main {
+    flex-grow: 1;
+
+    overflow-y: auto;
+    background-color: white;
+
+    border-top-right-radius: 1.4rem;
+    border-top-left-radius: 1.4rem;
+
+    position: relative;
+    top: -20px;
+    margin-bottom: -20px;
+    padding-bottom: 20px;
+    z-index: 300;
+    /* padding: 20px; */
+
+    padding-bottom: 90px;
+}
+
 .lay_sta_back {
     background-color: #252837;
     width: 100%;

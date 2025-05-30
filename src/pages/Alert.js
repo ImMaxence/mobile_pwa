@@ -85,13 +85,13 @@ const Alert = () => {
 
     return (
         <Layout>
-            <div style={{ padding: 24, width: "100%" }}>
+            <div style={{ padding: 20, width: "100%" }}>
                 {/* <h2 style={{ textAlign: 'center', marginBottom: 24 }}>📢 Alertes des ruches</h2> */}
 
                 {loading ? (
                     <Skeleton active />
                 ) : ruches.length === 0 ? (
-                    <div style={{ padding: 20 }}>
+                    <div>
                         <p>
                             Veuillez vous connecter et ajouter votre ruche dans <strong>"Mes Groupes"</strong> avant de la voir sur la carte.
                         </p>

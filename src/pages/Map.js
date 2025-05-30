@@ -15,30 +15,26 @@ const icon = new L.Icon({
 });
 
 const Map = () => {
-    // Centrage sur toute la France
     const franceBounds = [
-        [41.303, -5.142], // Sud-Ouest
-        [51.124, 9.560]   // Nord-Est
+        [41.303, -5.142],
+        [51.124, 9.560]
     ];
 
-    // Lire et parser les ruches localisées
     const ruchesLocalisees = JSON.parse(localStorage.getItem('ruches_localisees') || '[]');
 
-    // Filtrer uniquement les ruches avec des coordonnées valides
     const ruchesFiltrees = ruchesLocalisees.filter(ruche =>
         ruche.latitude && ruche.longitude &&
         parseFloat(ruche.latitude) !== 0 &&
         parseFloat(ruche.longitude) !== 0
     );
 
-    // Vérification s'il y a des données valides
     const hasRuches = ruchesFiltrees.length > 0;
 
     return (
         <Layout>
             <div className='map_spe'>
                 {!hasRuches ? (
-                    <div style={{ padding: 40 }}>
+                    <div style={{ padding: 20 }}>
                         <p>
                             Veuillez vous connecter et ajouter votre ruche dans <strong>"Mes Groupes"</strong> avant de la voir sur la carte.
                         </p>
@@ -57,8 +53,27 @@ const Map = () => {
                             >
                                 <Popup>
                                     <strong>{ruche.nom}</strong><br />
-                                    Propriétaire : {ruche.proprietaire_nom}
+                                    <div>
+                                        Propriétaires :
+                                        <ul style={{ margin: 0, paddingLeft: '1rem' }}>
+                                            {(ruche.proprietaires || [])
+                                                .filter(p => p.nom && p.nom.trim() !== '')
+                                                .map((p, index) => (
+                                                    <li key={index}>{p.nom}</li>
+                                                ))
+                                            }
+                                        </ul>
+                                        <a
+                                            href={`https://www.google.com/maps?q=${ruche.latitude},${ruche.longitude}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            style={{ display: 'inline-block', marginTop: '8px', color: '#007bff' }}
+                                        >
+                                            📍 Ouvrir dans Google Maps
+                                        </a>
+                                    </div>
                                 </Popup>
+
                             </Marker>
                         ))}
                     </MapContainer>
