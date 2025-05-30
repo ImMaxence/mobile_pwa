@@ -65,17 +65,17 @@ const Home = () => {
                 const ruchesMap = new Map();
 
                 resGroups.forEach(group => {
-                    const proprietaire = group.Liste_utilisateur_partage[0];
                     group.Liste_ruche.forEach(ruche => {
                         ruchesMap.set(ruche.id, {
                             id: ruche.id,
                             nom: ruche.nom,
                             latitude: ruche.latitude,
                             longitude: ruche.longitude,
-                            proprietaire_nom: proprietaire ? `${proprietaire.prenom} ${proprietaire.nom}` : null,
+                            proprietaires: ruche.proprietaires || [], // ✅ on stocke toute la liste directement
                         });
                     });
                 });
+
                 console.log("⚡️⚡️⚡️⚡️⚡️⚡️")
                 console.log(resGroups)
 

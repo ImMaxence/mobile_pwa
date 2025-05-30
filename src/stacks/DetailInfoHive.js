@@ -27,7 +27,7 @@ const DetailInfoHive = () => {
 
     return (
         <LayoutStackNav back_name={'Retour'} back_url={'/detail/hive'}>
-            <div style={{ padding: "40px" }}>
+            <div style={{ padding: "20px" }}>
                 <h4 style={{ padding: '20px 0 20px 0' }}>Informations de la ruche</h4>
                 {loading ? (
                     <Skeleton active />
@@ -49,6 +49,35 @@ const DetailInfoHive = () => {
                             <li><strong>Créé le:</strong> {new Date(data.createdAt).toLocaleDateString()}</li>
                             <li><strong>Mis à jour le:</strong> {new Date(data.updatedAt).toLocaleDateString()}</li>
                         </ul>
+                        {data.proprietaires && data.proprietaires.length > 0 && (
+                            <div style={{ marginTop: "30px" }}>
+                                <h4 style={{ marginBottom: "10px" }}>Propriétaires</h4>
+                                <ul style={{ listStyle: "none", padding: 0 }}>
+                                    {data.proprietaires.map((proprio, index) => (
+                                        <li key={index} style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            marginBottom: "15px"
+                                        }}>
+                                            <img
+                                                src={`/assets/user/${proprio.avatar}.jpeg`}
+                                                alt={`Avatar ${index}`}
+                                                style={{
+                                                    width: "40px",
+                                                    height: "40px",
+                                                    borderRadius: "50%",
+                                                    objectFit: "cover",
+                                                    marginRight: "12px",
+                                                    border: "1px solid #ccc"
+                                                }}
+                                            />
+                                            <span>{proprio.nom.trim() || "Nom inconnu"}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
                     </div>
 
                 )}
