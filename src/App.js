@@ -21,6 +21,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     const checkStandalone = () => {
       const standalone =
         window.matchMedia('(display-mode: standalone)').matches ||
@@ -43,7 +44,7 @@ const App = () => {
       ) : isStandalone ? (
         <MainApp />
       ) : (
-        <MainApp /> //tuto
+        <Tutorial /> //tuto
       )}
     </>
   );

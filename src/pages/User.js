@@ -165,13 +165,17 @@ const User = () => {
         const params = new URLSearchParams({
             client_id: process.env.REACT_APP_MICROSOFT_CLIENT_ID,
             response_type: 'code',
-            redirect_uri: 'http://localhost:3000/user',
+            redirect_uri: 'https://mobile-pwa.apihive.fr/user',
             response_mode: 'query',
             scope: 'openid profile email https://graph.microsoft.com/user.read',
         });
 
-        window.location.href = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${params.toString()}`;
+        window.open(
+            `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${params.toString()}`,
+            '_blank'
+        );
     };
+
 
     const handleLoginSuccess = (response) => {
         console.log("Token reçu:", response);
