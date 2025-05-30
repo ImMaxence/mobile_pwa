@@ -60,7 +60,7 @@ const DetailInfoHive = () => {
                                             marginBottom: "15px"
                                         }}>
                                             <img
-                                                src={`/assets/user/${proprio.avatar}.jpeg`}
+                                                src={`/assets/avatar/${proprio.avatar}.png`}
                                                 alt={`Avatar ${index}`}
                                                 style={{
                                                     width: "40px",
