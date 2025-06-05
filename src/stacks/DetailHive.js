@@ -23,7 +23,7 @@ const DetailHive = () => {
                 <div className='ia_container'>
 
 
-                    <GalaxyButton text="🤖 IA 🤖" onClick={() => console.log('Clicked')} />
+                    <GalaxyButton text="🤖 IA" onClick={() => console.log('Clicked')} />
 
 
                 </div>

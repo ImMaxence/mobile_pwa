@@ -116,30 +116,36 @@ const DetailGroup = () => {
             }
         }
 
-        const fecthHiveUser = async () => {
+        const fetchHiveUser = async () => {
             try {
-                const res = await getGroups()
+                const res = await getGroups();
+                const hiveWithDefaultTrue = res.filter((group) => group.default === true);
+                const allDefaultTrueHives = hiveWithDefaultTrue.flatMap(hive => hive.Liste_ruche ?? []);
+                setHiveUser(allDefaultTrueHives);
 
-                const hiveWithDefaultTrue = res.filter((group) => group.default === true)
-                const allDefaultTrueHives = hiveWithDefaultTrue.filter(hive => hive.default === true);
-                const allRuches = allDefaultTrueHives.flatMap(hive => hive.Liste_ruche ?? []);
-
-                setHiveUser(allRuches)
-
-                console.log("🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺🌺")
                 const data = {};
-                for (const hive of allRuches) {
+                for (const hive of allDefaultTrueHives) {
                     const info = await getInfoHiveById(hive.id);
-                    data[hive.id] = info;
+                    data[hive.id] = {
+                        nom: info.nom || '',
+                        origin_abeille: info.origin_abeille || '',
+                        race_reine: info.race_reine || '',
+                        nbr_cadran: info.nbr_cadran || '',
+                        nbr_hausse: info.nbr_hausse || '',
+                        couleur_reine: info.couleur_reine || '',
+                        concentement_rgpd: info.concentement_rgpd ?? true,
+                        concentement_partage: info.concentement_partage ?? true,
+                    };
                 }
-                setHiveInputs(data);
-                console.log('✅')
-                console.log(hiveInputs)
 
+                setHiveInputs(data);
+                console.log('✅ HiveInputs correctement initialisé :', data);
             } catch (err) {
-                setErrorUpdateHive(err)
+                console.error('Erreur lors du chargement des ruches :', err);
+                setErrorUpdateHive(err);
             }
-        }
+        };
+
 
         // const fetchHiveInputs = async () => {
         //     try {
@@ -158,7 +164,7 @@ const DetailGroup = () => {
         // };
 
         fetchGroupType();
-        fecthHiveUser()
+        fetchHiveUser()
         setTimeout(() => {
 
             fetchInfoGroup()
@@ -224,25 +230,33 @@ const DetailGroup = () => {
         e.preventDefault();
         setErrorUpdateHive(null);
         try {
-            const id_ruche = id
+            const dataToUpdate = hiveInputs[id];
+            if (!dataToUpdate) {
+                setErrorUpdateHive("Aucune donnée à mettre à jour");
+                return;
+            }
 
-            await updateInfoHive(id_ruche, {
-                nom: newHiveUpdateName,
-                origin_abeille: newOrigin,
-                race_reine: newRace,
-                nbr_cadran: newNbrCadran,
-                nbr_hausse: newNbrHausse,
-                couleur_reine: newCouleurReine,
-                concentement_rgpd: newConcentementRGPD,
-                concentement_partage: newConcentementPartage
+            console.log("🔄 Données envoyées:", dataToUpdate);
+
+            await updateInfoHive(id, {
+                nom: dataToUpdate.nom,
+                origin_abeille: dataToUpdate.origin_abeille,
+                race_reine: dataToUpdate.race_reine,
+                nbr_cadran: dataToUpdate.nbr_cadran,
+                nbr_hausse: dataToUpdate.nbr_hausse,
+                couleur_reine: dataToUpdate.couleur_reine,
+                concentement_rgpd: dataToUpdate.concentement_rgpd,
+                concentement_partage: dataToUpdate.concentement_partage
             });
-            setTrigger(!trigger);
+
+            setTrigger(prev => !prev);
             setErrorUpdateHive(null);
             setOpenUpdateHive(false);
         } catch (err) {
             setErrorUpdateHive(err);
         }
     };
+
 
     const handleAddHiveToGroupV2 = async (id) => {
         try {
@@ -392,92 +406,169 @@ const DetailGroup = () => {
 
                                             <Panel header={`${item.nom || 'Sans nom'}`} key={item.id}>
                                                 <form onSubmit={(e) => handleUpdateHive(e, item.id)}>
-
                                                     <label>Nouveau nom</label>
                                                     <input
                                                         style={{ marginBottom: "20px" }}
-                                                        className='general_input'
+                                                        className="general_input"
                                                         type="text"
-                                                        onChange={(e) => setNewHiveUpdateName(e.target.value)}
-                                                        placeholder={hiveInputs[item.id]?.nom || ''}
+                                                        onChange={(e) =>
+                                                            setHiveInputs((prev) => ({
+                                                                ...prev,
+                                                                [item.id]: {
+                                                                    ...prev[item.id],
+                                                                    nom: e.target.value,
+                                                                },
+                                                            }))
+                                                        }
+                                                        value={hiveInputs[item.id]?.nom || ""}
                                                     />
 
                                                     <label>Nouvelle origine abeille</label>
                                                     <input
                                                         style={{ marginBottom: "20px" }}
-                                                        className='general_input'
+                                                        className="general_input"
                                                         type="text"
-                                                        onChange={(e) => setNewOrigin(e.target.value)}
-                                                        placeholder={hiveInputs[item.id]?.origin_abeille || ''}
+                                                        onChange={(e) =>
+                                                            setHiveInputs((prev) => ({
+                                                                ...prev,
+                                                                [item.id]: {
+                                                                    ...prev[item.id],
+                                                                    origin_abeille: e.target.value,
+                                                                },
+                                                            }))
+                                                        }
+                                                        value={hiveInputs[item.id]?.origin_abeille || ""}
                                                     />
 
                                                     <label>Nouvelle race reine</label>
                                                     <input
                                                         style={{ marginBottom: "20px" }}
-                                                        className='general_input'
+                                                        className="general_input"
                                                         type="text"
-                                                        onChange={(e) => setNewRace(e.target.value)}
-                                                        placeholder={hiveInputs[item.id]?.race_reine || ''}
+                                                        onChange={(e) =>
+                                                            setHiveInputs((prev) => ({
+                                                                ...prev,
+                                                                [item.id]: {
+                                                                    ...prev[item.id],
+                                                                    race_reine: e.target.value,
+                                                                },
+                                                            }))
+                                                        }
+                                                        value={hiveInputs[item.id]?.race_reine || ""}
                                                     />
 
                                                     <label>Nouveau nombre de cadrans</label>
                                                     <input
                                                         style={{ marginBottom: "20px" }}
-                                                        className='general_input'
+                                                        className="general_input"
                                                         type="number"
-                                                        onChange={(e) => setNewNbrCadran(parseInt(e.target.value))}
-                                                        placeholder={hiveInputs[item.id]?.nbr_cadran || ''}
+                                                        onChange={(e) =>
+                                                            setHiveInputs((prev) => ({
+                                                                ...prev,
+                                                                [item.id]: {
+                                                                    ...prev[item.id],
+                                                                    nbr_cadran: e.target.value === "" ? "" : parseInt(e.target.value),
+                                                                },
+                                                            }))
+                                                        }
+                                                        value={hiveInputs[item.id]?.nbr_cadran ?? ""}
                                                     />
 
                                                     <label>Nouveau nombre de hausses</label>
                                                     <input
                                                         style={{ marginBottom: "20px" }}
-                                                        className='general_input'
+                                                        className="general_input"
                                                         type="number"
-                                                        onChange={(e) => setNewNbrHausse(parseInt(e.target.value))}
-                                                        placeholder={hiveInputs[item.id]?.nbr_hausse || ''}
+                                                        onChange={(e) =>
+                                                            setHiveInputs((prev) => ({
+                                                                ...prev,
+                                                                [item.id]: {
+                                                                    ...prev[item.id],
+                                                                    nbr_hausse: e.target.value === "" ? "" : parseInt(e.target.value),
+                                                                },
+                                                            }))
+                                                        }
+                                                        value={hiveInputs[item.id]?.nbr_hausse ?? ""}
                                                     />
 
                                                     <label>Nouvelle couleur reine</label>
                                                     <input
                                                         style={{ marginBottom: "20px" }}
-                                                        className='general_input'
+                                                        className="general_input"
                                                         type="text"
-                                                        onChange={(e) => setNewCouleurReine(e.target.value)}
-                                                        placeholder={hiveInputs[item.id]?.couleur_reine || ''}
+                                                        onChange={(e) =>
+                                                            setHiveInputs((prev) => ({
+                                                                ...prev,
+                                                                [item.id]: {
+                                                                    ...prev[item.id],
+                                                                    couleur_reine: e.target.value,
+                                                                },
+                                                            }))
+                                                        }
+                                                        value={hiveInputs[item.id]?.couleur_reine || ""}
                                                     />
 
-                                                    <div className='wrapper_detailg'>
-                                                        <div className='swi_det'>
+                                                    <div className="wrapper_detailg">
+                                                        <div className="swi_det">
                                                             <label>Consentement RGPD</label>
-                                                            <Switch defaultChecked={hiveInputs[item.id]?.concentement_rgpd ?? true} onChange={(checked) => setNewConcentementRGPD(checked)} />
+                                                            <Switch
+                                                                checked={hiveInputs[item.id]?.concentement_rgpd ?? true}
+                                                                onChange={(checked) =>
+                                                                    setHiveInputs((prev) => ({
+                                                                        ...prev,
+                                                                        [item.id]: {
+                                                                            ...prev[item.id],
+                                                                            concentement_rgpd: checked,
+                                                                        },
+                                                                    }))
+                                                                }
+                                                            />
                                                         </div>
-                                                        <div className='swi_det'>
+                                                        <div className="swi_det">
                                                             <label>Partage Localisation</label>
-                                                            <Switch defaultChecked={hiveInputs[item.id]?.concentement_partage ?? true} onChange={(checked) => setNewConcentementPartage(checked)} />
+                                                            <Switch
+                                                                checked={hiveInputs[item.id]?.concentement_partage ?? true}
+                                                                onChange={(checked) =>
+                                                                    setHiveInputs((prev) => ({
+                                                                        ...prev,
+                                                                        [item.id]: {
+                                                                            ...prev[item.id],
+                                                                            concentement_partage: checked,
+                                                                        },
+                                                                    }))
+                                                                }
+                                                            />
                                                         </div>
                                                     </div>
 
                                                     {errorUpdateHive && (
-                                                        <p className='error_lab' style={{ marginBottom: "20px" }}>{errorUpdateHive}</p>
+                                                        <p className="error_lab" style={{ marginBottom: "20px" }}>
+                                                            {errorUpdateHive}
+                                                        </p>
                                                     )}
 
-                                                    <button className='general_btn w100' type='submit'>
+                                                    <button className="general_btn w100" type="submit">
                                                         Modifier
                                                     </button>
                                                 </form>
 
                                                 <button
-                                                    type='button'
+                                                    type="button"
                                                     style={{ marginTop: "20px", marginBottom: "20px" }}
-                                                    className='cancel_btn w100'
+                                                    className="cancel_btn w100"
                                                     onClick={() => setOpenUpdateHive(false)}
                                                 >
                                                     Annuler
                                                 </button>
 
-                                                <button onClick={() => handleDeleteHiveFromGroup(item.id)} className='del_btn w100'>Supprimer la ruche</button>
+                                                <button
+                                                    onClick={() => handleDeleteHiveFromGroup(item.id)}
+                                                    className="del_btn w100"
+                                                >
+                                                    Supprimer la ruche
+                                                </button>
                                             </Panel>
+
                                         ))}
                                     </Collapse>
                                 ) : (

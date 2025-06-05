@@ -15,8 +15,8 @@ import { Avatar } from 'antd';
 const getAvatar = (avatar) => {
 
     const avatarNum = parseInt(avatar, 10);
-    if (avatarNum >= 1 && avatarNum <= 16) {
-        return `/assets/user/${avatarNum}.jpeg`;
+    if (avatarNum >= 1 && avatarNum <= 9) {
+        return `/assets/avatar/${avatarNum}.png`;
     }
     return null;
 };

@@ -45,7 +45,7 @@ const User = () => {
     const [selectedAvatar, setSelectedAvatar] = useState(null);
     const [errorNew, setErrorNew] = useState(null);
 
-    const avatarList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+    const avatarList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     const [newPassword1, setNewPassword1] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -229,7 +229,7 @@ const User = () => {
                                 {avatar && (
 
                                     <img
-                                        src={`./assets/user/${avatar}.jpeg`}
+                                        src={`./assets/avatar/${avatar}.png`}
                                         alt="Avatar utilisateur"
 
                                     />
@@ -319,7 +319,7 @@ const User = () => {
                                                         {avatarList.map((avatarId) => (
                                                             <img
                                                                 key={avatarId}
-                                                                src={`/assets/user/${avatarId}.jpeg`}
+                                                                src={`/assets/avatar/${avatarId}.png`}
                                                                 alt={`Avatar ${avatarId}`}
                                                                 style={{
                                                                     width: '60px',
