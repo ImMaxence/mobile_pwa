@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { getAlerts } from '../services/hiveService';
 import { Skeleton } from 'antd';
+import { Collapse } from 'antd';
+const { Panel } = Collapse;
 
 // Couleurs associées à chaque type d'alerte
 const alertColors = {
@@ -59,16 +61,24 @@ const Alert = () => {
             const ruchesParsed = JSON.parse(local);
             setRuches(ruchesParsed);
 
+            console.log("✅🌺🔔✅🌺🔔✅🌺🔔✅🌺🔔")
+            console.log(ruchesParsed)
+
             try {
                 const allAlerts = [];
                 for (let ruche of ruchesParsed) {
-                    console.log("✅")
-                    console.log(ruche)
-                    const alerts = await getAlerts(ruche.id);
-                    if (Array.isArray(alerts)) {
+                    try {
+                        const alerts = await getAlerts(ruche.id);
                         allAlerts.push({ ruche, alerts });
+                    } catch (err) {
+                        if (err.response && err.response.status === 404) {
+                            allAlerts.push({ ruche, alerts: [] }); // Aucune alerte, mais pas une erreur bloquante
+                        } else {
+                            console.log(err)
+                        }
                     }
                 }
+
                 setData(allAlerts);
             } catch (err) {
                 setError(err);
@@ -99,20 +109,21 @@ const Alert = () => {
                 ) : error ? (
                     <p className=''>{error}</p>
                 ) : (
-                    data.map(({ ruche, alerts }) => (
-                        <div key={ruche.id} style={{ marginBottom: 32 }}>
-                            <h3 style={{ marginBottom: 16, color: "#111827" }}>{ruche.nom}</h3>
-                            {alerts.length > 0 ? (
-                                alerts
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                                    .map(alert => (
-                                        <AlertCard key={alert.id} alerte={alert} />
-                                    ))
-                            ) : (
-                                <p style={{ color: "#6b7280" }}>Aucune alerte pour cette ruche.</p>
-                            )}
-                        </div>
-                    ))
+                    <Collapse accordion>
+                        {data.map(({ ruche, alerts }) => (
+                            <Panel header={ruche.nom} key={ruche.id}>
+                                {alerts.length > 0 ? (
+                                    alerts
+                                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                                        .map(alert => (
+                                            <AlertCard key={alert.id} alerte={alert} />
+                                        ))
+                                ) : (
+                                    <p style={{ color: "#6b7280" }}>Aucune alerte pour cette ruche.</p>
+                                )}
+                            </Panel>
+                        ))}
+                    </Collapse>
                 )}
             </div>
         </Layout>
