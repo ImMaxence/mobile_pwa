@@ -8,3 +8,12 @@ export const getInfoIA = async (lat, long, id) => {
         throw error
     }
 }
+
+export const getNumberBees = async (id) => {
+    try {
+        const res = apiIA.get(`/nombre_abeille/?id_ruche=${id}`)
+        return res
+    } catch (err) {
+        throw err
+    }
+}

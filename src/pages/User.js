@@ -395,7 +395,8 @@ const User = () => {
 
                             <div className='oauth_btn'>
 
-                                <button onClick={handleMicrosoftLogin}>
+                                <button className='microsoft_btn' onClick={handleMicrosoftLogin}>
+                                    <img src="/assets/microsoft.png" alt="" />
                                     Se connecter avec Microsoft
                                 </button>
 
