@@ -14,7 +14,11 @@ root.render(
     theme={{
       "token": {
         "colorPrimary": "#FFCE10",
-
+      },
+      "components": {
+        "Progress": {
+          "defaultColor": "rgb(255,206,16)"
+        }
       }
     }}>
     <React.StrictMode>
