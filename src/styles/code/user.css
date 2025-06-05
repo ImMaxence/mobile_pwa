@@ -59,3 +59,28 @@
     flex-direction: column;
     gap: 40px;
 }
+
+.microsoft_btn {
+    background-color: white;
+    border: 1px solid #dadce0;
+    color: #3c4043;
+    padding: 8px 14px;
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+
+    font-family: "Google Sans", arial, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.microsoft_btn img {
+    width: 20px;
+}
+
+.microsoft_btn:hover {
+    background: rgba(66, 133, 244, .08);
+}
