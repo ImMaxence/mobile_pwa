@@ -1,4 +1,9 @@
-# Application mobile du projet @Apihive
+# Application mobile du projet @Apihive https://github.com/APIHive-FR
+
+Mockups made with Figma  
+Application made with React PWA  
+Oauth Google & Microsoft ready  
+S'adapte à tout type d'ecran, windows, macos, linux, tv, casque vr, telephone, et tablette
 
 ## Previews
 
