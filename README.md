@@ -1,8 +1,11 @@
-# mobile pwa apihive preview
+# Application mobile du projet @Apihive
 
-<img src="readme/1.png" alt="Logo" width="300">
-<img src="readme/2.png" alt="Logo" width="300">
-<img src="readme/3.png" alt="Logo" width="300">
-<img src="readme/4.png" alt="Logo" width="300">
-<img src="readme/5.png" alt="Logo" width="300">
-<img src="readme/6.png" alt="Logo" width="300">
+## Previews
+
+<img src="readme/preview/1.png" alt="Logo" width="600">
+<img src="readme/preview/2.png" alt="Logo" width="600">
+<img src="readme/preview/3.png" alt="Logo" width="300">
+<img src="readme/preview/4.png" alt="Logo" width="300">
+<img src="readme/preview/5.png" alt="Logo" width="300">
+<img src="readme/preview/6.png" alt="Logo" width="300">
+<img src="readme/preview/7.png" alt="Logo" width="300">
