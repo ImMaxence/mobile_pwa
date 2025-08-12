@@ -1,13 +1,13 @@
 # 📱 Application mobile du projet [@Apihive](https://github.com/APIHive-FR)
 
-Mockups made with [Figma](https://www.figma.com)  
-Application made with **React PWA**  
+Mockups made with Figma  
+Application made with React PWA
 OAuth Google & Microsoft ready  
 S'adapte à tout type d’écran : Windows, macOS, Linux, TV, casque VR, téléphone et tablette (IOS & Android)
 
 ## 🔍 Previews
 
-[Voir appli en prod](https://mobile-pwa.apihive.fr)
+[Télécharger l'application ici](https://mobile-pwa.apihive.fr)
 
 <img src="readme/preview/1.png" alt="Preview 1" width="600">
 <img src="readme/preview/2.png" alt="Preview 2" width="600">
