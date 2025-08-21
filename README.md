@@ -11,6 +11,7 @@ S'adapte à tout type d’écran : Windows, macOS, Linux, TV, casque VR, télép
 
 <img src="readme/preview/1.png" alt="Preview 1" width="600">
 <img src="readme/preview/2.png" alt="Preview 2" width="600">
+<img src="readme/preview/8.png" alt="Preview 8" width="600">
 <img src="readme/preview/3.png" alt="Preview 3" width="300">
 <img src="readme/preview/4.png" alt="Preview 4" width="300">
 <img src="readme/preview/5.png" alt="Preview 5" width="300">
